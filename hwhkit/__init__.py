@@ -3,5 +3,21 @@
 See https://hwhkit.louishwh.tech for documentation.
 """
 
+from hwhkit.core import (
+    ApiError,
+    AppContext,
+    HealthStatus,
+    IntegrationProvider,
+    contracts,
+)
+
 __version__ = "0.4.0a1"
-__all__ = ["__version__"]
+
+__all__ = [
+    "ApiError",
+    "AppContext",
+    "HealthStatus",
+    "IntegrationProvider",
+    "__version__",
+    "contracts",
+]
