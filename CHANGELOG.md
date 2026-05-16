@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (W2 — Bootstrap + Web + Observability + Config + Utils)
+- `hwhkit.config.*` — pydantic-settings based layered config (env > yaml > .env > defaults)
+  with `Settings` base, `AppConfig` / `WebConfig` / `ObservabilityConfig` schemas.
+- `hwhkit.observability.*` — full OTel three-pillar (default disabled):
+  - `logging` (structlog + trace_id/span_id auto-inject)
+  - `otel` SDK init (otlp_http / otlp_grpc / console / none exporters)
+  - `tracing` (`@traced` decorator + `span()` ctxmgr)
+  - `metrics` (lazy standard registry: 7 default histograms/counters)
+  - `instrumentation` (FastAPI/SQLAlchemy/asyncpg/redis/httpx auto-instrument)
+- `hwhkit.web.*` — FastAPI integration:
+  - `ApiResponse[T]` / `PageResponse[T]` envelope + `@raw_response` opt-out
+  - 4-tier exception handler stack (ApiError / Validation / HTTPException / catchall)
+  - 3 middlewares: RequestID / Logging / Metrics
+  - System router: /healthz / /readyz / /version / /metrics
+  - `build_app()` factory with lifespan
+  - `web.server.run()` + `hwhkit-serve` CLI (granian/uvicorn/gunicorn)
+- `hwhkit.core.bootstrap()` / `bootstrap_async()` — 9-step pipeline
+  (config → otel → logging → AppContext → parallel integration setup with
+  reverse-shutdown → build_app → auto-instrument → return FastAPI app).
+- `hwhkit.utils.*` — hash (SHA-256/HMAC/constant_time_compare/random_token),
+  encryption (AES-256-GCM), decorators (@retry/@timed/@safe_execute), http
+  (HttpClient wrapper).
+- `hwhkit.utils.notification.feishu.FeishuNotifier` — Notifier contract impl,
+  card-format + HMAC signing.
+- E2E sample app at `tests/e2e/sample_app/main.py` + 8 smoke tests.
+- 190 unit tests, 8 e2e tests, mypy --strict clean, ruff clean.
+
 ### Added (W1 — Foundation)
 - Greenfield rewrite of hwhkit-py, mirroring hwhkit-rs architecture.
 - `hwhkit.core.contracts.*` — all 12 protocol definitions (Cache, KvStore,

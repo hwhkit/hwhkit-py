@@ -11,7 +11,7 @@
 ## 全局进度
 
 - [x] **W1: Foundation** — 项目骨架 + CI/CD + 测试基础设施 + `hwhkit.core` 完整 ✅ **2026-05-16 完成**
-- [ ] **W2: Web + Observability + Config** — bootstrap 全打通 + 空 integration 服务可启动
+- [x] **W2: Web + Observability + Config** — bootstrap 全打通 + 空 integration 服务可启动
 - [ ] **W3: Postgres + Redis** — 两个 P0 integration 完整测试金字塔
 - [ ] **W4: Scheduler + NATS** — 全 P0 完成
 - [ ] **W5: CLI + Testing + P1 (LLM/Auth/Notifier)** — `hwhkit init` 一键可用
@@ -59,26 +59,31 @@
 
 待 W1 完成时生成详细 plan。**预计任务**:
 
-- [ ] **W2.1** `hwhkit.config.base.Settings` 基类(pydantic-settings)
-- [ ] **W2.2** `hwhkit.config.sources` env/yaml/dotenv 加载
-- [ ] **W2.3** `hwhkit.config.schemas` 注册中心(整合 integration 配置)
-- [ ] **W2.4** `hwhkit.core.bootstrap` 启动管线(完整 9 步)
-- [ ] **W2.5** `hwhkit.web.app.build_app()` 工厂
-- [ ] **W2.6** `hwhkit.web.responses` `ApiResponse[T]` + `PageResponse[T]` + `@raw_response`
-- [ ] **W2.7** `hwhkit.web.exceptions` 异常处理器注册
-- [ ] **W2.8** `hwhkit.web.middleware.request_id`
-- [ ] **W2.9** `hwhkit.web.middleware.logging`
-- [ ] **W2.10** `hwhkit.web.middleware.metrics`
-- [ ] **W2.11** `hwhkit.web.middleware.auth`(用 W1 JWT)
-- [ ] **W2.12** `hwhkit.web.server` granian/uvicorn launcher + `hwhkit-serve` CLI
-- [ ] **W2.13** `hwhkit.observability.otel` SDK 初始化(默认关闭)
-- [ ] **W2.14** `hwhkit.observability.logging` structlog + trace_id 注入
-- [ ] **W2.15** `hwhkit.observability.tracing` span 工具
-- [ ] **W2.16** `hwhkit.observability.metrics` 标准指标注册
-- [ ] **W2.17** `hwhkit.observability.instrumentation` 自动 instrumentation 入口
-- [ ] **W2.18** `hwhkit.utils.*` 全部迁移(encryption/hash/decorators/http/notification/feishu)
-- [ ] **W2.19** `tests/e2e/sample_app/` 最小服务 + e2e 测试
-- [ ] **W2.20** W2 验收:`sample_app` 起得来,/healthz /readyz /version 通,OTel console exporter 输出 trace/metric/log,e2e 全绿
+- [x] **W2.1** `hwhkit.config.base.Settings` 基类(pydantic-settings)
+- [x] **W2.2** `hwhkit.config.sources` env/yaml/dotenv 加载
+- [x] **W2.3** `hwhkit.config.schemas` 注册中心(整合 integration 配置)
+- [x] **W2.4** `hwhkit.core.bootstrap` 启动管线(完整 9 步)
+- [x] **W2.5** `hwhkit.web.app.build_app()` 工厂
+- [x] **W2.6** `hwhkit.web.responses` `ApiResponse[T]` + `PageResponse[T]` + `@raw_response`
+- [x] **W2.7** `hwhkit.web.exceptions` 异常处理器注册
+- [x] **W2.8** `hwhkit.web.middleware.request_id`
+- [x] **W2.9** `hwhkit.web.middleware.logging`
+- [x] **W2.10** `hwhkit.web.middleware.metrics`
+- [x] **W2.11** `hwhkit.web.middleware.auth`(用 W1 JWT)
+- [x] **W2.12** `hwhkit.web.server` granian/uvicorn launcher + `hwhkit-serve` CLI
+- [x] **W2.13** `hwhkit.observability.otel` SDK 初始化(默认关闭)
+- [x] **W2.14** `hwhkit.observability.logging` structlog + trace_id 注入
+- [x] **W2.15** `hwhkit.observability.tracing` span 工具
+- [x] **W2.16** `hwhkit.observability.metrics` 标准指标注册
+- [x] **W2.17** `hwhkit.observability.instrumentation` 自动 instrumentation 入口
+- [x] **W2.18** `hwhkit.utils.*` 全部迁移(encryption/hash/decorators/http/notification/feishu)
+- [x] **W2.19** `tests/e2e/sample_app/` 最小服务 + e2e 测试
+- [x] **W2.20** W2 验收:`sample_app` 起得来,/healthz /readyz /version 通,OTel console exporter 输出 trace/metric/log,e2e 全绿
+
+**W2 实际产出**:13 个 commit,198 测试全过(190 unit + 8 e2e),mypy strict 干净,ruff 全绿。Auth middleware 推到 W3 与 Redis auth-store 一起做。Feishu Notifier 完成。
+
+**W2 推迟项**:
+- W2.11 Auth middleware:JwtVerifier 已就绪(W1.15),AuthMiddleware ASGI 接线推到 W3(届时和 Redis token-store 一起做)
 
 ---
 
