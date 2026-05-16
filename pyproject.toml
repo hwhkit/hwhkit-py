@@ -1,0 +1,217 @@
+[project]
+name = "hwhkit"
+version = "0.4.0a1"
+description = "Production-ready Python framework for trading services and microservices, mirroring hwhkit-rs"
+readme = "README.md"
+license = "MIT OR Apache-2.0"
+authors = [{name = "louishwh", email = "louishwh@gmail.com"}]
+requires-python = ">=3.11"
+keywords = ["framework", "fastapi", "async", "trading", "microservices", "opentelemetry"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Framework :: FastAPI",
+    "Framework :: AsyncIO",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Typing :: Typed",
+]
+
+dependencies = [
+    "pydantic>=2.12,<3",
+    "pydantic-settings>=2.12,<3",
+    "structlog>=25.0",
+    "typing-extensions>=4.12; python_version<'3.12'",
+]
+
+[project.optional-dependencies]
+web = [
+    "fastapi>=0.127,<0.200",
+    "granian>=2.6,<3",
+    "orjson>=3.11,<4",
+    "python-multipart>=0.0.20",
+    "aiofiles>=25.1",
+]
+postgres = [
+    "sqlalchemy[asyncio]>=2.0.36,<3",
+    "asyncpg>=0.31,<1",
+    "alembic>=1.14,<2",
+]
+mysql = [
+    "sqlalchemy[asyncio]>=2.0.36,<3",
+    "asyncmy>=0.2.10,<0.3",
+]
+redis = ["redis[hiredis]>=7.1,<8"]
+nats = ["nats-py>=2.10,<3"]
+qdrant = ["qdrant-client>=1.16,<2"]
+mongodb = ["motor>=3.5,<4"]
+neo4j = ["neo4j>=5.20,<6"]
+s3 = ["aioboto3>=14.0,<15"]
+oss = ["oss2>=2.18,<3"]
+scheduler = ["apscheduler>=3.10,<4"]
+llm = ["litellm>=1.75,<2"]
+otel = [
+    "opentelemetry-sdk>=1.27",
+    "opentelemetry-exporter-otlp>=1.27",
+    "opentelemetry-instrumentation-fastapi>=0.48b0",
+    "opentelemetry-instrumentation-sqlalchemy>=0.48b0",
+    "opentelemetry-instrumentation-asyncpg>=0.48b0",
+    "opentelemetry-instrumentation-redis>=0.48b0",
+    "opentelemetry-instrumentation-httpx>=0.48b0",
+]
+jwt = [
+    "pyjwt[crypto]>=2.10,<3",
+    "httpx>=0.28,<1",
+]
+cli = [
+    "click>=8.1,<9",
+    "rich>=13.9,<14",
+    "libcst>=1.5,<2",
+    "jinja2>=3.1,<4",
+]
+all = ["hwhkit[web,postgres,redis,nats,scheduler,llm,otel,jwt,cli]"]
+dev = [
+    "pytest>=8.3,<9",
+    "pytest-asyncio>=0.24",
+    "pytest-cov>=5",
+    "pytest-benchmark>=4",
+    "pytest-mock>=3.14",
+    "freezegun>=1.5",
+    "respx>=0.21",
+    "ruff>=0.14",
+    "mypy>=1.13",
+    "pre-commit>=4",
+    "testcontainers[postgres,redis]>=4.10",
+    "diff-cover>=9",
+    "pyjwt[crypto]>=2.10",
+    "httpx>=0.28",
+    "cryptography>=43",
+]
+docs = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
+    "mkdocstrings[python]>=0.27",
+    "mike>=2.1",
+    "pytest-examples>=0.0.13",
+]
+security = [
+    "bandit>=1.7",
+    "pip-audit>=2.7",
+    "safety>=3.2",
+    "cyclonedx-py>=1.0",
+]
+
+[project.urls]
+Homepage = "https://hwhkit.louishwh.tech"
+Documentation = "https://hwhkit.louishwh.tech"
+Repository = "https://github.com/louishwh/hwhkit-py.git"
+Issues = "https://github.com/louishwh/hwhkit-py/issues"
+Changelog = "https://github.com/louishwh/hwhkit-py/blob/main/CHANGELOG.md"
+
+[project.scripts]
+hwhkit = "hwhkit.cli.__main__:main"
+hwhkit-serve = "hwhkit.web.server:main"
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hwhkit"]
+
+[tool.hatch.build.targets.sdist]
+include = ["hwhkit/", "README.md", "LICENSE-MIT", "LICENSE-APACHE", "pyproject.toml"]
+
+# ============ ruff ============
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["hwhkit", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",      # pycodestyle
+    "F",           # pyflakes
+    "I",           # isort
+    "B",           # bugbear
+    "C4",          # comprehensions
+    "UP",          # pyupgrade
+    "S",           # bandit subset
+    "SIM",         # simplify
+    "RUF",         # ruff-specific
+    "TCH",         # type-checking
+    "PT",          # pytest-style
+    "ASYNC",       # async/await issues
+]
+ignore = [
+    "E501",  # 由 formatter 处理
+    "S101",  # assert in tests is fine
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S", "B011", "ASYNC230"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+# ============ mypy ============
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_configs = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+no_implicit_reexport = true
+disallow_untyped_decorators = false
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+
+# ============ pytest ============
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--showlocals",
+]
+markers = [
+    "integration: tests requiring real backends (testcontainers)",
+    "e2e: end-to-end tests against sample_app",
+    "benchmark: performance benchmarks",
+    "chaos: chaos engineering tests",
+    "slow: tests that take >5 seconds",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:pkg_resources.*",
+]
+
+# ============ coverage ============
+[tool.coverage.run]
+source = ["hwhkit"]
+branch = true
+omit = ["hwhkit/testing/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "@overload",
+    "@abstractmethod",
+]
+show_missing = true
+skip_covered = false
+fail_under = 0
