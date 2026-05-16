@@ -562,7 +562,7 @@
 <h2 id="_1">全局进度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li>[x] <strong>W1: Foundation</strong> — 项目骨架 + CI/CD + 测试基础设施 + <code>hwhkit.core</code> 完整 ✅ <strong>2026-05-16 完成</strong></li>
-<li>[ ] <strong>W2: Web + Observability + Config</strong> — bootstrap 全打通 + 空 integration 服务可启动</li>
+<li>[x] <strong>W2: Web + Observability + Config</strong> — bootstrap 全打通 + 空 integration 服务可启动</li>
 <li>[ ] <strong>W3: Postgres + Redis</strong> — 两个 P0 integration 完整测试金字塔</li>
 <li>[ ] <strong>W4: Scheduler + NATS</strong> — 全 P0 完成</li>
 <li>[ ] <strong>W5: CLI + Testing + P1 (LLM/Auth/Notifier)</strong> — <code>hwhkit init</code> 一键可用</li>
@@ -602,27 +602,30 @@
 <p><strong>目标</strong>: bootstrap 全打通,零 integration 的最小服务可启动 + <code>/healthz</code> /readyz` 通,OTel 三大信号可发(本地 console exporter)。</p>
 <p>待 W1 完成时生成详细 plan。<strong>预计任务</strong>:</p>
 <ul>
-<li>[ ] <strong>W2.1</strong> <code>hwhkit.config.base.Settings</code> 基类(pydantic-settings)</li>
-<li>[ ] <strong>W2.2</strong> <code>hwhkit.config.sources</code> env/yaml/dotenv 加载</li>
-<li>[ ] <strong>W2.3</strong> <code>hwhkit.config.schemas</code> 注册中心(整合 integration 配置)</li>
-<li>[ ] <strong>W2.4</strong> <code>hwhkit.core.bootstrap</code> 启动管线(完整 9 步)</li>
-<li>[ ] <strong>W2.5</strong> <code>hwhkit.web.app.build_app()</code> 工厂</li>
-<li>[ ] <strong>W2.6</strong> <code>hwhkit.web.responses</code> <code>ApiResponse[T]</code> + <code>PageResponse[T]</code> + <code>@raw_response</code></li>
-<li>[ ] <strong>W2.7</strong> <code>hwhkit.web.exceptions</code> 异常处理器注册</li>
-<li>[ ] <strong>W2.8</strong> <code>hwhkit.web.middleware.request_id</code></li>
-<li>[ ] <strong>W2.9</strong> <code>hwhkit.web.middleware.logging</code></li>
-<li>[ ] <strong>W2.10</strong> <code>hwhkit.web.middleware.metrics</code></li>
-<li>[ ] <strong>W2.11</strong> <code>hwhkit.web.middleware.auth</code>(用 W1 JWT)</li>
-<li>[ ] <strong>W2.12</strong> <code>hwhkit.web.server</code> granian/uvicorn launcher + <code>hwhkit-serve</code> CLI</li>
-<li>[ ] <strong>W2.13</strong> <code>hwhkit.observability.otel</code> SDK 初始化(默认关闭)</li>
-<li>[ ] <strong>W2.14</strong> <code>hwhkit.observability.logging</code> structlog + trace_id 注入</li>
-<li>[ ] <strong>W2.15</strong> <code>hwhkit.observability.tracing</code> span 工具</li>
-<li>[ ] <strong>W2.16</strong> <code>hwhkit.observability.metrics</code> 标准指标注册</li>
-<li>[ ] <strong>W2.17</strong> <code>hwhkit.observability.instrumentation</code> 自动 instrumentation 入口</li>
-<li>[ ] <strong>W2.18</strong> <code>hwhkit.utils.*</code> 全部迁移(encryption/hash/decorators/http/notification/feishu)</li>
-<li>[ ] <strong>W2.19</strong> <code>tests/e2e/sample_app/</code> 最小服务 + e2e 测试</li>
-<li>[ ] <strong>W2.20</strong> W2 验收:<code>sample_app</code> 起得来,/healthz /readyz /version 通,OTel console exporter 输出 trace/metric/log,e2e 全绿</li>
+<li>[x] <strong>W2.1</strong> <code>hwhkit.config.base.Settings</code> 基类(pydantic-settings)</li>
+<li>[x] <strong>W2.2</strong> <code>hwhkit.config.sources</code> env/yaml/dotenv 加载</li>
+<li>[x] <strong>W2.3</strong> <code>hwhkit.config.schemas</code> 注册中心(整合 integration 配置)</li>
+<li>[x] <strong>W2.4</strong> <code>hwhkit.core.bootstrap</code> 启动管线(完整 9 步)</li>
+<li>[x] <strong>W2.5</strong> <code>hwhkit.web.app.build_app()</code> 工厂</li>
+<li>[x] <strong>W2.6</strong> <code>hwhkit.web.responses</code> <code>ApiResponse[T]</code> + <code>PageResponse[T]</code> + <code>@raw_response</code></li>
+<li>[x] <strong>W2.7</strong> <code>hwhkit.web.exceptions</code> 异常处理器注册</li>
+<li>[x] <strong>W2.8</strong> <code>hwhkit.web.middleware.request_id</code></li>
+<li>[x] <strong>W2.9</strong> <code>hwhkit.web.middleware.logging</code></li>
+<li>[x] <strong>W2.10</strong> <code>hwhkit.web.middleware.metrics</code></li>
+<li>[x] <strong>W2.11</strong> <code>hwhkit.web.middleware.auth</code>(用 W1 JWT)</li>
+<li>[x] <strong>W2.12</strong> <code>hwhkit.web.server</code> granian/uvicorn launcher + <code>hwhkit-serve</code> CLI</li>
+<li>[x] <strong>W2.13</strong> <code>hwhkit.observability.otel</code> SDK 初始化(默认关闭)</li>
+<li>[x] <strong>W2.14</strong> <code>hwhkit.observability.logging</code> structlog + trace_id 注入</li>
+<li>[x] <strong>W2.15</strong> <code>hwhkit.observability.tracing</code> span 工具</li>
+<li>[x] <strong>W2.16</strong> <code>hwhkit.observability.metrics</code> 标准指标注册</li>
+<li>[x] <strong>W2.17</strong> <code>hwhkit.observability.instrumentation</code> 自动 instrumentation 入口</li>
+<li>[x] <strong>W2.18</strong> <code>hwhkit.utils.*</code> 全部迁移(encryption/hash/decorators/http/notification/feishu)</li>
+<li>[x] <strong>W2.19</strong> <code>tests/e2e/sample_app/</code> 最小服务 + e2e 测试</li>
+<li>[x] <strong>W2.20</strong> W2 验收:<code>sample_app</code> 起得来,/healthz /readyz /version 通,OTel console exporter 输出 trace/metric/log,e2e 全绿</li>
 </ul>
+<p><strong>W2 实际产出</strong>:13 个 commit,198 测试全过(190 unit + 8 e2e),mypy strict 干净,ruff 全绿。Auth middleware 推到 W3 与 Redis auth-store 一起做。Feishu Notifier 完成。</p>
+<p><strong>W2 推迟项</strong>:
+- W2.11 Auth middleware:JwtVerifier 已就绪(W1.15),AuthMiddleware ASGI 接线推到 W3(届时和 Redis token-store 一起做)</p>
 <hr />
 <h2 id="w3-postgres-redis-p0-integration">W3: Postgres + Redis(两个 P0 Integration)<a class="headerlink" href="#w3-postgres-redis-p0-integration" title="Permanent link">&para;</a></h2>
 <p><strong>目标</strong>: 两个 integration 完整通过测试金字塔(unit + integration with testcontainers + e2e + benchmark + chaos)。</p>
