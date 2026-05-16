@@ -10,7 +10,7 @@
 
 ## 全局进度
 
-- [ ] **W1: Foundation** — 项目骨架 + CI/CD + 测试基础设施 + `hwhkit.core` 完整
+- [x] **W1: Foundation** — 项目骨架 + CI/CD + 测试基础设施 + `hwhkit.core` 完整 ✅ **2026-05-16 完成**
 - [ ] **W2: Web + Observability + Config** — bootstrap 全打通 + 空 integration 服务可启动
 - [ ] **W3: Postgres + Redis** — 两个 P0 integration 完整测试金字塔
 - [ ] **W4: Scheduler + NATS** — 全 P0 完成
@@ -25,24 +25,31 @@
 
 **详细 plan**: [`2026-05-16-hwhkit-py-w1-foundation.md`](./2026-05-16-hwhkit-py-w1-foundation.md)
 
-- [ ] **W1.1** 清空 + 重新初始化项目骨架(`git rm -r hwhkit/` + `uv init`)
-- [ ] **W1.2** `pyproject.toml` 完整 metadata + 所有 extras 定义
-- [ ] **W1.3** `pre-commit` 配置(ruff format/check, mypy strict, trufflehog, yamllint, toml-sort)
-- [ ] **W1.4** `tests/` 目录结构(unit/integration/e2e/benchmark/chaos) + `conftest.py`
-- [ ] **W1.5** `.github/workflows/ci.yml` 流水线(lint + test-unit matrix + build-wheel)
-- [ ] **W1.6** `.github/workflows/release.yml`(tag 触发发布)
-- [ ] **W1.7** Renovate / dependabot 配置
-- [ ] **W1.8** `mkdocs.yml` + 文档站冒烟版 + `hwhkit.louishwh.tech` DNS 准备
-- [ ] **W1.9** `hwhkit.core.errors` 完整 6 位错误码体系 + 所有预定义异常类
-- [ ] **W1.10** `hwhkit.core.contracts.*` 全部 12 个 protocol 定义(签名 + docstring,无实现)
-- [ ] **W1.11** `hwhkit.core.integration.IntegrationProvider` ABC + 元数据(`name`, `config_schema`, `implements`)
-- [ ] **W1.12** `hwhkit.core.context.AppContext` 完整(get / get_typed / bind_contract / resolve)
-- [ ] **W1.13** `hwhkit.core.health.HealthStatus` + `HealthCheck` 协议 + 聚合器
-- [ ] **W1.14** `hwhkit.core.shutdown` 优雅关闭管线
-- [ ] **W1.15** `hwhkit.core.jwt` JWKS 缓存 + Claims 提取器(测试用 mock JWKS)
-- [ ] **W1.16** `hwhkit.testing` 基础架子:`fakes/` 空目录 + `contract_tests/` 框架 + `otel_recorder.py`
-- [ ] **W1.17** `Makefile`(make {dev, test, lint, build, docs})
-- [ ] **W1.18** W1 验收:CI 全绿 + 文档站冒烟版上线 + 所有 contract 有针对性 unit test
+- [x] **W1.1** 清空 + 重新初始化项目骨架(`git rm -r hwhkit/` + `uv init`)
+- [x] **W1.2** `pyproject.toml` 完整 metadata + 所有 extras 定义
+- [x] **W1.3** `pre-commit` 配置(ruff format/check, mypy strict, trufflehog, yamllint, toml-sort)
+- [x] **W1.4** `tests/` 目录结构(unit/integration/e2e/benchmark/chaos) + `conftest.py`
+- [x] **W1.5** `.github/workflows/ci.yml` 流水线(lint + test-unit matrix + build-wheel)
+- [ ] **W1.6** `.github/workflows/release.yml`(tag 触发发布) — 推迟到 W6 sigstore/Trusted Publishing 配置
+- [x] **W1.7** Renovate / dependabot 配置
+- [x] **W1.8** `mkdocs.yml` + 文档站冒烟版 + `hwhkit.louishwh.tech` DNS 准备(DNS 由作者另外配置)
+- [x] **W1.9** `hwhkit.core.errors` 完整 6 位错误码体系 + 所有预定义异常类
+- [x] **W1.10** `hwhkit.core.contracts.*` 全部 12 个 protocol 定义
+- [x] **W1.11** `hwhkit.core.integration.IntegrationProvider` ABC + 元数据
+- [x] **W1.12** `hwhkit.core.context.AppContext` 完整(get / get_typed / bind_contract / resolve)
+- [x] **W1.13** `hwhkit.core.health.HealthStatus` + `HealthCheck` 协议 + 聚合器
+- [x] **W1.14** `hwhkit.core.shutdown` 优雅关闭管线
+- [x] **W1.15** `hwhkit.core.jwt` JWKS 缓存 + Claims 提取器(测试用 mock JWKS)
+- [x] **W1.16** `hwhkit.testing` 基础架子:`fakes/` 空目录 + `contract_tests/` 框架 + `otel_recorder.py`
+- [x] **W1.17** `Makefile`(make {dev, test, lint, build, docs})
+- [x] **W1.18** W1 验收:CI 全绿 + 文档站冒烟版上线 + 所有 contract 有针对性 unit test ✅
+
+**W1 实际产出**:14 个 commit,68 单测全过,覆盖率 89%(目标 85% ✅),`hwhkit.core` 子模块 95%+,mypy strict 干净,ruff 全绿。
+
+**W1 推迟项**:
+- W1.6 release.yml 推到 W6(届时配 sigstore/Trusted Publishing 一起做)
+- `hwhkit.louishwh.tech` DNS 由作者手动配置(`CNAME → louishwh.github.io`)
+- GitHub remote 现指向 `git@github.com:hwhkit/hwhkit-py.git`,作者确认是否要改为 `louishwh/hwhkit-py`(spec § 附录 A)
 
 ---
 
