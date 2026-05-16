@@ -118,6 +118,59 @@
 
 ---
 
+## D17 — 2026-05-17 — OTel test isolation:add-processor-not-replace-provider
+
+**触发**:实现 W2 Task 4-5(observability.otel + tracing)单测时,撞到 OTel `set_tracer_provider` 进程级"只能 set 一次"的限制 —— 先跑的 test_otel.py 锁住 global provider 后,test_tracing.py 的 `set_tracer_provider` 被静默忽略,导致 InMemorySpanExporter 收不到 spans。
+
+**决策**:tracing 测试不再尝试替换全局 TracerProvider,改为对当前 global provider 调用 `add_span_processor()` 注入 InMemorySpanExporter。Tests 通过共享 module-level exporter + 每测试 `clear()` 隔离。
+
+**理由**:
+- OTel 设计就是"first-set wins";绕过私有 `_TRACER_PROVIDER = None` 仅在某些 SDK 版本有效,跨版本脆弱。
+- `add_span_processor()` 是 SDK `TracerProvider` 的**公开 API**,符合 OTel 设计意图(支持多 processor 共存)。
+- 业务方未来用 `OtelRecorder` + 自己的 SDK 时也是同样套路,文档可以推荐。
+
+**备选**:
+- `pytest-forked` 每测试独立进程 — 过重,CI 慢 5-10 倍。
+- monkeypatch `trace._TRACER_PROVIDER` — 私有 API,跨版本脆弱。
+- 改 `tracing.py` 接受可注入 tracer — 过度设计,业务从不需要。
+
+**影响**:仅测试代码;`hwhkit/observability/*` 公开 API 不变。文档(W6)recipes 里加一条 "Testing with OTel" 说明此模式。
+
+**回滚成本**:低(只动 `tests/unit/observability/test_tracing.py` 一个文件)。
+
+---
+
+## D18 — 2026-05-17 — OTel `ConsoleLogRecordExporter` rename 兼容
+
+**触发**:W2 Task 4 实现 `_build_log_exporter` 用 `ConsoleLogExporter`,但 OTel SDK 1.41 已弃用此名为 `ConsoleLogRecordExporter`,pytest `filterwarnings = ["error"]` 把 DeprecationWarning 升为错误。
+
+**决策**:`_build_log_exporter` 优先 import 新名 `ConsoleLogRecordExporter`,失败回退老名 `ConsoleLogExporter`(老版本 SDK 兼容)。
+
+**理由**:OTel logs API 仍未 stable,跨版本兼容是常态。Try/except import 是 Python 库 graceful degradation 标准模式。
+
+**影响**:`hwhkit/observability/otel.py:206` 一段代码;无 public API 变化。
+
+**回滚成本**:低。
+
+---
+
+## D19 — 2026-05-17 — OTel SDK 内部类型用 `Any` 而非精确类型
+
+**触发**:`hwhkit/observability/otel.py` 内部 builder helpers 返回 `TracerProvider`/`MeterProvider`/`Resource`/...,mypy `--strict` 要求精确类型 annotation,但这些类型来自 lazy-imported `opentelemetry.sdk.*`(可选 extras `[otel]`)。
+
+**决策**:内部 helper 返回类型用 `Any`。`OtelHandles` 公开 dataclass 字段也用 `Any` + comment 标注语义。
+
+**理由**:
+- 这些类型不暴露在 hwhkit public API(`OtelHandles` 只被 bootstrap 内部用)。
+- 强类型化要求 `from opentelemetry.sdk.trace import TracerProvider` 在模块顶层 — 会让 `hwhkit.observability.otel` 必须装 otel extras 才能 import,违背"otel default disabled"原则。
+- mypy 在 W3+ adapter 模块(postgres/redis/...)仍按 strict 走,因为那些模块强依赖具体 SDK。
+
+**影响**:`hwhkit/observability/otel.py` 内部 helper signatures;无 public API 变化。
+
+**回滚成本**:低(可改回精确类型,只是 import 变重)。
+
+---
+
 ## D16 — 2026-05-16 — 中途灰区按局部最优解执行
 
 **决策**:**spec 没明文规定 + 我能给出有理由的局部最优解**的中途灰区,我**不再停下来等审批**,直接按局部最优解执行,并把决策、理由、影响**追加到本文件**(D17+)。**作者可事后追溯并要求修正**。
