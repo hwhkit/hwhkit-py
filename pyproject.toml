@@ -90,6 +90,7 @@ dev = [
     "pyjwt[crypto]>=2.10",
     "httpx>=0.28",
     "cryptography>=43",
+    "fastapi>=0.127",  # for IntegrationProvider TYPE_CHECKING + W2 web layer
 ]
 docs = [
     "mkdocs>=1.6",

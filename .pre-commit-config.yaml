@@ -30,6 +30,10 @@ repos:
           - pydantic
           - structlog
           - types-PyYAML
+          - fastapi
+          - pyjwt[crypto]
+          - httpx
+          - cryptography
         args: [--strict]
         files: ^hwhkit/
 

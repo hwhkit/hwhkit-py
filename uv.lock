@@ -1739,6 +1739,7 @@ cli = [
 dev = [
     { name = "cryptography" },
     { name = "diff-cover" },
+    { name = "fastapi" },
     { name = "freezegun" },
     { name = "httpx" },
     { name = "mypy" },
@@ -1836,6 +1837,7 @@ requires-dist = [
     { name = "cryptography", marker = "extra == 'dev'", specifier = ">=43" },
     { name = "cyclonedx-py", marker = "extra == 'security'", specifier = ">=1.0" },
     { name = "diff-cover", marker = "extra == 'dev'", specifier = ">=9" },
+    { name = "fastapi", marker = "extra == 'dev'", specifier = ">=0.127" },
     { name = "fastapi", marker = "extra == 'web'", specifier = ">=0.127,<0.200" },
     { name = "freezegun", marker = "extra == 'dev'", specifier = ">=1.5" },
     { name = "granian", marker = "extra == 'web'", specifier = ">=2.6,<3" },
