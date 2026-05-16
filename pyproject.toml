@@ -153,7 +153,12 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**" = ["S", "B011", "ASYNC230"]
+"tests/**" = ["S", "B011", "ASYNC230", "TC003", "RUF006"]
+# Contract protocols: many runtime imports are pure type annotations,
+# but some (timedelta defaults, dataclass field types under non-PEP-563
+# semantics) need runtime presence. ASYNC109 (timeout param) is intentional
+# for the MessageBus.request() contract.
+"hwhkit/core/contracts/**" = ["TC003", "ASYNC109"]
 
 [tool.ruff.format]
 quote-style = "double"
