@@ -8,16 +8,26 @@ See spec § 2.2, § 5.6.
 
 from __future__ import annotations
 
-from typing import TypeVar
+from typing import TYPE_CHECKING, TypeVar
 
 from hwhkit.core.integration import IntegrationProvider
+
+if TYPE_CHECKING:
+    from hwhkit.config.base import Settings
 
 T = TypeVar("T")
 P = TypeVar("P", bound=IntegrationProvider)
 
 
 class AppContext:
-    """Runtime container of registered integrations + contract bindings."""
+    """Runtime container of registered integrations + contract bindings.
+
+    ``config`` is set by ``bootstrap()`` and points to the loaded ``Settings``
+    instance. Tests may construct ``AppContext()`` without config; framework
+    code must guard for that.
+    """
+
+    config: Settings  # set by bootstrap; not present in default-constructed instances
 
     def __init__(self) -> None:
         self._integrations: dict[str, IntegrationProvider] = {}
