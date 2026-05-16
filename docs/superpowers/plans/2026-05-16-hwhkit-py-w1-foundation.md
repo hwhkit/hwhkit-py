@@ -275,9 +275,9 @@ security = [
 [project.urls]
 Homepage = "https://hwhkit.louishwh.tech"
 Documentation = "https://hwhkit.louishwh.tech"
-Repository = "https://github.com/louishwh/hwhkit-py.git"
-Issues = "https://github.com/louishwh/hwhkit-py/issues"
-Changelog = "https://github.com/louishwh/hwhkit-py/blob/main/CHANGELOG.md"
+Repository = "https://github.com/hwhkit/hwhkit-py.git"
+Issues = "https://github.com/hwhkit/hwhkit-py/issues"
+Changelog = "https://github.com/hwhkit/hwhkit-py/blob/main/CHANGELOG.md"
 
 [project.scripts]
 hwhkit = "hwhkit.cli.__main__:main"
@@ -982,8 +982,8 @@ site_name: hwhkit
 site_url: https://hwhkit.louishwh.tech
 site_description: Production-ready Python framework for trading services and microservices
 site_author: louishwh
-repo_url: https://github.com/louishwh/hwhkit-py
-repo_name: louishwh/hwhkit-py
+repo_url: https://github.com/hwhkit/hwhkit-py
+repo_name: hwhkit/hwhkit-py
 edit_uri: edit/main/docs/
 
 theme:
@@ -1068,14 +1068,14 @@ extra:
 | Language | Repo | Role |
 |---|---|---|
 | Rust | [hwhkit-rs](https://github.com/louishwh/hwhkit-rs) | High-performance backends, reference architecture |
-| Python | [hwhkit-py](https://github.com/louishwh/hwhkit-py) (you are here) | Business / AI / data services |
+| Python | [hwhkit-py](https://github.com/hwhkit/hwhkit-py) (you are here) | Business / AI / data services |
 | Go | [hwhkit-go](https://github.com/louishwh/hwhkit-go) | Microservices, CLI tools (forthcoming rewrite) |
 
 ## Status
 
 🚧 **0.4.x alpha** — under active rewrite to 1.0. Foundation week (W1) in progress.
 
-See the [design doc](https://github.com/louishwh/hwhkit-py/blob/main/docs/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design.md) for the full roadmap.
+See the [design doc](https://github.com/hwhkit/hwhkit-py/blob/main/docs/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design.md) for the full roadmap.
 
 ## Quick start
 
@@ -1120,7 +1120,7 @@ Your service is at <http://127.0.0.1:8000>.
 # Contributing
 
 ```bash
-git clone https://github.com/louishwh/hwhkit-py.git
+git clone https://github.com/hwhkit/hwhkit-py.git
 cd hwhkit-py
 make dev          # uv sync + pre-commit install
 make test         # unit tests
@@ -1129,7 +1129,7 @@ make typecheck    # mypy --strict
 make docs-serve   # local docs at :8000
 ```
 
-See the [design doc](https://github.com/louishwh/hwhkit-py/blob/main/docs/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design.md) for architectural decisions.
+See the [design doc](https://github.com/hwhkit/hwhkit-py/blob/main/docs/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design.md) for architectural decisions.
 ```
 
 - [ ] **Step 9.5: 创建占位目录**

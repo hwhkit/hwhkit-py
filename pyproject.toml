@@ -109,9 +109,9 @@ security = [
 [project.urls]
 Homepage = "https://hwhkit.louishwh.tech"
 Documentation = "https://hwhkit.louishwh.tech"
-Repository = "https://github.com/louishwh/hwhkit-py.git"
-Issues = "https://github.com/louishwh/hwhkit-py/issues"
-Changelog = "https://github.com/louishwh/hwhkit-py/blob/main/CHANGELOG.md"
+Repository = "https://github.com/hwhkit/hwhkit-py.git"
+Issues = "https://github.com/hwhkit/hwhkit-py/issues"
+Changelog = "https://github.com/hwhkit/hwhkit-py/blob/main/CHANGELOG.md"
 
 [project.scripts]
 hwhkit = "hwhkit.cli.__main__:main"

@@ -2,8 +2,8 @@ site_name: hwhkit
 site_url: https://hwhkit.louishwh.tech
 site_description: Production-ready Python framework for trading services and microservices
 site_author: louishwh
-repo_url: https://github.com/louishwh/hwhkit-py
-repo_name: louishwh/hwhkit-py
+repo_url: https://github.com/hwhkit/hwhkit-py
+repo_name: hwhkit/hwhkit-py
 edit_uri: edit/main/docs/
 
 theme:

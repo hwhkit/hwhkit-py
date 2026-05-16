@@ -49,7 +49,7 @@
 **W1 推迟项**:
 - W1.6 release.yml 推到 W6(届时配 sigstore/Trusted Publishing 一起做)
 - `hwhkit.louishwh.tech` DNS 由作者手动配置(`CNAME → louishwh.github.io`)
-- GitHub remote 现指向 `git@github.com:hwhkit/hwhkit-py.git`,作者确认是否要改为 `louishwh/hwhkit-py`(spec § 附录 A)
+- GitHub remote 确认为 `git@github.com:hwhkit/hwhkit-py.git`(用户决定使用 `hwhkit/` GitHub 组织,docs 站仍部署在个人域名 `hwhkit.louishwh.tech`)
 
 ---
 

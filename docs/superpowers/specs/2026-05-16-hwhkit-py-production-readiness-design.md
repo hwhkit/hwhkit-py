@@ -4,7 +4,7 @@
 - **Date**: 2026-05-16
 - **Author**: louishwh
 - **Target version**: `0.4.0-alpha.1` → `1.0.0`(6 周)
-- **Repo**: `github.com/louishwh/hwhkit-py`
+- **Repo**: `github.com/hwhkit/hwhkit-py`
 - **License**: `MIT OR Apache-2.0`(对齐 hwhkit-rs)
 - **Python**: `>=3.11`
 
@@ -898,7 +898,7 @@ $ hwhkit upgrade
 | 实现 | 仓库 | 角色 |
 |---|---|---|
 | `hwhkit-rs` | `github.com/louishwh/hwhkit-rs` | 高性能后端、架构参考 |
-| `hwhkit-py` | `github.com/louishwh/hwhkit-py`(本文档) | 业务/AI/数据后端、生态主力 |
+| `hwhkit-py` | `github.com/hwhkit/hwhkit-py`(本文档) | 业务/AI/数据后端、生态主力 |
 | `hwhkit-go` | `github.com/louishwh/hwhkit-go` | 微服务、CLI 工具(后续按相同思路重写) |
 
 三语版本**模块切分对齐**:
@@ -949,7 +949,7 @@ $ hwhkit upgrade
 | 老代码处置 | `git rm -r hwhkit/` 直接删 |
 | 起步版本 | 0.4.0-alpha.1 |
 | Python 最低版本 | >=3.11 |
-| 仓库 | `github.com/louishwh/hwhkit-py` |
+| 仓库 | `github.com/hwhkit/hwhkit-py` |
 | License | `MIT OR Apache-2.0` |
 | 1.0.0 目标日期 | 6 周后 |
 
