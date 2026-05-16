@@ -1,0 +1,2541 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Production-ready Python framework for trading services and microservices">
+      
+      
+        <meta name="author" content="louishwh">
+      
+      
+        <link rel="canonical" href="https://hwhkit.louishwh.tech/latest/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>hwhkit-py 生产级重写 — Design Doc - hwhkit</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hwhkit-py-design-doc" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="hwhkit" class="md-header__button md-logo" aria-label="hwhkit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            hwhkit
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              hwhkit-py 生产级重写 — Design Doc
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/hwhkit/hwhkit-py" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hwhkit/hwhkit-py
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../contributing/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="hwhkit" class="md-nav__button md-logo" aria-label="hwhkit" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    hwhkit
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/hwhkit/hwhkit-py" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    hwhkit/hwhkit-py
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        0. 目标与非目标
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="0. 目标与非目标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        非目标
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 整体模块布局
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. 整体模块布局">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-extras" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Extras 映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-integrationprovider-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. IntegrationProvider 抽象 + Bootstrap 流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. IntegrationProvider 抽象 + Bootstrap 流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-integrationprovider-abc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 IntegrationProvider ABC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-appcontext" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 AppContext
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-bootstrap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Bootstrap 流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 接合点(业务代码使用 integration 的三种方式)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 关键设计原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-web-fastapi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Web 层(FastAPI 集成)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Web 层(FastAPI 集成)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-build_app" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 build_app() 工厂
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 统一响应信封
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 错误处理与错误码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 标准中间件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 服务器启动器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-opentelemetry" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 可观测性(OpenTelemetry 三合一)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. 可观测性(OpenTelemetry 三合一)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 三大信号
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-otel-sdk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 OTel SDK 初始化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 采样
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-instrumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 自动 Instrumentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 日志 ↔ Trace 关联
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 标准指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-otel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 替换 OTel 后端
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-contracts-hexagonal-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Contracts 层(Hexagonal Architecture)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Contracts 层(Hexagonal Architecture)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 核心思想
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 第一批交付的 Contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-cache-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 示例:Cache contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-messagebus-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 示例:MessageBus contract
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55-contract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 业务代码示例(只依赖 contract)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#56-di" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.6 DI 绑定机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#57-escape-hatch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.7 何时不抽象 — Escape Hatch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. 测试金字塔(工业级)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. 测试金字塔(工业级)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 分层
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-unit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Unit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-e2e" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 E2E
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-benchmark" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Benchmark
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-chaos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Chaos
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#67-security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.7 Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#68-hwhkittesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.8 hwhkit.testing 子模块
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-cicd-releaseversioning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. CI/CD + Release/Versioning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. CI/CD + Release/Versioning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 平台
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 流水线
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 关键约束
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-semver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 SemVer 政策
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 分支策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#76" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.6 文档
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. CLI 脚手架
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. CLI 脚手架">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 命令集
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-hwhkit-init-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 hwhkit init &lt;name&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-hwhkit-add-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 hwhkit add &lt;module&gt;
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84-hwhkit-doctor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 hwhkit doctor
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#85-hwhkit-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.5 hwhkit upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#86-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.6 CLI 实现栈
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#87" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.7 关键设计原则
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 迁移 / Cutover 计划
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. 迁移 / Cutover 计划">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 老代码处置
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 起步版本
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 六周里程碑
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94-w6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 W6 业务接入验证 — 强约束
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#95-100-definition-of-done" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.5 1.0.0 发布前的 Definition of Done
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-hwhkit-rs-hwhkit-go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 跨语言一致性 — 与 hwhkit-rs / hwhkit-go 的关系
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 风险与缓解
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 A:决策一览表
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录 B:目录树最终态
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="hwhkit-py-design-doc">hwhkit-py 生产级重写 — Design Doc<a class="headerlink" href="#hwhkit-py-design-doc" title="Permanent link">&para;</a></h1>
+<ul>
+<li><strong>Status</strong>: Approved, ready for implementation planning</li>
+<li><strong>Date</strong>: 2026-05-16</li>
+<li><strong>Author</strong>: louishwh</li>
+<li><strong>Target version</strong>: <code>0.4.0-alpha.1</code> → <code>1.0.0</code>(6 周)</li>
+<li><strong>Repo</strong>: <code>github.com/hwhkit/hwhkit-py</code></li>
+<li><strong>License</strong>: <code>MIT OR Apache-2.0</code>(对齐 hwhkit-rs)</li>
+<li><strong>Python</strong>: <code>&gt;=3.11</code></li>
+</ul>
+<hr />
+<h2 id="0">0. 目标与非目标<a class="headerlink" href="#0" title="Permanent link">&para;</a></h2>
+<h3 id="_1">目标<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>把 hwhkit-py 从"试验品"提升到<strong>工业级生产可用</strong>框架,作为 <code>louishwh</code> 名下交易服务和多个微服务的共同底座</li>
+<li>架构<strong>完全镜像 hwhkit-rs</strong>,跨语言切换零认知成本</li>
+<li>测试基础设施达到<strong>严格工业级</strong>:单元 + 集成 + e2e + 性能基准 + 混沌 + 安全扫描全覆盖</li>
+<li>落实"<strong>框架沉淀不变、业务自己写</strong>"哲学:通过 Contracts(端口)+ Adapters(适配器)实现底层组件无痕替换</li>
+<li>6 周内发布 <code>1.0.0</code>,并在 mota 业务实际接入验证</li>
+</ul>
+<h3 id="_2">非目标<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>不</strong>做向后兼容旧 <code>infoman</code> API:全量重写,旧代码 <code>git rm</code></li>
+<li><strong>不</strong>做多语言 SDK 客户端(<code>hwhkit-py</code> 本身只是 Python 框架)</li>
+<li><strong>不</strong>做服务网格 / 编排层 / API 网关(这些是更高一层的事)</li>
+<li><strong>不</strong>做 GUI 管理面板</li>
+<li><strong>不</strong>在 P0 实现 Vector / MongoDB / Neo4j / Object Store / MySQL(预留接口和占位)</li>
+</ul>
+<hr />
+<h2 id="1">1. 整体模块布局<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>包根:<strong><code>hwhkit</code></strong>(单 PyPI 包,所有非核心依赖走 extras)。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hwhkit/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── __init__.py                  # facade: 顶层 re-export
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── core/                        # = hwhkit-rs/crates/hwhkit-core
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── bootstrap.py             # bootstrap() 启动管线入口
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── context.py               # AppContext
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── integration.py           # IntegrationProvider ABC + 生命周期协议
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── errors.py                # ApiError 类层级 + 错误码规范(XYYZZZ 6 位)
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── health.py                # HealthCheck 协议 + 聚合器
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   ├── shutdown.py              # 优雅关闭
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│   ├── jwt.py                   # JWT 验证器(JWKS 缓存 + FastAPI Depends 提取器)
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│   └── contracts/               # 端口(抽象接口)— 业务代码 import 这里
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│       ├── cache.py             # Cache protocol
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│       ├── relational_db.py     # RelationalDb / Session protocol
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│       ├── message_bus.py       # MessageBus protocol
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│       ├── object_store.py     # ObjectStore protocol
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│       ├── vector_store.py      # VectorStore protocol
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│       ├── kv_store.py          # KvStore protocol
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│       ├── scheduler.py         # Scheduler protocol
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│       ├── lock.py              # DistributedLock protocol
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│       ├── llm.py               # LlmClient / EmbeddingClient protocol
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│       ├── secrets.py           # SecretsProvider protocol
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│       ├── telemetry.py         # Tracer / Meter / LogEmitter protocol
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│       └── notifier.py          # Notifier protocol
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>├── config/                      # = hwhkit-config
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│   ├── base.py                  # Settings 基类(pydantic-settings)
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│   ├── sources.py               # env / yaml / dotenv 加载器
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│   └── schemas.py               # 各 integration 配置 schema 注册中心
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>│
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>├── observability/               # = hwhkit-observability
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>│   ├── otel.py                  # OTel SDK 初始化(默认关闭)
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>│   ├── logging.py               # 结构化日志 + trace 关联
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>│   ├── tracing.py               # span 装饰器/上下文管理器
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a>│   ├── metrics.py               # 标准指标注册器
+<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a>│   └── instrumentation.py       # 自动 instrumentation 注入
+<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a>│
+<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a>├── integrations/                # 适配器
+<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a>│   ├── postgres/                # P0 ✅ 实现 RelationalDb
+<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a>│   │   ├── provider.py
+<a id="__codelineno-0-41" name="__codelineno-0-41" href="#__codelineno-0-41"></a>│   │   ├── session.py
+<a id="__codelineno-0-42" name="__codelineno-0-42" href="#__codelineno-0-42"></a>│   │   ├── migrations.py
+<a id="__codelineno-0-43" name="__codelineno-0-43" href="#__codelineno-0-43"></a>│   │   └── repository.py
+<a id="__codelineno-0-44" name="__codelineno-0-44" href="#__codelineno-0-44"></a>│   ├── redis/                   # P0 ✅ 实现 Cache + KvStore + DistributedLock + MessageBus(pub/sub)
+<a id="__codelineno-0-45" name="__codelineno-0-45" href="#__codelineno-0-45"></a>│   │   ├── provider.py
+<a id="__codelineno-0-46" name="__codelineno-0-46" href="#__codelineno-0-46"></a>│   │   └── cache.py
+<a id="__codelineno-0-47" name="__codelineno-0-47" href="#__codelineno-0-47"></a>│   ├── nats/                    # P1 ✅ 实现 MessageBus(JetStream)
+<a id="__codelineno-0-48" name="__codelineno-0-48" href="#__codelineno-0-48"></a>│   │   ├── provider.py
+<a id="__codelineno-0-49" name="__codelineno-0-49" href="#__codelineno-0-49"></a>│   │   ├── publisher.py
+<a id="__codelineno-0-50" name="__codelineno-0-50" href="#__codelineno-0-50"></a>│   │   ├── consumer.py
+<a id="__codelineno-0-51" name="__codelineno-0-51" href="#__codelineno-0-51"></a>│   │   └── jetstream.py
+<a id="__codelineno-0-52" name="__codelineno-0-52" href="#__codelineno-0-52"></a>│   ├── mysql/                   # P2(占位,接口先定义)
+<a id="__codelineno-0-53" name="__codelineno-0-53" href="#__codelineno-0-53"></a>│   ├── qdrant/                  # P2(占位)
+<a id="__codelineno-0-54" name="__codelineno-0-54" href="#__codelineno-0-54"></a>│   ├── mongodb/                 # P2(占位)
+<a id="__codelineno-0-55" name="__codelineno-0-55" href="#__codelineno-0-55"></a>│   ├── neo4j/                   # P2(占位)
+<a id="__codelineno-0-56" name="__codelineno-0-56" href="#__codelineno-0-56"></a>│   ├── s3/                      # P2(占位)
+<a id="__codelineno-0-57" name="__codelineno-0-57" href="#__codelineno-0-57"></a>│   └── oss/                     # P2(占位)
+<a id="__codelineno-0-58" name="__codelineno-0-58" href="#__codelineno-0-58"></a>│
+<a id="__codelineno-0-59" name="__codelineno-0-59" href="#__codelineno-0-59"></a>├── scheduler/                   # = hwhkit-scheduler (P0)
+<a id="__codelineno-0-60" name="__codelineno-0-60" href="#__codelineno-0-60"></a>│   ├── provider.py              # SchedulerProvider (APScheduler 封装)
+<a id="__codelineno-0-61" name="__codelineno-0-61" href="#__codelineno-0-61"></a>│   ├── lock.py                  # 基于 Redis 的分布式锁
+<a id="__codelineno-0-62" name="__codelineno-0-62" href="#__codelineno-0-62"></a>│   └── decorators.py            # @scheduled_task
+<a id="__codelineno-0-63" name="__codelineno-0-63" href="#__codelineno-0-63"></a>│
+<a id="__codelineno-0-64" name="__codelineno-0-64" href="#__codelineno-0-64"></a>├── web/                         # FastAPI 集成层(取代旧 hwhkit.service)
+<a id="__codelineno-0-65" name="__codelineno-0-65" href="#__codelineno-0-65"></a>│   ├── app.py                   # build_app() 工厂
+<a id="__codelineno-0-66" name="__codelineno-0-66" href="#__codelineno-0-66"></a>│   ├── responses.py             # 统一 JSON 信封 + 分页
+<a id="__codelineno-0-67" name="__codelineno-0-67" href="#__codelineno-0-67"></a>│   ├── exceptions.py            # 异常处理器
+<a id="__codelineno-0-68" name="__codelineno-0-68" href="#__codelineno-0-68"></a>│   ├── middleware/{request_id,logging,auth,metrics}.py
+<a id="__codelineno-0-69" name="__codelineno-0-69" href="#__codelineno-0-69"></a>│   └── server.py                # granian/uvicorn 启动器
+<a id="__codelineno-0-70" name="__codelineno-0-70" href="#__codelineno-0-70"></a>│
+<a id="__codelineno-0-71" name="__codelineno-0-71" href="#__codelineno-0-71"></a>├── llm/                         # P1 = LLM 集成
+<a id="__codelineno-0-72" name="__codelineno-0-72" href="#__codelineno-0-72"></a>│   ├── provider.py              # LlmProvider (litellm-based, 实现 LlmClient/EmbeddingClient contract)
+<a id="__codelineno-0-73" name="__codelineno-0-73" href="#__codelineno-0-73"></a>│   ├── chat.py
+<a id="__codelineno-0-74" name="__codelineno-0-74" href="#__codelineno-0-74"></a>│   └── embeddings.py
+<a id="__codelineno-0-75" name="__codelineno-0-75" href="#__codelineno-0-75"></a>│
+<a id="__codelineno-0-76" name="__codelineno-0-76" href="#__codelineno-0-76"></a>├── utils/                       # 通用工具(从旧代码迁移)
+<a id="__codelineno-0-77" name="__codelineno-0-77" href="#__codelineno-0-77"></a>│   ├── encryption.py
+<a id="__codelineno-0-78" name="__codelineno-0-78" href="#__codelineno-0-78"></a>│   ├── hash.py
+<a id="__codelineno-0-79" name="__codelineno-0-79" href="#__codelineno-0-79"></a>│   ├── decorators.py            # retry / cache / timing / safe_execute
+<a id="__codelineno-0-80" name="__codelineno-0-80" href="#__codelineno-0-80"></a>│   ├── http.py                  # httpx 客户端封装
+<a id="__codelineno-0-81" name="__codelineno-0-81" href="#__codelineno-0-81"></a>│   └── notification/feishu.py   # Notifier 实现
+<a id="__codelineno-0-82" name="__codelineno-0-82" href="#__codelineno-0-82"></a>│
+<a id="__codelineno-0-83" name="__codelineno-0-83" href="#__codelineno-0-83"></a>├── testing/                     # 框架自带,供业务方测试用
+<a id="__codelineno-0-84" name="__codelineno-0-84" href="#__codelineno-0-84"></a>│   ├── fakes/                   # 内存实现的所有 contract
+<a id="__codelineno-0-85" name="__codelineno-0-85" href="#__codelineno-0-85"></a>│   │   ├── cache.py             # FakeCache
+<a id="__codelineno-0-86" name="__codelineno-0-86" href="#__codelineno-0-86"></a>│   │   ├── message_bus.py       # FakeMessageBus
+<a id="__codelineno-0-87" name="__codelineno-0-87" href="#__codelineno-0-87"></a>│   │   ├── relational_db.py     # FakeRelationalDb(sqlite memory)
+<a id="__codelineno-0-88" name="__codelineno-0-88" href="#__codelineno-0-88"></a>│   │   └── ...
+<a id="__codelineno-0-89" name="__codelineno-0-89" href="#__codelineno-0-89"></a>│   ├── contract_tests/          # 通用 contract 契约测试套件(供 adapter 继承)
+<a id="__codelineno-0-90" name="__codelineno-0-90" href="#__codelineno-0-90"></a>│   ├── fixtures.py              # pytest fixtures
+<a id="__codelineno-0-91" name="__codelineno-0-91" href="#__codelineno-0-91"></a>│   ├── factories.py             # factory-boy helpers
+<a id="__codelineno-0-92" name="__codelineno-0-92" href="#__codelineno-0-92"></a>│   └── otel_recorder.py         # 内存 OTel exporter
+<a id="__codelineno-0-93" name="__codelineno-0-93" href="#__codelineno-0-93"></a>│
+<a id="__codelineno-0-94" name="__codelineno-0-94" href="#__codelineno-0-94"></a>└── cli/                         # = cargo-hwhkit
+<a id="__codelineno-0-95" name="__codelineno-0-95" href="#__codelineno-0-95"></a>    ├── __main__.py
+<a id="__codelineno-0-96" name="__codelineno-0-96" href="#__codelineno-0-96"></a>    ├── commands/
+<a id="__codelineno-0-97" name="__codelineno-0-97" href="#__codelineno-0-97"></a>    │   ├── init.py              # hwhkit init &lt;name&gt;
+<a id="__codelineno-0-98" name="__codelineno-0-98" href="#__codelineno-0-98"></a>    │   ├── add.py               # hwhkit add &lt;module&gt;
+<a id="__codelineno-0-99" name="__codelineno-0-99" href="#__codelineno-0-99"></a>    │   ├── doctor.py            # hwhkit doctor
+<a id="__codelineno-0-100" name="__codelineno-0-100" href="#__codelineno-0-100"></a>    │   ├── upgrade.py           # hwhkit upgrade
+<a id="__codelineno-0-101" name="__codelineno-0-101" href="#__codelineno-0-101"></a>    │   ├── new_integration.py   # hwhkit new-integration &lt;name&gt;(框架贡献者用)
+<a id="__codelineno-0-102" name="__codelineno-0-102" href="#__codelineno-0-102"></a>    │   ├── gen.py               # hwhkit gen migration(alembic wrapper)
+<a id="__codelineno-0-103" name="__codelineno-0-103" href="#__codelineno-0-103"></a>    │   ├── list.py              # hwhkit list
+<a id="__codelineno-0-104" name="__codelineno-0-104" href="#__codelineno-0-104"></a>    │   └── version.py
+<a id="__codelineno-0-105" name="__codelineno-0-105" href="#__codelineno-0-105"></a>    └── templates/
+<a id="__codelineno-0-106" name="__codelineno-0-106" href="#__codelineno-0-106"></a>        ├── project/             # init 命令的项目骨架
+<a id="__codelineno-0-107" name="__codelineno-0-107" href="#__codelineno-0-107"></a>        └── modules/             # add 命令的增量片段 + libcst codemod
+</code></pre></div>
+<h3 id="11-extras">1.1 Extras 映射<a class="headerlink" href="#11-extras" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">[project.optional-dependencies]</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">web</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;fastapi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;granian&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;orjson&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;python-multipart&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;aiofiles&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">postgres</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sqlalchemy[asyncio]~=2.0.36&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;asyncpg~=0.31&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;alembic~=1.14&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">redis</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;redis[hiredis]~=7.1&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">nats</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;nats-py~=2.10&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">mysql</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;sqlalchemy[asyncio]~=2.0.36&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;asyncmy~=0.2.10&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">qdrant</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;qdrant-client~=1.16&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">mongodb</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;motor~=3.5&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">neo4j</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;neo4j~=5.20&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">s3</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;aioboto3~=14.0&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">oss</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;aliyun-oss2~=2.18&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">scheduler</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;apscheduler~=3.10&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">llm</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;litellm~=1.75&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">otel</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-sdk&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-exporter-otlp&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-instrumentation-fastapi&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-instrumentation-sqlalchemy&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-instrumentation-asyncpg&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-instrumentation-redis&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span><span class="s2">&quot;opentelemetry-instrumentation-httpx&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="p">]</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="n">dev</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;pytest&gt;=8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pytest-asyncio&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pytest-cov&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pytest-benchmark&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">               </span><span class="s2">&quot;ruff&gt;=0.14&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mypy&gt;=1.8&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pre-commit&gt;=3.6&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">               </span><span class="s2">&quot;testcontainers[postgres,redis]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;respx&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;freezegun&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">               </span><span class="s2">&quot;libcst&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;diff-cover&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="n">docs</span><span class="w">        </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;mkdocs~=1.6&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mkdocs-material~=9&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mkdocstrings[python]&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mike&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pytest-examples&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a><span class="n">security</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;bandit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;pip-audit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;safety&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;cyclonedx-py&quot;</span><span class="p">]</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="n">all</span><span class="w">         </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="err">上面所有 P</span><span class="mi">0</span><span class="err">/P</span><span class="mi">1</span><span class="w"> </span><span class="err">模块的 extras]</span>
+</code></pre></div>
+<hr />
+<h2 id="2-integrationprovider-bootstrap">2. <code>IntegrationProvider</code> 抽象 + Bootstrap 流程<a class="headerlink" href="#2-integrationprovider-bootstrap" title="Permanent link">&para;</a></h2>
+<h3 id="21-integrationprovider-abc">2.1 <code>IntegrationProvider</code> ABC<a class="headerlink" href="#21-integrationprovider-abc" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># hwhkit/core/integration.py</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Optional</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">APIRouter</span><span class="p">,</span> <span class="n">Depends</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.core.context</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppContext</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.core.health</span><span class="w"> </span><span class="kn">import</span> <span class="n">HealthStatus</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">IntegrationProvider</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="sd">    一个 Integration 是框架托管的插件:有生命周期、有配置 schema、有健康检查。</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="sd">    通过 bootstrap() 注册一组 IntegrationProvider 实例。</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="n">name</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>                         <span class="c1"># &quot;postgres&quot; / &quot;redis&quot; / &quot;nats&quot;</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="n">config_schema</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">BaseModel</span><span class="p">]]</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="n">implements</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">type</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>       <span class="c1"># 声明实现哪些 contracts</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="nd">@abstractmethod</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">AppContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="nd">@abstractmethod</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health_check</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HealthStatus</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="nd">@abstractmethod</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>    <span class="c1"># 可选钩子(默认 no-op)</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fastapi_router</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">APIRouter</span><span class="p">]:</span> <span class="k">return</span> <span class="kc">None</span>
+<a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fastapi_middlewares</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span> <span class="k">return</span> <span class="p">[]</span>
+<a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">fastapi_dependencies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Depends</span><span class="p">]:</span> <span class="k">return</span> <span class="p">{}</span>
+</code></pre></div>
+<h3 id="22-appcontext">2.2 <code>AppContext</code><a class="headerlink" href="#22-appcontext" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># hwhkit/core/context.py</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">AppContext</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;框架启动后的运行时上下文。&quot;&quot;&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="n">config</span><span class="p">:</span> <span class="n">Settings</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">integrations</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">IntegrationProvider</span><span class="p">]</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">tracer</span><span class="p">:</span> <span class="n">Tracer</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">meter</span><span class="p">:</span> <span class="n">Meter</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">logger</span><span class="p">:</span> <span class="n">BoundLogger</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">IntegrationProvider</span><span class="p">:</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;ctx.get(&quot;postgres&quot;) - 动态场景&quot;&quot;&quot;</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_typed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;ctx.get_typed(PostgresProvider) - 类型安全&quot;&quot;&quot;</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">bind_contract</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">provider_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;启动期手动绑定:Cache → &quot;redis&quot;。&quot;&quot;&quot;</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">resolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">contract</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;运行时取 contract 实现:ctx.resolve(Cache) → RedisProvider 实例。&quot;&quot;&quot;</span>
+</code></pre></div>
+<h3 id="23-bootstrap">2.3 Bootstrap 流程<a class="headerlink" href="#23-bootstrap" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 业务方代码:trading_service/main.py</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit</span><span class="w"> </span><span class="kn">import</span> <span class="n">bootstrap</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.integrations.postgres</span><span class="w"> </span><span class="kn">import</span> <span class="n">PostgresProvider</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.integrations.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisProvider</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.integrations.nats</span><span class="w"> </span><span class="kn">import</span> <span class="n">NatsProvider</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.scheduler</span><span class="w"> </span><span class="kn">import</span> <span class="n">SchedulerProvider</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="kn">from</span><span class="w"> </span><span class="nn">trading_service.api</span><span class="w"> </span><span class="kn">import</span> <span class="n">api_router</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kn">from</span><span class="w"> </span><span class="nn">trading_service.scheduler</span><span class="w"> </span><span class="kn">import</span> <span class="n">register_jobs</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="n">app</span> <span class="o">=</span> <span class="n">bootstrap</span><span class="p">(</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;trading-service&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.2.3&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>    <span class="n">integrations</span><span class="o">=</span><span class="p">[</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="n">PostgresProvider</span><span class="p">(),</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>        <span class="n">RedisProvider</span><span class="p">(),</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>        <span class="n">NatsProvider</span><span class="p">(),</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>        <span class="n">SchedulerProvider</span><span class="p">(),</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>    <span class="p">],</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>    <span class="n">routers</span><span class="o">=</span><span class="p">[</span><span class="n">api_router</span><span class="p">],</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>    <span class="n">on_startup</span><span class="o">=</span><span class="p">[</span><span class="n">register_jobs</span><span class="p">],</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    <span class="n">on_shutdown</span><span class="o">=</span><span class="p">[],</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    <span class="n">config_overrides</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>        <span class="c1"># 测试时可注入</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="p">)</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.web.server</span><span class="w"> </span><span class="kn">import</span> <span class="n">run</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>    <span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
+</code></pre></div>
+<p><strong><code>bootstrap()</code> 内部按顺序执行:</strong></p>
+<ol>
+<li>加载配置(env → yaml → dotenv 合并)</li>
+<li>初始化 OpenTelemetry SDK(如 <code>observability.enabled=true</code>)</li>
+<li>创建 <code>AppContext</code></li>
+<li><strong>并行</strong>调用所有 <code>integration.setup(ctx)</code>(失败立即终止启动)</li>
+<li>注册每个 integration 的 router/middleware/dependencies</li>
+<li>注册标准端点:<code>/healthz</code> / <code>/readyz</code> / <code>/version</code> / <code>/metrics</code>(可选)</li>
+<li>注册信号处理器(SIGTERM/SIGINT → 反向调用所有 <code>integration.shutdown()</code>)</li>
+<li>执行用户 <code>on_startup</code> 钩子</li>
+<li>返回 FastAPI app 实例</li>
+</ol>
+<h3 id="24-integration">2.4 接合点(业务代码使用 integration 的三种方式)<a class="headerlink" href="#24-integration" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 方式 1:FastAPI Depends(推荐,显式、可测试)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.integrations.postgres</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_session</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nd">@router</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/users/</span><span class="si">{id}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_user</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_session</span><span class="p">)):</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="k">return</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># 方式 2:从 ctx 取(全局,适合后台任务)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/jobs&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">trigger_job</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">):</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="n">ctx</span><span class="p">:</span> <span class="n">AppContext</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">ctx</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">bus</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">)</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;jobs.new&quot;</span><span class="p">,</span> <span class="n">payload</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># 方式 3:装饰器(定时任务/事件订阅)</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="nd">@scheduled_task</span><span class="p">(</span><span class="s2">&quot;0 * * * *&quot;</span><span class="p">,</span> <span class="n">lock_key</span><span class="o">=</span><span class="s2">&quot;hourly-aggregate&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">hourly_aggregate</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">AppContext</span><span class="p">):</span> <span class="o">...</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="nd">@nats_subscriber</span><span class="p">(</span><span class="s2">&quot;trades.executed&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_trade</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">TradeEvent</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">AppContext</span><span class="p">):</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="25">2.5 关键设计原则<a class="headerlink" href="#25" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>顺序无关</strong>:<code>setup()</code> 并行调用,integration 之间不能互相依赖启动顺序</li>
+<li><strong>失败语义</strong>:任一 <code>setup()</code> 抛异常 → 框架反向 <code>shutdown()</code> 已起来的 → 进程退出 + log fatal</li>
+<li><strong>健康检查分级</strong>:<code>liveness</code> 永远 200,只要进程在;<code>readiness</code> 任一 unhealthy 即 503</li>
+<li><strong>shutdown 超时</strong>:每个 <code>shutdown()</code> 给 30s timeout(可配),超时强杀;反向顺序</li>
+</ul>
+<hr />
+<h2 id="3-web-fastapi">3. Web 层(FastAPI 集成)<a class="headerlink" href="#3-web-fastapi" title="Permanent link">&para;</a></h2>
+<p>定位:<code>hwhkit.web</code> 只做"FastAPI 集成 + 通用 HTTP 模式",<strong>不做业务路由</strong>。</p>
+<h3 id="31-build_app">3.1 <code>build_app()</code> 工厂<a class="headerlink" href="#31-build_app" title="Permanent link">&para;</a></h3>
+<p><code>bootstrap()</code> 内部调用,顺序:
+1. 创建 FastAPI app + 注入 AppContext
+2. 注册异常处理器
+3. 注册标准中间件(从外到内):GZip → CORS → RequestID → Logging → Metrics
+4. 注册各 integration 提供的中间件
+5. 注册系统路由(/healthz, /readyz, /version, /metrics)
+6. 注册业务路由
+7. 注册各 integration 暴露的管理路由(默认关闭)</p>
+<h3 id="32">3.2 统一响应信封<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ApiResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="n">code</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ok&quot;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="n">data</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">T</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">trace_id</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># 自动注入</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">PageResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">T</span><span class="p">]</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="n">total</span><span class="p">:</span> <span class="nb">int</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="n">page</span><span class="p">:</span> <span class="nb">int</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="n">page_size</span><span class="p">:</span> <span class="nb">int</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="n">has_next</span><span class="p">:</span> <span class="nb">bool</span>
+</code></pre></div>
+<p><strong>默认开启</strong>信封,<strong>支持 opt-out</strong>:路由加 <code>@raw_response</code> 装饰器返回裸数据。</p>
+<h3 id="33">3.3 错误处理与错误码<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># hwhkit/core/errors.py</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ApiError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">code</span><span class="p">:</span> <span class="nb">int</span>        <span class="c1"># 6 位:XYYZZZ</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">http_status</span><span class="p">:</span> <span class="nb">int</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">details</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
+</code></pre></div>
+<p><strong>6 位错误码规范 <code>XYYZZZ</code></strong>:</p>
+<ul>
+<li><code>X</code> 大类:<code>1</code>=客户端 / <code>5</code>=服务端 / <code>9</code>=外部依赖 / <code>6-8</code>=业务自留</li>
+<li><code>YY</code> 模块:<code>00</code>=core / <code>01</code>=auth / <code>10</code>=postgres / <code>11</code>=redis / <code>12</code>=nats / <code>13</code>=scheduler / <code>14</code>=llm / <code>15</code>=web / <code>20-99</code>=业务保留</li>
+<li><code>ZZZ</code> 具体错误:模块内自编</li>
+</ul>
+<p><strong>框架预定义错误</strong>(节选):</p>
+<table>
+<thead>
+<tr>
+<th>类</th>
+<th>code</th>
+<th>http</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotFoundError</td>
+<td>100404</td>
+<td>404</td>
+</tr>
+<tr>
+<td>UnauthorizedError</td>
+<td>100401</td>
+<td>401</td>
+</tr>
+<tr>
+<td>ForbiddenError</td>
+<td>100403</td>
+<td>403</td>
+</tr>
+<tr>
+<td>ValidationError</td>
+<td>100422</td>
+<td>422</td>
+</tr>
+<tr>
+<td>ConflictError</td>
+<td>100409</td>
+<td>409</td>
+</tr>
+<tr>
+<td>RateLimitError</td>
+<td>100429</td>
+<td>429</td>
+</tr>
+<tr>
+<td>InternalError</td>
+<td>500000</td>
+<td>500</td>
+</tr>
+<tr>
+<td>IntegrationError</td>
+<td>500001</td>
+<td>503</td>
+</tr>
+<tr>
+<td>DbConnectionError</td>
+<td>510001</td>
+<td>503</td>
+</tr>
+<tr>
+<td>RedisConnectionError</td>
+<td>511001</td>
+<td>503</td>
+</tr>
+<tr>
+<td>NatsConnectionError</td>
+<td>512001</td>
+<td>503</td>
+</tr>
+</tbody>
+</table>
+<p><strong>异常处理器优先级</strong>:
+1. <code>ApiError</code> → 按 <code>http_status</code> + <code>ApiResponse</code>
+2. <code>RequestValidationError</code>(FastAPI) → 422 + <code>code=100422</code>
+3. <code>HTTPException</code>(FastAPI 原生) → 透传 + 包装信封
+4. <code>Exception</code>(兜底) → 500 + <code>code=500000</code> + 日志记录;<strong>不</strong>返回 traceback</p>
+<h3 id="34">3.4 标准中间件<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>中间件</th>
+<th>职责</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RequestIDMiddleware</td>
+<td>从 <code>X-Request-ID</code> header 取或生成 UUID,贯穿日志/trace</td>
+<td>必须最外层</td>
+</tr>
+<tr>
+<td>LoggingMiddleware</td>
+<td>请求/响应日志(method/path/status/duration/request_id)</td>
+<td>不记 body</td>
+</tr>
+<tr>
+<td>MetricsMiddleware</td>
+<td>OTel meter:<code>http.server.*</code></td>
+<td>label 含 method/route/status</td>
+</tr>
+<tr>
+<td>AuthMiddleware(可选)</td>
+<td>JWT 验证 + 注入 user</td>
+<td>用 <code>hwhkit.core.jwt</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="35">3.5 服务器启动器<a class="headerlink" href="#35" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hwhkit-serve<span class="w"> </span>--app<span class="w"> </span>trading_service.main:app<span class="w"> </span>--server<span class="w"> </span>granian<span class="w"> </span>--workers<span class="w"> </span><span class="m">4</span>
+</code></pre></div>
+<p>支持 granian(生产推荐)/ uvicorn(开发)/ gunicorn(legacy)。</p>
+<hr />
+<h2 id="4-opentelemetry">4. 可观测性(OpenTelemetry 三合一)<a class="headerlink" href="#4-opentelemetry" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 三大信号<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>信号</th>
+<th>用什么</th>
+<th>业务方接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Traces</td>
+<td>OTel SDK + OTLP exporter</td>
+<td>自动(FastAPI/SQLAlchemy/Redis/httpx/NATS auto-instrumentation)</td>
+</tr>
+<tr>
+<td>Metrics</td>
+<td>OTel SDK + OTLP exporter(可选 Prometheus 兼容)</td>
+<td>自动(标准指标)+ <code>meter.create_counter(...)</code> 自定义</td>
+</tr>
+<tr>
+<td>Logs</td>
+<td>structlog + OTel logs bridge</td>
+<td><code>get_logger(__name__).info(event, ...)</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>整个 observability 子系统默认关闭</strong>(<code>observability.enabled=false</code>)。本地开发零开销;生产显式 enable。</p>
+<h3 id="42-otel-sdk">4.2 OTel SDK 初始化<a class="headerlink" href="#42-otel-sdk" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">observability</span><span class="p">:</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                     </span><span class="c1"># 默认关闭</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">service_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trading-service</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">service_version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${APP_VERSION}</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">environment</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prod</span><span class="w">                  </span><span class="c1"># dev/staging/prod</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">exporter</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">otlp_http</span><span class="w">                </span><span class="c1"># otlp_http / otlp_grpc / console / none</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http://otel-collector:4318</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nt">sampler</span><span class="p">:</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">parent_based_ratio</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="nt">prometheus_compat</span><span class="p">:</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span><span class="w">                   </span><span class="c1"># 过渡期可开,默认关</span>
+</code></pre></div>
+<h3 id="43">4.3 采样<a class="headerlink" href="#43" title="Permanent link">&para;</a></h3>
+<ul>
+<li>默认 <code>ParentBased(TraceIdRatioBased(0.1))</code>,生产 10%</li>
+<li><code>_HealthCheckExcludingSampler</code> 包装,排除 <code>/healthz</code> / <code>/readyz</code> / <code>/metrics</code></li>
+<li>错误/慢请求强采样:在 collector 侧用 tail-sampling 实现</li>
+</ul>
+<h3 id="44-instrumentation">4.4 自动 Instrumentation<a class="headerlink" href="#44-instrumentation" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>库</th>
+<th>OTel 包</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FastAPI</td>
+<td><code>opentelemetry-instrumentation-fastapi</code></td>
+</tr>
+<tr>
+<td>SQLAlchemy</td>
+<td><code>opentelemetry-instrumentation-sqlalchemy</code></td>
+</tr>
+<tr>
+<td>asyncpg</td>
+<td><code>opentelemetry-instrumentation-asyncpg</code></td>
+</tr>
+<tr>
+<td>Redis</td>
+<td><code>opentelemetry-instrumentation-redis</code></td>
+</tr>
+<tr>
+<td>httpx</td>
+<td><code>opentelemetry-instrumentation-httpx</code></td>
+</tr>
+<tr>
+<td>nats-py</td>
+<td>自实现(traceparent 走 NATS header)</td>
+</tr>
+<tr>
+<td>APScheduler</td>
+<td>自实现(跨次执行用 span link)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="45-trace">4.5 日志 ↔ Trace 关联<a class="headerlink" href="#45-trace" title="Permanent link">&para;</a></h3>
+<p>structlog 上下文处理器自动注入 <code>trace_id</code> / <code>span_id</code>,JSON 格式同时输出到 stdout 和 OTel logs。</p>
+<h3 id="46">4.6 标准指标<a class="headerlink" href="#46" title="Permanent link">&para;</a></h3>
+<p>遵循 OTel Semantic Conventions:<code>http.server.*</code> / <code>db.client.*</code> / <code>redis.command.*</code> / <code>messaging.*</code> / <code>scheduler.job.*</code>。</p>
+<h3 id="47-otel">4.7 替换 OTel 后端<a class="headerlink" href="#47-otel" title="Permanent link">&para;</a></h3>
+<p>通过 <code>Telemetry</code> contract 抽象 Tracer/Meter/LogEmitter。OTel 是默认 adapter,但理论上可替换(罕见需求)。</p>
+<hr />
+<h2 id="5-contracts-hexagonal-architecture">5. Contracts 层(Hexagonal Architecture)<a class="headerlink" href="#5-contracts-hexagonal-architecture" title="Permanent link">&para;</a></h2>
+<h3 id="51">5.1 核心思想<a class="headerlink" href="#51" title="Permanent link">&para;</a></h3>
+<ul>
+<li>业务代码<strong>只依赖</strong> <code>hwhkit.core.contracts.*</code> 的 protocol(端口)</li>
+<li><code>hwhkit.integrations.*</code> <strong>实现这些 protocol</strong>(适配器)</li>
+<li>替换底层(NATS↔Kafka、Postgres↔MySQL)= 换 adapter,业务零变更</li>
+</ul>
+<p><strong><code>IntegrationProvider</code> 管生命周期,<code>Contract</code> 管业务能力 —— 两层正交。</strong> 一个 integration 可实现 0 或多个 contract。</p>
+<h3 id="52-contract">5.2 第一批交付的 Contract<a class="headerlink" href="#52-contract" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Contract</th>
+<th>首批 adapter</th>
+<th>分级</th>
+<th>未来 adapter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cache</td>
+<td>Redis</td>
+<td>P0</td>
+<td>Memcached, in-memory</td>
+</tr>
+<tr>
+<td>KvStore</td>
+<td>Redis</td>
+<td>P0</td>
+<td>etcd, Consul</td>
+</tr>
+<tr>
+<td>DistributedLock</td>
+<td>Redis(Redlock)</td>
+<td>P0</td>
+<td>etcd, ZooKeeper</td>
+</tr>
+<tr>
+<td>RelationalDb</td>
+<td>Postgres(SQLAlchemy)</td>
+<td>P0</td>
+<td>MySQL(P2)</td>
+</tr>
+<tr>
+<td>Scheduler</td>
+<td>APScheduler</td>
+<td>P0</td>
+<td>Celery-beat, Temporal</td>
+</tr>
+<tr>
+<td>Telemetry</td>
+<td>OTel</td>
+<td>P0</td>
+<td>自定义</td>
+</tr>
+<tr>
+<td>MessageBus</td>
+<td>NATS JetStream</td>
+<td>P1</td>
+<td>Kafka, RabbitMQ, Redis Streams</td>
+</tr>
+<tr>
+<td>LlmClient / EmbeddingClient</td>
+<td>litellm</td>
+<td>P1</td>
+<td>直连 OpenAI/Anthropic</td>
+</tr>
+<tr>
+<td>Notifier</td>
+<td>飞书</td>
+<td>P1</td>
+<td>钉钉、邮件、短信</td>
+</tr>
+</tbody>
+</table>
+<p>P2 接口先定义,实现推后:<code>VectorStore</code>(Qdrant)、<code>ObjectStore</code>(S3/OSS)、<code>GraphDb</code>(Neo4j)、<code>DocumentDb</code>(MongoDB)。</p>
+<h3 id="53-cache-contract">5.3 示例:<code>Cache</code> contract<a class="headerlink" href="#53-cache-contract" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nd">@runtime_checkable</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Cache</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bytes</span><span class="p">]:</span> <span class="o">...</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">timedelta</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">exists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">incr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">expire</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ttl</span><span class="p">:</span> <span class="n">timedelta</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="k">class</span><span class="w"> </span><span class="nc">TypedCache</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">T</span><span class="p">]):</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;高层封装:JSON/pickle 编解码 + 类型化&quot;&quot;&quot;</span>
+</code></pre></div>
+<h3 id="54-messagebus-contract">5.4 示例:<code>MessageBus</code> contract<a class="headerlink" href="#54-messagebus-contract" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nd">@runtime_checkable</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">MessageBus</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">publish</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>                      <span class="n">headers</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>                      <span class="n">deduplication_key</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PublishAck</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">handler</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Message</span><span class="p">],</span> <span class="n">Awaitable</span><span class="p">[</span><span class="kc">None</span><span class="p">]],</span> <span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>                        <span class="n">durable</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">manual_ack</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>                        <span class="n">max_in_flight</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Subscription</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">payload</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>                      <span class="n">timeout</span><span class="p">:</span> <span class="n">timedelta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<h3 id="55-contract">5.5 业务代码示例(只依赖 contract)<a class="headerlink" href="#55-contract" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PortfolioService</span><span class="p">:</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">RelationalDb</span><span class="p">,</span> <span class="n">cache</span><span class="p">:</span> <span class="n">Cache</span><span class="p">,</span> <span class="n">bus</span><span class="p">:</span> <span class="n">MessageBus</span><span class="p">):</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus</span> <span class="o">=</span> <span class="n">db</span><span class="p">,</span> <span class="n">cache</span><span class="p">,</span> <span class="n">bus</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Position</span><span class="p">:</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>        <span class="k">if</span> <span class="n">cached</span> <span class="o">:=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;pos:</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">symbol</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>            <span class="k">return</span> <span class="n">Position</span><span class="o">.</span><span class="n">from_bytes</span><span class="p">(</span><span class="n">cached</span><span class="p">)</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="o">...</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;portfolio.queried&quot;</span><span class="p">,</span> <span class="n">event</span><span class="o">.</span><span class="n">to_bytes</span><span class="p">())</span>
+</code></pre></div>
+<h3 id="56-di">5.6 DI 绑定机制<a class="headerlink" href="#56-di" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RedisProvider</span><span class="p">(</span><span class="n">IntegrationProvider</span><span class="p">):</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;redis&quot;</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>    <span class="n">implements</span> <span class="o">=</span> <span class="p">[</span><span class="n">Cache</span><span class="p">,</span> <span class="n">KvStore</span><span class="p">,</span> <span class="n">DistributedLock</span><span class="p">,</span> <span class="n">MessageBus</span><span class="p">]</span>  <span class="c1"># 自动注册</span>
+</code></pre></div>
+<p>多 adapter 实现同一 contract 时,在 config 显式选:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nt">contracts</span><span class="p">:</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="nt">message_bus</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nats</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">  </span><span class="nt">cache</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">redis</span>
+</code></pre></div></p>
+<h3 id="57-escape-hatch">5.7 何时不抽象 — Escape Hatch<a class="headerlink" href="#57-escape-hatch" title="Permanent link">&para;</a></h3>
+<p>需要 adapter 特定能力时显式 opt-out:
+- Postgres 特定语法 → 直接拿 SQLAlchemy <code>Session</code>
+- NATS JetStream 特定 API → <code>ctx.get_typed(NatsProvider).js</code>
+- Redis Lua 脚本 / Streams → <code>ctx.get_typed(RedisProvider).client</code></p>
+<p><strong>约定</strong>:opt-out 处用 <code>_pg_specific</code> / <code>_nats_specific</code> 后缀,便于审计。</p>
+<hr />
+<h2 id="6">6. 测试金字塔(工业级)<a class="headerlink" href="#6" title="Permanent link">&para;</a></h2>
+<h3 id="61">6.1 分层<a class="headerlink" href="#61" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>目录</th>
+<th>占比</th>
+<th>时长</th>
+<th>触发</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Unit</td>
+<td><code>tests/unit/</code></td>
+<td>70%</td>
+<td>&lt;30s</td>
+<td>每 commit / pre-commit</td>
+</tr>
+<tr>
+<td>Integration</td>
+<td><code>tests/integration/</code></td>
+<td>20%</td>
+<td>&lt;3min</td>
+<td>每 PR</td>
+</tr>
+<tr>
+<td>E2E</td>
+<td><code>tests/e2e/</code></td>
+<td>5%</td>
+<td>&lt;5min</td>
+<td>每 PR</td>
+</tr>
+<tr>
+<td>Benchmark</td>
+<td><code>tests/benchmark/</code></td>
+<td>3%</td>
+<td>&lt;10min</td>
+<td>每 PR(对比基线)+ main 写基线</td>
+</tr>
+<tr>
+<td>Chaos</td>
+<td><code>tests/chaos/</code></td>
+<td>1%</td>
+<td>&lt;15min</td>
+<td>每周 cron + 手动</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>scanners</td>
+<td>n/a</td>
+<td>&lt;2min</td>
+<td>每 PR + 每周 SBOM</td>
+</tr>
+</tbody>
+</table>
+<p><strong>覆盖率</strong>:整体 ≥85%,<code>hwhkit.core</code> ≥95%,每个 integration 关键路径 ≥90%,新代码 ≥90%。</p>
+<h3 id="62-unit">6.2 Unit<a class="headerlink" href="#62-unit" title="Permanent link">&para;</a></h3>
+<p>工具:<code>pytest</code> + <code>pytest-asyncio</code> + <code>freezegun</code> + <code>respx</code> + <code>pytest-mock</code>。
+- 纯函数 / 业务逻辑 / 错误码映射 / contract 契约 / config 解析
+- 不允许 I/O
+- 每个 contract 配 <code>FakeAdapter</code>(<code>hwhkit.testing.fakes</code>)</p>
+<h3 id="63-integration">6.3 Integration<a class="headerlink" href="#63-integration" title="Permanent link">&para;</a></h3>
+<p>工具:<code>testcontainers</code> 自动起停容器,端口随机。</p>
+<p>每个 P0/P1 integration 必须覆盖:
+- Setup → 健康 → Shutdown 完整生命周期
+- 真实 CRUD / publish-subscribe / lock-unlock
+- 连接断开重连
+- 慢响应(toxiproxy 注入延迟)
+- 配置错误清晰报错
+- contract 契约验证(继承 <code>CacheContractTests</code> 等通用套件)</p>
+<h3 id="64-e2e">6.4 E2E<a class="headerlink" href="#64-e2e" title="Permanent link">&para;</a></h3>
+<p>启动完整 <code>tests/e2e/sample_app/</code>(用框架 bootstrap 的最小服务),<code>httpx.AsyncClient</code> 黑盒打。</p>
+<h3 id="65-benchmark">6.5 Benchmark<a class="headerlink" href="#65-benchmark" title="Permanent link">&para;</a></h3>
+<p><code>pytest-benchmark</code>,关键路径:
+- <code>bootstrap()</code> 冷启动 &lt;2s(全 P0 integration)
+- 每个 contract 操作 p99
+- 中间件开销 baseline vs 全套
+- OTel auto-instrumentation 开销</p>
+<p>基线写入 <code>.benchmarks/main.json</code>,PR 回归 &gt;10% 自动失败。</p>
+<h3 id="66-chaos">6.6 Chaos<a class="headerlink" href="#66-chaos" title="Permanent link">&para;</a></h3>
+<p>工具:<strong>toxiproxy</strong> + docker-compose。</p>
+<p>场景(完整列表):
+- DB 完全断连 → 验证连接池行为、health → unhealthy
+- DB 慢响应(5s latency) → 验证 query timeout 不级联
+- DB 包丢失 → 验证重试 + 熔断
+- Redis 持续重启 → 验证 scheduler 分布式锁不双跑
+- NATS broker 切换 → 验证自动重连 + 不丢消息
+- OTel collector 不可达 → 验证 SDK 队列不爆 + 降级</p>
+<p><strong>跑频</strong>:每周日 cron + 大版本前手动。失败自动建 issue。</p>
+<h3 id="67-security">6.7 Security<a class="headerlink" href="#67-security" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>用途</th>
+<th>跑频</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bandit</td>
+<td>代码静态安全扫描</td>
+<td>每 PR</td>
+</tr>
+<tr>
+<td>pip-audit</td>
+<td>依赖漏洞</td>
+<td>每 PR</td>
+</tr>
+<tr>
+<td>safety</td>
+<td>依赖漏洞(double check)</td>
+<td>每 PR</td>
+</tr>
+<tr>
+<td>semgrep</td>
+<td>自定义模式</td>
+<td>每 PR</td>
+</tr>
+<tr>
+<td>trufflehog/gitleaks</td>
+<td>防止密钥提交</td>
+<td>pre-commit + PR</td>
+</tr>
+<tr>
+<td>cyclonedx-py</td>
+<td>SBOM 生成</td>
+<td>每 release</td>
+</tr>
+<tr>
+<td>pip-licenses</td>
+<td>不允许 GPL/AGPL</td>
+<td>每 PR</td>
+</tr>
+</tbody>
+</table>
+<p>JWT/加密代码额外要求负向测试:过期 / 弱密钥 / 算法混淆(<code>none</code> 攻击) / 重放 / 时序攻击。</p>
+<h3 id="68-hwhkittesting">6.8 <code>hwhkit.testing</code> 子模块<a class="headerlink" href="#68-hwhkittesting" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">hwhkit</span><span class="o">/</span><span class="n">testing</span><span class="o">/</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="err">├──</span> <span class="n">fakes</span><span class="o">/</span>                       <span class="c1"># 内存实现的所有 contract</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="err">├──</span> <span class="n">contract_tests</span><span class="o">/</span>              <span class="c1"># 通用 contract 契约测试套件</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="err">├──</span> <span class="n">fixtures</span><span class="o">.</span><span class="n">py</span>                  <span class="c1"># postgres_container, sample_app 等</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="err">├──</span> <span class="n">factories</span><span class="o">.</span><span class="n">py</span>                 <span class="c1"># factory-boy helpers</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="err">└──</span> <span class="n">otel_recorder</span><span class="o">.</span><span class="n">py</span>             <span class="c1"># 内存 OTel exporter</span>
+</code></pre></div>
+<p>业务方使用示例:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.testing.fakes</span><span class="w"> </span><span class="kn">import</span> <span class="n">FakeCache</span><span class="p">,</span> <span class="n">FakeRelationalDb</span><span class="p">,</span> <span class="n">FakeMessageBus</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">test_get_position</span><span class="p">():</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="n">service</span> <span class="o">=</span> <span class="n">PortfolioService</span><span class="p">(</span><span class="n">db</span><span class="o">=</span><span class="n">FakeRelationalDb</span><span class="p">(),</span> <span class="n">cache</span><span class="o">=</span><span class="n">FakeCache</span><span class="p">(),</span> <span class="n">bus</span><span class="o">=</span><span class="n">FakeMessageBus</span><span class="p">())</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="o">...</span>
+</code></pre></div></p>
+<hr />
+<h2 id="7-cicd-releaseversioning">7. CI/CD + Release/Versioning<a class="headerlink" href="#7-cicd-releaseversioning" title="Permanent link">&para;</a></h2>
+<h3 id="71">7.1 平台<a class="headerlink" href="#71" title="Permanent link">&para;</a></h3>
+<p><strong>GitHub Actions</strong>,PyPI Trusted Publishing(OIDC,无 token)。</p>
+<h3 id="72">7.2 流水线<a class="headerlink" href="#72" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>PR 触发                                main 触发                tag v* 触发
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>─────────                              ─────────                ───────────
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>pre-commit / lint                      + write benchmark baseline   + publish PyPI
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>test-unit (matrix 3.11/3.12 x mac/lin) + deploy docs (mike)          + publish docs (versioned)
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>test-integration (testcontainers)      + build &amp; push images         + create GitHub Release
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>test-e2e                                                              + sigstore 签名
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>benchmark (compare to baseline)                                       + SBOM artifact
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>security-scan
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>build-wheel
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>license-check
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>每周日 cron:
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>chaos-test
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a>dependency-update (renovate)
+</code></pre></div>
+<h3 id="73">7.3 关键约束<a class="headerlink" href="#73" title="Permanent link">&para;</a></h3>
+<ul>
+<li>PR 全套 CI &lt;10 分钟</li>
+<li>main 永远绿,merge 需 1+ approval + CI 全绿</li>
+<li>Conventional Commits 规范 + release-please 自动 bump 版本/CHANGELOG</li>
+<li>每个 release 附带:sdist + wheel + sigstore 签名 + SBOM(SPDX + CycloneDX) + SLSA provenance</li>
+</ul>
+<h3 id="74-semver">7.4 SemVer 政策<a class="headerlink" href="#74-semver" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>MAJOR.MINOR.PATCH
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>MAJOR: 破坏性变更
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>MINOR: 新功能,向后兼容
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>PATCH: bug 修复
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>Pre-release: alpha → beta → rc
+</code></pre></div>
+<p><strong>0.x 阶段</strong>:minor(<code>x</code>)可 breaking,但 release notes 必须有 migration guide;patch(<code>y</code>)严格非破坏性。计划 6 周后发 <code>1.0.0</code>。</p>
+<p><strong>Deprecation 政策</strong>:<code>@deprecated</code> 至少保留 1 个 MINOR 版本 → MAJOR 移除;伴随 <code>DeprecationWarning</code> + CHANGELOG 标注 + 文档横幅。</p>
+<h3 id="75">7.5 分支策略<a class="headerlink" href="#75" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>main         ← protected
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>  ↑
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>  feature/*  ← 短命分支
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>release/*    ← 长版本分支(关键 bugfix backport)
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>hotfix/*     ← 紧急修复
+</code></pre></div>
+<h3 id="76">7.6 文档<a class="headerlink" href="#76" title="Permanent link">&para;</a></h3>
+<p><strong>mkdocs-material + mike</strong>(版本化),部署到 <code>hwhkit.louishwh.tech</code>。</p>
+<p>结构:
+- <code>concepts/</code>:bootstrap / AppContext / IntegrationProvider / contracts
+- <code>integrations/</code>:每个 integration 一篇
+- <code>contracts/</code>:每个 contract 规范 + 跨 adapter 行为对照
+- <code>recipes/</code>:交易服务、定时任务、事件驱动、AI agent
+- <code>api/</code>:mkdocstrings 自动生成
+- <code>migration/</code>:版本迁移指南
+- <code>contributing/</code>:贡献指南、本地开发、跑测试</p>
+<p>文档代码块用 <code>pytest-examples</code> 校验可跑通。</p>
+<hr />
+<h2 id="8-cli">8. CLI 脚手架<a class="headerlink" href="#8-cli" title="Permanent link">&para;</a></h2>
+<h3 id="81">8.1 命令集<a class="headerlink" href="#81" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>hwhkit<span class="w"> </span>init<span class="w"> </span>&lt;name&gt;<span class="w">            </span><span class="c1"># 创建项目</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>hwhkit<span class="w"> </span>add<span class="w"> </span>&lt;module&gt;<span class="w">           </span><span class="c1"># 增量加 integration</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>hwhkit<span class="w"> </span>doctor<span class="w">                 </span><span class="c1"># 项目体检</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>hwhkit<span class="w"> </span>upgrade<span class="w">                </span><span class="c1"># 升级 + 应用 codemod</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>hwhkit<span class="w"> </span>new-integration<span class="w"> </span>&lt;name&gt;<span class="w"> </span><span class="c1"># 框架贡献者:生成新 integration 骨架</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>hwhkit<span class="w"> </span>gen<span class="w"> </span>migration<span class="w"> </span><span class="s2">&quot;&lt;msg&gt;&quot;</span><span class="w">  </span><span class="c1"># alembic wrapper</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>hwhkit<span class="w"> </span>list<span class="w">                   </span><span class="c1"># 列出已启用 integration</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>hwhkit<span class="w"> </span>version<span class="w">                </span><span class="c1"># 打印版本</span>
+</code></pre></div>
+<h3 id="82-hwhkit-init-name">8.2 <code>hwhkit init &lt;name&gt;</code><a class="headerlink" href="#82-hwhkit-init-name" title="Permanent link">&para;</a></h3>
+<p>生成完整可跑的项目骨架(默认零 integration,只有 /healthz):</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>trading-service/
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>├── pyproject.toml + uv.lock
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>├── .env.example / .gitignore
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>├── Makefile (make {dev, test, lint, build, run})
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>├── Dockerfile (multi-stage, python:3.12-slim)
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>├── docker-compose.yml (依赖注释模板)
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>├── .github/workflows/{ci.yml, release.yml}
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>├── docs/README.md
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>├── trading_service/
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>│   ├── main.py / config.py
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>│   ├── api/ / services/ / domain/ / adapters/
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>└── tests/{unit, integration, e2e}/ + conftest.py
+</code></pre></div>
+<h3 id="83-hwhkit-add-module">8.3 <code>hwhkit add &lt;module&gt;</code><a class="headerlink" href="#83-hwhkit-add-module" title="Permanent link">&para;</a></h3>
+<p><strong>实现策略:libcst CST 编辑</strong>,保留注释/格式/空行,用户改过 main.py 也能合并。</p>
+<p>支持模块:
+- postgres / redis / nats / scheduler / llm / auth / otel / admin / mysql(P2)</p>
+<p><strong>幂等</strong>:重复跑同一命令检测到已加,不重复修改。</p>
+<p><strong>前置检查</strong>:
+- 是 hwhkit 项目(找 pyproject 依赖)
+- main.py 可解析 + 找得到 <code>bootstrap()</code> 调用
+- 目标 integration 未存在</p>
+<p><strong>失败时</strong>:写变更到 <code>.hwhkit-add.preview/</code>,报错并给手动指引。</p>
+<h3 id="84-hwhkit-doctor">8.4 <code>hwhkit doctor</code><a class="headerlink" href="#84-hwhkit-doctor" title="Permanent link">&para;</a></h3>
+<p>检查项:
+- 依赖最新性 + 漏洞(pip-audit)
+- 配置 schema 完整性
+- 是否有直接 import adapter 的代码(违反 contract)
+- 是否有 deprecation warning
+- 测试覆盖率快速 sample
+- alembic 配置完整性
+- Dockerfile 反模式(alpine 警告)
+- <code>.env.example</code> 完整性</p>
+<p><code>hwhkit doctor --fix</code> 自动修复能修的。</p>
+<h3 id="85-hwhkit-upgrade">8.5 <code>hwhkit upgrade</code><a class="headerlink" href="#85-hwhkit-upgrade" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>$<span class="w"> </span>hwhkit<span class="w"> </span>upgrade
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>✓<span class="w"> </span>Current:<span class="w"> </span><span class="m">0</span>.9.x<span class="w"> </span>→<span class="w"> </span>Latest:<span class="w"> </span><span class="m">1</span>.0.0
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>⚠<span class="w"> </span>Major<span class="w"> </span>upgrade,<span class="w"> </span>breaking<span class="w"> </span>changes
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>✓<span class="w"> </span>Found<span class="w"> </span>N<span class="w"> </span>applicable<span class="w"> </span>codemods<span class="w"> </span><span class="o">(</span>示例,实际由发布时的<span class="w"> </span>breaking<span class="w"> </span>变更决定<span class="o">)</span>:
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span>-<span class="w"> </span>bootstrap<span class="o">()</span><span class="w"> </span>参数<span class="w"> </span><span class="sb">`</span><span class="nv">routers</span><span class="o">=</span><span class="sb">`</span><span class="w"> </span>重命名为<span class="w"> </span><span class="sb">`</span><span class="nv">routes</span><span class="o">=</span><span class="sb">`</span><span class="w"> </span><span class="o">(</span>X<span class="w"> </span>files<span class="o">)</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span>-<span class="w"> </span>Cache.set<span class="o">()</span><span class="w"> </span>ttl<span class="w"> </span>参数类型从<span class="w"> </span>int<span class="o">(</span>秒<span class="o">)</span><span class="w"> </span>改为<span class="w"> </span>timedelta<span class="w"> </span><span class="o">(</span>X<span class="w"> </span>files<span class="o">)</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">    </span>-<span class="w"> </span>弃用的<span class="w"> </span><span class="sb">`</span>hwhkit.utils.legacy.*<span class="sb">`</span><span class="w"> </span>完全移除,替换为<span class="w"> </span><span class="sb">`</span>hwhkit.utils.*<span class="sb">`</span><span class="w"> </span><span class="o">(</span>X<span class="w"> </span>files<span class="o">)</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a>✓<span class="w"> </span>Preview<span class="w"> </span>/<span class="w"> </span>Apply<span class="w"> </span>?
+</code></pre></div>
+<p><strong>codemod = libcst 写的代码改写规则,跟着 <code>hwhkit</code> 自己版本走</strong>。每个 breaking 必须配套 codemod。0.4.0 是干净起点,首批 codemod 会从首个引入 breaking 变更的版本开始累积(可能是 0.x → 1.0、或 1.x → 2.0)。</p>
+<h3 id="86-cli">8.6 CLI 实现栈<a class="headerlink" href="#86-cli" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Click(命令路由)</li>
+<li>rich(输出)</li>
+<li>libcst(CST 编辑)</li>
+<li>jinja2(non-Python 模板)</li>
+<li>uv(子进程调用)</li>
+</ul>
+<h3 id="87">8.7 关键设计原则<a class="headerlink" href="#87" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>init</code> 出来的真能跑(<code>uv sync &amp;&amp; uv run python -m &lt;pkg&gt;.main</code> 立即起来)</li>
+<li><code>add</code> 幂等 + <code>--dry-run</code> 默认显示 diff</li>
+<li><code>add</code> 用 CST 而非字符串拼接</li>
+<li>每个 breaking 变更配套 codemod</li>
+<li><code>doctor</code> 抓反模式</li>
+<li>不锁定项目结构(建议而非强制)</li>
+</ul>
+<hr />
+<h2 id="9-cutover">9. 迁移 / Cutover 计划<a class="headerlink" href="#9-cutover" title="Permanent link">&para;</a></h2>
+<h3 id="91">9.1 老代码处置<a class="headerlink" href="#91" title="Permanent link">&para;</a></h3>
+<p><strong><code>git rm -r hwhkit/</code> 直接删</strong>,从空目录重写。</p>
+<p>需要参考老代码时:
+- 旧代码留在 <code>infoman-kit-py</code> 原仓库(<code>/Users/louis/infoman/infoman-kit-py</code>)
+- 重写过程中需要"打捞"的具体文件(utils 加密/hash、scaffold templates、响应辅助):用 <code>cp</code> 显式拷贝 + 重构
+- 不保留任何兼容层</p>
+<h3 id="92">9.2 起步版本<a class="headerlink" href="#92" title="Permanent link">&para;</a></h3>
+<p><code>0.4.0-alpha.1</code>(承接现有 0.3.29 编号)。alpha → beta → rc → <code>0.4.0</code> → ... → <code>1.0.0</code>。</p>
+<h3 id="93">9.3 六周里程碑<a class="headerlink" href="#93" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>周</th>
+<th>产出</th>
+<th>可验证标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>W1</strong></td>
+<td>项目骨架(空 <code>hwhkit/</code>)+ pyproject + extras + CI/CD 骨架 + pre-commit + 测试基础设施(testcontainers, fakes 框架, benchmark 框架, OTel 内存 recorder)+ <code>hwhkit.core.contracts</code> 所有 protocol + <code>hwhkit.core.integration</code> ABC + <code>hwhkit.core.errors</code> + <code>hwhkit.core.context</code></td>
+<td>CI 全绿;文档站冒烟版上线 <code>hwhkit.louishwh.tech</code></td>
+</tr>
+<tr>
+<td><strong>W2</strong></td>
+<td><code>hwhkit.core.bootstrap</code> + <code>hwhkit.web</code> 完整(app factory + middleware + responses + exceptions)+ <code>hwhkit.observability</code> 完整(OTel 三合一)+ <code>hwhkit.config</code> 完整 + <code>hwhkit.utils.*</code> 全迁移</td>
+<td>sample_app 起得来,/healthz /readyz /metrics 通,零 integration 时 e2e 全绿</td>
+</tr>
+<tr>
+<td><strong>W3</strong></td>
+<td><strong>Postgres</strong> 完整(provider + session + alembic + repository + contract tests + 集成测试 + benchmark + chaos)+ <strong>Redis</strong> 完整(Cache + KvStore + Lock + MessageBus 四个 contract)</td>
+<td>两个 P0 integration 通过完整测试金字塔</td>
+</tr>
+<tr>
+<td><strong>W4</strong></td>
+<td><strong>Scheduler</strong> 完整(provider + 分布式锁 + 装饰器)+ <strong>NATS</strong> 完整(MessageBus / publisher / consumer / JetStream)</td>
+<td>全部 P0 完成</td>
+</tr>
+<tr>
+<td><strong>W5</strong></td>
+<td><strong>CLI 完整</strong>(init + add 各模块 + doctor + upgrade + new-integration + gen)+ <strong><code>hwhkit.testing</code> 完整</strong> + <strong>LLM</strong>(litellm)+ <strong>JWT auth</strong> + <strong>Notifier(飞书)</strong></td>
+<td><code>hwhkit init</code> 一键创建出可跑的 trading-service demo;P1 完成</td>
+</tr>
+<tr>
+<td><strong>W6</strong></td>
+<td><strong>P2 占位 integration</strong>(mysql / qdrant / mongodb / neo4j / s3 / oss)空目录 + Provider 接口 + 文档 + <strong>完整文档站</strong> + <strong>发布 0.4.0-rc.1 到 TestPyPI</strong> + <strong>真实业务场景接入验证</strong>(见 § 9.4)</td>
+<td>rc.1 在 TestPyPI;接入冒烟通过;一周内若无问题发 <code>0.4.0</code> 正式版</td>
+</tr>
+</tbody>
+</table>
+<h3 id="94-w6">9.4 W6 业务接入验证 — 强约束<a class="headerlink" href="#94-w6" title="Permanent link">&para;</a></h3>
+<p><strong>背景</strong>:当前 mota 项目栈是 Rust(mota-service / mota-agent)+ Flutter(mota-app),没有 Python 服务直接可用。因此 W6 验证目标改为以下二选一,由作者按当周资源决定:</p>
+<ul>
+<li><strong>选项 1(推荐)</strong>:基于 hwhkit 0.4.0-rc.1 构建一个 <strong>mota-data-ingest</strong> 之类的真实 Python 微服务,职责小但栈完整(Postgres + Redis + NATS + Scheduler + OTel),供 mota 主栈消费。验证标准:服务在本地 docker-compose 起来 + 写入数据库 + 发布 NATS 事件 + 定时任务跑通 + OTel 指标可见。</li>
+<li><strong>选项 2(备选)</strong>:在 hwhkit 仓库内 <code>examples/full-stack/</code> 下构建一个<strong>仿真完整微服务</strong>(模拟一个交易撮合服务,带 5 个 endpoint + 2 个定时任务 + 1 个事件订阅)。验证标准:完整 e2e 测试套件通过,benchmark 达标,chaos 测试不挂。</li>
+</ul>
+<p>无论哪个,<strong>目的相同:在真实使用场景下暴露 design 中的缺陷</strong>。这一步暴露的问题在 0.4.x 系列 patch 修复;不阻塞 1.0.0,但 1.0.0 发布前所有 W6 暴露的问题必须有 issue + 修复或明确 wontfix 理由。</p>
+<h3 id="95-100-definition-of-done">9.5 1.0.0 发布前的 Definition of Done<a class="headerlink" href="#95-100-definition-of-done" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ 所有 P0/P1 integration 通过完整测试金字塔</li>
+<li>✅ 覆盖率达标(整体 85% / core 95% / 新代码 90%)</li>
+<li>✅ 所有 chaos 测试通过</li>
+<li>✅ 所有 security 扫描通过(无 high 漏洞)</li>
+<li>✅ benchmark 基线建立</li>
+<li>✅ 完整文档站上线</li>
+<li>✅ CLI 完整可用,<code>hwhkit init</code> + 全部 <code>add</code> 命令演示通过</li>
+<li>✅ mota 实际接入验证通过</li>
+<li>✅ CHANGELOG 完整,migration guide 写完</li>
+<li>✅ Sigstore 签名 + SBOM + SLSA provenance 流水线跑通</li>
+</ul>
+<hr />
+<h2 id="10-hwhkit-rs-hwhkit-go">10. 跨语言一致性 — 与 hwhkit-rs / hwhkit-go 的关系<a class="headerlink" href="#10-hwhkit-rs-hwhkit-go" title="Permanent link">&para;</a></h2>
+<p><code>hwhkit</code> 是三语言基础框架品牌:</p>
+<table>
+<thead>
+<tr>
+<th>实现</th>
+<th>仓库</th>
+<th>角色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hwhkit-rs</code></td>
+<td><code>github.com/louishwh/hwhkit-rs</code></td>
+<td>高性能后端、架构参考</td>
+</tr>
+<tr>
+<td><code>hwhkit-py</code></td>
+<td><code>github.com/hwhkit/hwhkit-py</code>(本文档)</td>
+<td>业务/AI/数据后端、生态主力</td>
+</tr>
+<tr>
+<td><code>hwhkit-go</code></td>
+<td><code>github.com/louishwh/hwhkit-go</code></td>
+<td>微服务、CLI 工具(后续按相同思路重写)</td>
+</tr>
+</tbody>
+</table>
+<p>三语版本<strong>模块切分对齐</strong>:
+- <code>core</code> / <code>config</code> / <code>observability</code> / <code>integrations.*</code> / <code>scheduler</code> / <code>cli</code>
+- IntegrationProvider 抽象、AppContext、Bootstrap 流程、ApiError 6 位错误码、健康检查协议 —— 跨语言概念一致</p>
+<p><strong>不强求</strong>:
+- 各语言惯用具体库不同(Python FastAPI / Rust Axum / Go gin 或 chi)
+- 测试工具链各异
+- 各语言的 ergonomic 不强行模仿(如 Python 用 ABC + Protocol、Rust 用 trait、Go 用 interface)</p>
+<hr />
+<h2 id="11">11. 风险与缓解<a class="headerlink" href="#11" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>风险</th>
+<th>影响</th>
+<th>缓解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6 周排期过紧</td>
+<td>1.0.0 跳票</td>
+<td>W6 业务接入验证缓冲(0.4.x patch 系列消化);1.0.0 可延后 1-2 周</td>
+</tr>
+<tr>
+<td>Contract 抽象过度</td>
+<td>性能或灵活性损失</td>
+<td>提供 escape hatch(<code>ctx.get_typed(...)</code> 拿原生 adapter);benchmark 强制</td>
+</tr>
+<tr>
+<td>libcst codemod 学习曲线</td>
+<td>CLI add 命令延期</td>
+<td>W5 集中实现;部分 add 模块若 codemod 过复杂,降级为"提示用户手动改"</td>
+</tr>
+<tr>
+<td>testcontainers macOS 慢</td>
+<td>本地开发体验差</td>
+<td>集成测试默认 ubuntu CI 跑;macOS 本地用 Docker Desktop 或 Colima 加速</td>
+</tr>
+<tr>
+<td>OTel 自动 instrumentation 兼容性问题</td>
+<td>观测数据丢失或服务异常</td>
+<td>observability 默认关闭;启用后有 fallback 到无 instrumentation 的能力</td>
+</tr>
+<tr>
+<td>与 mota 业务接入冲突</td>
+<td>W6 暴露大量问题</td>
+<td>提早(W5 末)做 mota 接入 spike,而非到 W6 才动手</td>
+</tr>
+<tr>
+<td>0.x → 1.0 breaking 太多</td>
+<td>业务方升级痛苦</td>
+<td>codemod 配套;CHANGELOG migration guide 详尽</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="a">附录 A:决策一览表<a class="headerlink" href="#a" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>决策</th>
+<th>选择</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>实施路径</td>
+<td>全量重写(Approach A)</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>SQLAlchemy 2.0 async only(砍 Tortoise)</td>
+</tr>
+<tr>
+<td>测试深度</td>
+<td>工业级(unit + integration + e2e + benchmark + chaos + security)</td>
+</tr>
+<tr>
+<td>观测</td>
+<td>OpenTelemetry 三合一</td>
+</tr>
+<tr>
+<td>架构</td>
+<td>完全镜像 hwhkit-rs</td>
+</tr>
+<tr>
+<td>发布</td>
+<td>单 PyPI 包 + extras</td>
+</tr>
+<tr>
+<td>响应信封</td>
+<td>默认启用,<code>@raw_response</code> opt-out</td>
+</tr>
+<tr>
+<td>错误码</td>
+<td>6 位 <code>XYYZZZ</code></td>
+</tr>
+<tr>
+<td>整合管理路由</td>
+<td>默认关闭,显式开启 + 强制 auth</td>
+</tr>
+<tr>
+<td>Observability 启用</td>
+<td>默认关闭</td>
+</tr>
+<tr>
+<td>Contracts/Adapters</td>
+<td>启用,业务零依赖 adapter</td>
+</tr>
+<tr>
+<td><code>hwhkit.testing</code></td>
+<td>启用</td>
+</tr>
+<tr>
+<td>文档站</td>
+<td><code>hwhkit.louishwh.tech</code>(mkdocs-material + mike)</td>
+</tr>
+<tr>
+<td>CLI 命令集</td>
+<td>init + add + doctor + upgrade + new-integration + gen + list + version</td>
+</tr>
+<tr>
+<td><code>add</code> 实现</td>
+<td>libcst CST 编辑</td>
+</tr>
+<tr>
+<td><code>upgrade</code> codemod</td>
+<td>每个 breaking 必配套</td>
+</tr>
+<tr>
+<td>老代码处置</td>
+<td><code>git rm -r hwhkit/</code> 直接删</td>
+</tr>
+<tr>
+<td>起步版本</td>
+<td>0.4.0-alpha.1</td>
+</tr>
+<tr>
+<td>Python 最低版本</td>
+<td>&gt;=3.11</td>
+</tr>
+<tr>
+<td>仓库</td>
+<td><code>github.com/hwhkit/hwhkit-py</code></td>
+</tr>
+<tr>
+<td>License</td>
+<td><code>MIT OR Apache-2.0</code></td>
+</tr>
+<tr>
+<td>1.0.0 目标日期</td>
+<td>6 周后</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="b">附录 B:目录树最终态<a class="headerlink" href="#b" title="Permanent link">&para;</a></h2>
+<p>见 § 1。所有 P2 占位 integration 在 W6 创建空目录 + <code>provider.py</code> 接口签名,实现推后。</p>
+<hr />
+<p><em>文档结束。</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/louishwh" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.tracking", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
