@@ -28,6 +28,8 @@ repos:
       - id: mypy
         additional_dependencies:
           - pydantic
+          - pydantic-settings
+          - pyyaml
           - structlog
           - types-PyYAML
           - fastapi
