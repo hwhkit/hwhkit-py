@@ -455,10 +455,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#d3-2026-05-16-libcst-codemod-fallback" class="md-nav__link">
+  <a href="#d3-2026-05-16-libcst-codemod" class="md-nav__link">
     <span class="md-ellipsis">
       
-        D3 — 2026-05-16 — libcst codemod fallback 策略
+        D3 — 2026-05-16 — libcst codemod 不降级
       
     </span>
   </a>
@@ -466,10 +466,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#d4-2026-05-16-w5-mota-spike" class="md-nav__link">
+  <a href="#d4-2026-05-16-mota-spike-w6" class="md-nav__link">
     <span class="md-ellipsis">
       
-        D4 — 2026-05-16 — W5 末做 mota spike
+        D4 — 2026-05-16 — mota spike 按原计划放 W6 末
       
     </span>
   </a>
@@ -597,6 +597,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#d16-2026-05-16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        D16 — 2026-05-16 — 中途灰区按局部最优解执行
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -631,13 +642,19 @@
 <p><strong>决策</strong>:<code>hwhkit.integrations.postgres.repository</code> <strong>不</strong>提供通用 CRUD 基类。业务代码直接用 <code>AsyncSession</code> + SQLAlchemy 2.0 原生 API。</p>
 <p><strong>理由</strong>:Repository pattern 有争议;SQLAlchemy 2.0 async 原生 API 已足够好用;业务方想要自己写一个 30 行基类不难;框架不强加 pattern 更通用。</p>
 <hr />
-<h2 id="d3-2026-05-16-libcst-codemod-fallback">D3 — 2026-05-16 — libcst codemod fallback 策略<a class="headerlink" href="#d3-2026-05-16-libcst-codemod-fallback" title="Permanent link">&para;</a></h2>
-<p><strong>决策</strong>:<code>hwhkit add &lt;module&gt;</code> 用 libcst 做 CST 编辑;若撞到难处理的 <code>main.py</code> 结构,采用 <strong>c)部分降级</strong> —— 能自动改的(import / 简单参数追加)自动改,改不了的打印"请把这 3 行加到此处"提示。</p>
-<p><strong>理由</strong>:保留 90% 一键体验,极端 case 不卡进度。</p>
+<h2 id="d3-2026-05-16-libcst-codemod">D3 — 2026-05-16 — libcst codemod 不降级<a class="headerlink" href="#d3-2026-05-16-libcst-codemod" title="Permanent link">&para;</a></h2>
+<p><strong>决策</strong>:<code>hwhkit add &lt;module&gt;</code> 用 libcst 做 CST 编辑;遇到难处理的 <code>main.py</code> 结构 <strong>死磕到底,不降级</strong>(原选项 a)。</p>
+<p><strong>作者意图</strong>(2026-05-16 答复 Q3 = a):一键加 integration 是核心承诺,降级到"打印请手动加"会让 CLI 体验严重打折;宁可 W5 延期也要做出来。</p>
+<p><strong>原始候选</strong>:
+- a) 死磕 ✅ <strong>采用</strong>
+- b) 全降级(只生成新文件 + 打印提示)
+- c) 部分降级(原我的倾向)</p>
+<p><strong>影响</strong>:W5 CLI 子任务时间预算需要更宽松。若 libcst 撞墙,我会把"难解析的 main.py 结构样例"记到 decisions 备查,并在 spec 加约束(例如:<code>bootstrap()</code> 调用必须在 module-level,不能藏在函数里)而非降级实现。</p>
 <hr />
-<h2 id="d4-2026-05-16-w5-mota-spike">D4 — 2026-05-16 — W5 末做 mota spike<a class="headerlink" href="#d4-2026-05-16-w5-mota-spike" title="Permanent link">&para;</a></h2>
-<p><strong>决策</strong>:在 W5 末抽 1-2 天做 mota Python 服务接入 spike,而非等到 W6 末才做。</p>
-<p><strong>理由</strong>:0.4.0 是首次对外承诺版本,撞墙宁可早不要晚。代价是 W5 末 CLI 收尾稍赶。</p>
+<h2 id="d4-2026-05-16-mota-spike-w6">D4 — 2026-05-16 — mota spike 按原计划放 W6 末<a class="headerlink" href="#d4-2026-05-16-mota-spike-w6" title="Permanent link">&para;</a></h2>
+<p><strong>决策</strong>:<strong>不</strong>前置 mota Python 服务接入 spike。按 spec § 9.4 原计划,W6 末做业务接入验证。W6 暴露的问题在 0.4.x patch 系列消化,1.0 推迟也认。</p>
+<p><strong>作者意图</strong>(2026-05-16 答复 Q4 = b):不必为了"撞墙宁可早"挤压 W5;W6 暴露问题用 0.4.x patch 修是可以接受的轨道。</p>
+<p><strong>影响</strong>:W5 末 CLI 收尾时间宽裕(配合 D3 的"libcst 死磕不降级");W6 业务接入若发现重大设计缺陷,1.0.0 可能推迟到 W7-W8。</p>
 <hr />
 <h2 id="d5-2026-05-16-pypi">D5 — 2026-05-16 — PyPI 账号归属<a class="headerlink" href="#d5-2026-05-16-pypi" title="Permanent link">&para;</a></h2>
 <p><strong>决策</strong>:新建 PyPI 组织账号 <strong><code>hwhkit</code></strong> 发布。</p>
@@ -674,6 +691,33 @@
 <hr />
 <h2 id="d15-2026-05-16-sigstore">D15 — 2026-05-16 — Sigstore 签名默认启用<a class="headerlink" href="#d15-2026-05-16-sigstore" title="Permanent link">&para;</a></h2>
 <p><strong>决策</strong>:发布流程默认 sigstore 签名 + SPDX + CycloneDX SBOM 双导出。</p>
+<hr />
+<h2 id="d16-2026-05-16">D16 — 2026-05-16 — 中途灰区按局部最优解执行<a class="headerlink" href="#d16-2026-05-16" title="Permanent link">&para;</a></h2>
+<p><strong>决策</strong>:<strong>spec 没明文规定 + 我能给出有理由的局部最优解</strong>的中途灰区,我<strong>不再停下来等审批</strong>,直接按局部最优解执行,并把决策、理由、影响<strong>追加到本文件</strong>(D17+)。<strong>作者可事后追溯并要求修正</strong>。</p>
+<p><strong>作者意图</strong>(2026-05-16 答复 Q8):接受"局部最优 + 留痕"模式,优先保持进度;不接受"绕过 spec 改架构 + 不留痕"。</p>
+<p><strong>触发本规则的灰区类别</strong>(沿用 § 8 "中途灰区"):
+- 加新依赖(不在现有 extras 列表)
+- 加新 contract / 砍合并 contract
+- 测试覆盖率掉到 85% 以下且修不上来
+- benchmark baseline 退化 &gt;10% 查不出原因
+- chaos test flaky(复现率 &lt;90%)
+- license / 安全 / 合规灰区
+- 实现时发现 spec 描述模糊或自相矛盾</p>
+<p><strong>例外(仍然停下来等审批)</strong>:
+- 改 spec 已明文规定的事(如砍掉 P0 integration、改 SemVer 政策、换 OTel 为别的)
+- 任何会让 0.4.0 公开破坏性变更的事
+- 任何涉及私钥 / 账号注册 / 钱的事
+- 我认为可能让作者后悔的事(留可疑就 ask)</p>
+<p><strong>留痕格式</strong>(每条灰区一个新 D 编号):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>## DNN — YYYY-MM-DD — &lt;一句话决策&gt;
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>**触发**:执行 W?.X 时,撞到 &lt;情况&gt;。
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>**决策**:&lt;我选了什么&gt;。
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>**理由**:&lt;为什么&gt;。
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>**备选**:&lt;想过的其他选项 + 为什么没选&gt;。
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>**影响**:&lt;对哪些子系统 / 哪些任务 / 哪个里程碑有影响&gt;。
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>**回滚成本**:&lt;高 / 中 / 低,简短说明&gt;。
+</code></pre></div></p>
 <hr />
 
 
