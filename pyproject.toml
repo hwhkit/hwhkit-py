@@ -166,6 +166,8 @@ ignore = [
 # ASYNC109 (timeout param) intentional for MessageBus.request() contract method.
 "hwhkit/integrations/**" = ["TC002", "TC003", "ASYNC109"]
 "hwhkit/scheduler/**" = ["TC002", "TC003", "ASYNC109"]
+"hwhkit/cli/**" = ["TC002", "TC003", "RUF005"]
+"hwhkit/llm/**" = ["TC002", "TC003"]
 
 [tool.ruff.format]
 quote-style = "double"
