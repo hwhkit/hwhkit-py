@@ -12,27 +12,31 @@
         <meta name="author" content="louishwh">
       
       
-        <link rel="canonical" href="https://hwhkit.louishwh.tech/latest/superpowers/plans/2026-05-16-hwhkit-py-master-todo/">
+        <link rel="canonical" href="https://hwhkit.louishwh.tech/latest/integrations/redis/">
       
       
+        <link rel="prev" href="../postgres/">
+      
+      
+        <link rel="next" href="../scheduler/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>hwhkit-py 全量重写 — Master TODO List - hwhkit</title>
+        <title>Redis - hwhkit</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +55,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hwhkit-py-master-todo-list" class="md-skip">
+        <a href="#redis" class="md-skip">
           跳转至
         </a>
       
@@ -96,7 +100,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="页眉">
-    <a href="../../.." title="hwhkit" class="md-header__button md-logo" aria-label="hwhkit" data-md-component="logo">
+    <a href="../.." title="hwhkit" class="md-header__button md-logo" aria-label="hwhkit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +120,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              hwhkit-py 全量重写 — Master TODO List
+              Redis
             
           </span>
         </div>
@@ -229,7 +233,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -248,7 +252,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../getting-started/" class="md-tabs__link">
+      <a href="../../getting-started/" class="md-tabs__link">
         
   
   
@@ -269,7 +273,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../concepts/" class="md-tabs__link">
+        <a href="../../concepts/" class="md-tabs__link">
           
   
   
@@ -287,11 +291,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../integrations/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -311,7 +317,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../contracts/" class="md-tabs__link">
+      <a href="../../contracts/" class="md-tabs__link">
         
   
   
@@ -332,7 +338,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../recipes/" class="md-tabs__link">
+        <a href="../../recipes/" class="md-tabs__link">
           
   
   
@@ -352,7 +358,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../migration/" class="md-tabs__link">
+      <a href="../../migration/" class="md-tabs__link">
         
   
   
@@ -371,7 +377,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../../contributing/" class="md-tabs__link">
+      <a href="../../contributing/" class="md-tabs__link">
         
   
   
@@ -406,7 +412,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="hwhkit" class="md-nav__button md-logo" aria-label="hwhkit" data-md-component="logo">
+    <a href="../.." title="hwhkit" class="md-nav__button md-logo" aria-label="hwhkit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -436,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -463,7 +469,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../getting-started/" class="md-nav__link">
+      <a href="../../getting-started/" class="md-nav__link">
         
   
   
@@ -529,7 +535,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../concepts/" class="md-nav__link ">
+            <a href="../../concepts/" class="md-nav__link ">
               
   
   
@@ -573,7 +579,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/bootstrap/" class="md-nav__link">
+      <a href="../../concepts/bootstrap/" class="md-nav__link">
         
   
   
@@ -601,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/integration-provider/" class="md-nav__link">
+      <a href="../../concepts/integration-provider/" class="md-nav__link">
         
   
   
@@ -629,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/contracts/" class="md-nav__link">
+      <a href="../../concepts/contracts/" class="md-nav__link">
         
   
   
@@ -657,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/app-context/" class="md-nav__link">
+      <a href="../../concepts/app-context/" class="md-nav__link">
         
   
   
@@ -685,7 +691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/errors/" class="md-nav__link">
+      <a href="../../concepts/errors/" class="md-nav__link">
         
   
   
@@ -713,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/observability/" class="md-nav__link">
+      <a href="../../concepts/observability/" class="md-nav__link">
         
   
   
@@ -741,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/configuration/" class="md-nav__link">
+      <a href="../../concepts/configuration/" class="md-nav__link">
         
   
   
@@ -769,7 +775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../concepts/testing/" class="md-nav__link">
+      <a href="../../concepts/testing/" class="md-nav__link">
         
   
   
@@ -801,6 +807,8 @@
       
   
   
+    
+  
   
   
     
@@ -824,20 +832,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../integrations/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -855,13 +866,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -881,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../integrations/postgres/" class="md-nav__link">
+      <a href="../postgres/" class="md-nav__link">
         
   
   
@@ -906,10 +917,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../integrations/redis/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Redis
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -925,6 +963,103 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a Cache
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-distributedlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a DistributedLock
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#as-a-messagebus-pubsub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        As a MessageBus (pub/sub)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#direct-client-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Direct client access
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -937,7 +1072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../integrations/scheduler/" class="md-nav__link">
+      <a href="../scheduler/" class="md-nav__link">
         
   
   
@@ -965,7 +1100,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../integrations/nats/" class="md-nav__link">
+      <a href="../nats/" class="md-nav__link">
         
   
   
@@ -993,7 +1128,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../integrations/llm/" class="md-nav__link">
+      <a href="../llm/" class="md-nav__link">
         
   
   
@@ -1028,7 +1163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contracts/" class="md-nav__link">
+      <a href="../../contracts/" class="md-nav__link">
         
   
   
@@ -1080,7 +1215,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../recipes/" class="md-nav__link ">
+            <a href="../../recipes/" class="md-nav__link ">
               
   
   
@@ -1124,7 +1259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../recipes/trading-service/" class="md-nav__link">
+      <a href="../../recipes/trading-service/" class="md-nav__link">
         
   
   
@@ -1159,7 +1294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../migration/" class="md-nav__link">
+      <a href="../../migration/" class="md-nav__link">
         
   
   
@@ -1186,7 +1321,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../contributing/" class="md-nav__link">
+      <a href="../../contributing/" class="md-nav__link">
         
   
   
@@ -1233,10 +1368,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        全局进度
+        Install
       
     </span>
   </a>
@@ -1244,10 +1379,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#w1-foundation-week" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        W1: Foundation Week
+        Configuration
       
     </span>
   </a>
@@ -1255,10 +1390,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#w2-web-observability-config" class="md-nav__link">
+  <a href="#as-a-cache" class="md-nav__link">
     <span class="md-ellipsis">
       
-        W2: Web + Observability + Config
+        As a Cache
       
     </span>
   </a>
@@ -1266,10 +1401,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#w3-postgres-redis-p0-integration" class="md-nav__link">
+  <a href="#as-a-distributedlock" class="md-nav__link">
     <span class="md-ellipsis">
       
-        W3: Postgres + Redis(两个 P0 Integration)
+        As a DistributedLock
       
     </span>
   </a>
@@ -1277,10 +1412,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#w4-scheduler-nats-p0" class="md-nav__link">
+  <a href="#as-a-messagebus-pubsub" class="md-nav__link">
     <span class="md-ellipsis">
       
-        W4: Scheduler + NATS(全 P0 完成)
+        As a MessageBus (pub/sub)
       
     </span>
   </a>
@@ -1288,10 +1423,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#w5-cli-testing-p1" class="md-nav__link">
+  <a href="#direct-client-access" class="md-nav__link">
     <span class="md-ellipsis">
       
-        W5: CLI + Testing 完整 + P1 模块
+        Direct client access
       
     </span>
   </a>
@@ -1299,32 +1434,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#w6-p2-release" class="md-nav__link">
+  <a href="#testing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        W6: P2 占位 + 文档 + Release + 业务验证
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        全局约束(每周都适用)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        不在计划内(不做)
+        Testing
       
     </span>
   </a>
@@ -1351,194 +1464,77 @@
   
 
 
-<h1 id="hwhkit-py-master-todo-list">hwhkit-py 全量重写 — Master TODO List<a class="headerlink" href="#hwhkit-py-master-todo-list" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p><strong>For agentic workers:</strong> 这是 6 周里程碑的高层全景。<strong>每周一份独立的详细 plan</strong>(<code>2026-05-XX-hwhkit-py-wN-&lt;topic&gt;.md</code>),W1 plan 已生成可立即执行。W2-W6 plan 在前一周完成时基于实战反馈生成。</p>
-</blockquote>
-<p><strong>Spec</strong>: <code>docs/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design.md</code>
-<strong>Target</strong>: 0.4.0-alpha.1 → 1.0.0 in 6 weeks
-<strong>Start date</strong>: 2026-05-16</p>
-<hr />
-<h2 id="_1">全局进度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<ul>
-<li>[x] <strong>W1: Foundation</strong> — 项目骨架 + CI/CD + 测试基础设施 + <code>hwhkit.core</code> 完整 ✅ <strong>2026-05-16 完成</strong></li>
-<li>[x] <strong>W2: Web + Observability + Config</strong> — bootstrap 全打通 + 空 integration 服务可启动</li>
-<li>[x] <strong>W3: Postgres + Redis</strong> — 两个 P0 integration 完整测试金字塔</li>
-<li>[x] <strong>W4: Scheduler + NATS</strong> — 全 P0 完成</li>
-<li>[x] <strong>W5: CLI + Testing + P1 (LLM/Auth/Notifier)</strong> — <code>hwhkit init</code> 一键可用</li>
-<li>[ ] <strong>W6: P2 占位 + 文档 + Release rc.1 + 业务验证</strong> — 0.4.0 正式发布</li>
-</ul>
-<hr />
-<h2 id="w1-foundation-week">W1: Foundation Week<a class="headerlink" href="#w1-foundation-week" title="Permanent link">&para;</a></h2>
-<p><strong>目标</strong>: 项目从空目录到"测试基础设施全就绪、所有 contracts 已定义、CI 全绿"。</p>
-<p><strong>详细 plan</strong>: <a href="../2026-05-16-hwhkit-py-w1-foundation/"><code>2026-05-16-hwhkit-py-w1-foundation.md</code></a></p>
-<ul>
-<li>[x] <strong>W1.1</strong> 清空 + 重新初始化项目骨架(<code>git rm -r hwhkit/</code> + <code>uv init</code>)</li>
-<li>[x] <strong>W1.2</strong> <code>pyproject.toml</code> 完整 metadata + 所有 extras 定义</li>
-<li>[x] <strong>W1.3</strong> <code>pre-commit</code> 配置(ruff format/check, mypy strict, trufflehog, yamllint, toml-sort)</li>
-<li>[x] <strong>W1.4</strong> <code>tests/</code> 目录结构(unit/integration/e2e/benchmark/chaos) + <code>conftest.py</code></li>
-<li>[x] <strong>W1.5</strong> <code>.github/workflows/ci.yml</code> 流水线(lint + test-unit matrix + build-wheel)</li>
-<li>[ ] <strong>W1.6</strong> <code>.github/workflows/release.yml</code>(tag 触发发布) — 推迟到 W6 sigstore/Trusted Publishing 配置</li>
-<li>[x] <strong>W1.7</strong> Renovate / dependabot 配置</li>
-<li>[x] <strong>W1.8</strong> <code>mkdocs.yml</code> + 文档站冒烟版 + <code>hwhkit.louishwh.tech</code> DNS 准备(DNS 由作者另外配置)</li>
-<li>[x] <strong>W1.9</strong> <code>hwhkit.core.errors</code> 完整 6 位错误码体系 + 所有预定义异常类</li>
-<li>[x] <strong>W1.10</strong> <code>hwhkit.core.contracts.*</code> 全部 12 个 protocol 定义</li>
-<li>[x] <strong>W1.11</strong> <code>hwhkit.core.integration.IntegrationProvider</code> ABC + 元数据</li>
-<li>[x] <strong>W1.12</strong> <code>hwhkit.core.context.AppContext</code> 完整(get / get_typed / bind_contract / resolve)</li>
-<li>[x] <strong>W1.13</strong> <code>hwhkit.core.health.HealthStatus</code> + <code>HealthCheck</code> 协议 + 聚合器</li>
-<li>[x] <strong>W1.14</strong> <code>hwhkit.core.shutdown</code> 优雅关闭管线</li>
-<li>[x] <strong>W1.15</strong> <code>hwhkit.core.jwt</code> JWKS 缓存 + Claims 提取器(测试用 mock JWKS)</li>
-<li>[x] <strong>W1.16</strong> <code>hwhkit.testing</code> 基础架子:<code>fakes/</code> 空目录 + <code>contract_tests/</code> 框架 + <code>otel_recorder.py</code></li>
-<li>[x] <strong>W1.17</strong> <code>Makefile</code>(make {dev, test, lint, build, docs})</li>
-<li>[x] <strong>W1.18</strong> W1 验收:CI 全绿 + 文档站冒烟版上线 + 所有 contract 有针对性 unit test ✅</li>
-</ul>
-<p><strong>W1 实际产出</strong>:14 个 commit,68 单测全过,覆盖率 89%(目标 85% ✅),<code>hwhkit.core</code> 子模块 95%+,mypy strict 干净,ruff 全绿。</p>
-<p><strong>W1 推迟项</strong>:
-- W1.6 release.yml 推到 W6(届时配 sigstore/Trusted Publishing 一起做)
-- <code>hwhkit.louishwh.tech</code> DNS 由作者手动配置(<code>CNAME → louishwh.github.io</code>)
-- GitHub remote 确认为 <code>git@github.com:hwhkit/hwhkit-py.git</code>(用户决定使用 <code>hwhkit/</code> GitHub 组织,docs 站仍部署在个人域名 <code>hwhkit.louishwh.tech</code>)</p>
-<hr />
-<h2 id="w2-web-observability-config">W2: Web + Observability + Config<a class="headerlink" href="#w2-web-observability-config" title="Permanent link">&para;</a></h2>
-<p><strong>目标</strong>: bootstrap 全打通,零 integration 的最小服务可启动 + <code>/healthz</code> /readyz` 通,OTel 三大信号可发(本地 console exporter)。</p>
-<p>待 W1 完成时生成详细 plan。<strong>预计任务</strong>:</p>
-<ul>
-<li>[x] <strong>W2.1</strong> <code>hwhkit.config.base.Settings</code> 基类(pydantic-settings)</li>
-<li>[x] <strong>W2.2</strong> <code>hwhkit.config.sources</code> env/yaml/dotenv 加载</li>
-<li>[x] <strong>W2.3</strong> <code>hwhkit.config.schemas</code> 注册中心(整合 integration 配置)</li>
-<li>[x] <strong>W2.4</strong> <code>hwhkit.core.bootstrap</code> 启动管线(完整 9 步)</li>
-<li>[x] <strong>W2.5</strong> <code>hwhkit.web.app.build_app()</code> 工厂</li>
-<li>[x] <strong>W2.6</strong> <code>hwhkit.web.responses</code> <code>ApiResponse[T]</code> + <code>PageResponse[T]</code> + <code>@raw_response</code></li>
-<li>[x] <strong>W2.7</strong> <code>hwhkit.web.exceptions</code> 异常处理器注册</li>
-<li>[x] <strong>W2.8</strong> <code>hwhkit.web.middleware.request_id</code></li>
-<li>[x] <strong>W2.9</strong> <code>hwhkit.web.middleware.logging</code></li>
-<li>[x] <strong>W2.10</strong> <code>hwhkit.web.middleware.metrics</code></li>
-<li>[x] <strong>W2.11</strong> <code>hwhkit.web.middleware.auth</code>(用 W1 JWT)</li>
-<li>[x] <strong>W2.12</strong> <code>hwhkit.web.server</code> granian/uvicorn launcher + <code>hwhkit-serve</code> CLI</li>
-<li>[x] <strong>W2.13</strong> <code>hwhkit.observability.otel</code> SDK 初始化(默认关闭)</li>
-<li>[x] <strong>W2.14</strong> <code>hwhkit.observability.logging</code> structlog + trace_id 注入</li>
-<li>[x] <strong>W2.15</strong> <code>hwhkit.observability.tracing</code> span 工具</li>
-<li>[x] <strong>W2.16</strong> <code>hwhkit.observability.metrics</code> 标准指标注册</li>
-<li>[x] <strong>W2.17</strong> <code>hwhkit.observability.instrumentation</code> 自动 instrumentation 入口</li>
-<li>[x] <strong>W2.18</strong> <code>hwhkit.utils.*</code> 全部迁移(encryption/hash/decorators/http/notification/feishu)</li>
-<li>[x] <strong>W2.19</strong> <code>tests/e2e/sample_app/</code> 最小服务 + e2e 测试</li>
-<li>[x] <strong>W2.20</strong> W2 验收:<code>sample_app</code> 起得来,/healthz /readyz /version 通,OTel console exporter 输出 trace/metric/log,e2e 全绿</li>
-</ul>
-<p><strong>W2 实际产出</strong>:13 个 commit,198 测试全过(190 unit + 8 e2e),mypy strict 干净,ruff 全绿。Auth middleware 推到 W3 与 Redis auth-store 一起做。Feishu Notifier 完成。</p>
-<p><strong>W2 推迟项</strong>:
-- W2.11 Auth middleware:JwtVerifier 已就绪(W1.15),AuthMiddleware ASGI 接线推到 W3(届时和 Redis token-store 一起做)</p>
-<hr />
-<h2 id="w3-postgres-redis-p0-integration">W3: Postgres + Redis(两个 P0 Integration)<a class="headerlink" href="#w3-postgres-redis-p0-integration" title="Permanent link">&para;</a></h2>
-<p><strong>目标</strong>: 两个 integration 完整通过测试金字塔(unit + integration with testcontainers + e2e + benchmark + chaos)。</p>
-<p>待 W2 完成时生成详细 plan。<strong>预计任务</strong>:</p>
-<ul>
-<li>[x] <strong>W3.1</strong> <code>hwhkit.integrations.postgres.provider.PostgresProvider</code>(实现 <code>RelationalDb</code> contract)</li>
-<li>[x] <strong>W3.2</strong> <code>hwhkit.integrations.postgres.session</code> async session factory + per-request middleware</li>
-<li>[x] <strong>W3.3</strong> <code>hwhkit.integrations.postgres.migrations</code> alembic 集成</li>
-<li>[x] <strong>W3.4</strong> <code>hwhkit.integrations.postgres.repository</code> 通用 Repository 基类</li>
-<li>[x] <strong>W3.5</strong> <code>hwhkit.testing.fakes.relational_db.FakeRelationalDb</code>(sqlite memory)</li>
-<li>[x] <strong>W3.6</strong> <code>hwhkit.testing.contract_tests.relational_db</code> 契约测试套件</li>
-<li>[x] <strong>W3.7</strong> Postgres integration tests(testcontainers,生命周期/CRUD/重连/慢响应/配置错误)</li>
-<li>[ ] <strong>W3.8</strong> Postgres benchmark(session 申请释放 / 简单 CRUD p99)</li>
-<li>[ ] <strong>W3.9</strong> Postgres chaos(断连 / 慢响应 / 包丢失)</li>
-<li>[x] <strong>W3.10</strong> <code>hwhkit.integrations.redis.provider.RedisProvider</code>(实现 <code>Cache</code> + <code>KvStore</code> + <code>DistributedLock</code> + <code>MessageBus</code>)</li>
-<li>[x] <strong>W3.11</strong> <code>hwhkit.integrations.redis.cache.RedisCache</code></li>
-<li>[x] <strong>W3.12</strong> <code>hwhkit.testing.fakes.cache.FakeCache</code></li>
-<li>[x] <strong>W3.13</strong> <code>hwhkit.testing.fakes.message_bus.FakeMessageBus</code></li>
-<li>[x] <strong>W3.14</strong> <code>hwhkit.testing.contract_tests.{cache,kv_store,lock,message_bus}</code> 契约测试套件</li>
-<li>[x] <strong>W3.15</strong> Redis integration tests(testcontainers,各 contract)</li>
-<li>[ ] <strong>W3.16</strong> Redis benchmark + chaos</li>
-<li>[x] <strong>W3.17</strong> W3 验收:Postgres + Redis 通过完整测试金字塔,覆盖率 ≥90%</li>
-</ul>
-<hr />
-<h2 id="w4-scheduler-nats-p0">W4: Scheduler + NATS(全 P0 完成)<a class="headerlink" href="#w4-scheduler-nats-p0" title="Permanent link">&para;</a></h2>
-<p><strong>目标</strong>: P0 完整,可构建完整业务场景。</p>
-<p>待 W3 完成时生成详细 plan。<strong>预计任务</strong>:</p>
-<ul>
-<li>[x] <strong>W4.1</strong> <code>hwhkit.scheduler.provider.SchedulerProvider</code>(APScheduler 封装,实现 <code>Scheduler</code> contract)</li>
-<li>[x] <strong>W4.2</strong> <code>hwhkit.scheduler.lock</code> 基于 Redis 的分布式锁(Redlock)</li>
-<li>[x] <strong>W4.3</strong> <code>hwhkit.scheduler.decorators.@scheduled_task</code></li>
-<li>[ ] <strong>W4.4</strong> Scheduler integration tests + benchmark + chaos(多实例不双跑)</li>
-<li>[x] <strong>W4.5</strong> <code>hwhkit.integrations.nats.provider.NatsProvider</code>(实现 <code>MessageBus</code> contract,JetStream)</li>
-<li>[x] <strong>W4.6</strong> <code>hwhkit.integrations.nats.publisher</code></li>
-<li>[x] <strong>W4.7</strong> <code>hwhkit.integrations.nats.consumer</code>(订阅 + 重试 + DLQ)</li>
-<li>[x] <strong>W4.8</strong> <code>hwhkit.integrations.nats.jetstream</code> 高级特性</li>
-<li>[x] <strong>W4.9</strong> NATS instrumentation 自实现(traceparent 走 NATS header)</li>
-<li>[ ] <strong>W4.10</strong> NATS integration tests + benchmark + chaos</li>
-<li>[x] <strong>W4.11</strong> W4 验收:全 P0 通过完整测试金字塔</li>
-</ul>
-<hr />
-<h2 id="w5-cli-testing-p1">W5: CLI + Testing 完整 + P1 模块<a class="headerlink" href="#w5-cli-testing-p1" title="Permanent link">&para;</a></h2>
-<p><strong>目标</strong>: <code>hwhkit init</code> 一键创建可跑项目;<code>hwhkit add</code> 增量加 integration;<code>hwhkit.testing</code> 业务方可用;LLM/Auth/Notifier 完整。</p>
-<p>待 W4 完成时生成详细 plan。<strong>预计任务</strong>:</p>
-<ul>
-<li>[x] <strong>W5.1</strong> <code>hwhkit.cli.commands.init</code> + 项目模板 jinja2</li>
-<li>[x] <strong>W5.2</strong> <code>hwhkit.cli.commands.add</code> 框架 + libcst CST 编辑工具</li>
-<li>[x] <strong>W5.3</strong> add postgres 模块(模板 + codemod)</li>
-<li>[x] <strong>W5.4</strong> add redis 模块</li>
-<li>[x] <strong>W5.5</strong> add nats 模块</li>
-<li>[x] <strong>W5.6</strong> add scheduler 模块</li>
-<li>[x] <strong>W5.7</strong> add llm 模块</li>
-<li>[x] <strong>W5.8</strong> add auth 模块</li>
-<li>[x] <strong>W5.9</strong> add otel 模块</li>
-<li>[x] <strong>W5.10</strong> add admin 模块</li>
-<li>[x] <strong>W5.11</strong> <code>hwhkit.cli.commands.doctor</code></li>
-<li>[x] <strong>W5.12</strong> <code>hwhkit.cli.commands.upgrade</code> + codemod 基础设施</li>
-<li>[x] <strong>W5.13</strong> <code>hwhkit.cli.commands.new_integration</code></li>
-<li>[x] <strong>W5.14</strong> <code>hwhkit.cli.commands.gen migration</code>(alembic wrapper)</li>
-<li>[x] <strong>W5.15</strong> <code>hwhkit.cli.commands.list</code> + <code>version</code></li>
-<li>[x] <strong>W5.16</strong> <code>hwhkit.llm.provider.LlmProvider</code>(litellm,实现 <code>LlmClient</code> + <code>EmbeddingClient</code>)</li>
-<li>[x] <strong>W5.17</strong> <code>hwhkit.testing.fakes.*</code> 全部 contract 的 fake 完整</li>
-<li>[x] <strong>W5.18</strong> <code>hwhkit.utils.notification.feishu</code> 实现 <code>Notifier</code> contract</li>
-<li>[x] <strong>W5.19</strong> CLI 测试(<code>tests/integration/test_cli_init.py</code>, <code>test_cli_add.py</code>)</li>
-<li>[x] <strong>W5.20</strong> W5 验收:<code>hwhkit init demo-service &amp;&amp; cd demo-service &amp;&amp; hwhkit add postgres redis nats scheduler &amp;&amp; make test</code> 一气呵成</li>
-</ul>
-<hr />
-<h2 id="w6-p2-release">W6: P2 占位 + 文档 + Release + 业务验证<a class="headerlink" href="#w6-p2-release" title="Permanent link">&para;</a></h2>
-<p><strong>目标</strong>: 0.4.0 正式发布。</p>
-<p>待 W5 完成时生成详细 plan。<strong>预计任务</strong>:</p>
-<ul>
-<li>[x] <strong>W6.1</strong> <code>hwhkit.integrations.mysql/</code> 占位 provider 接口</li>
-<li>[x] <strong>W6.2</strong> <code>hwhkit.integrations.qdrant/</code> 占位</li>
-<li>[x] <strong>W6.3</strong> <code>hwhkit.integrations.mongodb/</code> 占位</li>
-<li>[x] <strong>W6.4</strong> <code>hwhkit.integrations.neo4j/</code> 占位</li>
-<li>[x] <strong>W6.5</strong> <code>hwhkit.integrations.s3/</code> 占位</li>
-<li>[x] <strong>W6.6</strong> <code>hwhkit.integrations.oss/</code> 占位</li>
-<li>[x] <strong>W6.7</strong> <code>hwhkit.core.contracts.{vector_store, object_store, graph_db, document_db}</code> 接口定义</li>
-<li>[ ] <strong>W6.8</strong> 完整文档站内容:<code>concepts/</code> 完整</li>
-<li>[ ] <strong>W6.9</strong> 文档站:<code>integrations/</code> 每个 integration 一篇</li>
-<li>[ ] <strong>W6.10</strong> 文档站:<code>contracts/</code> 每个 contract 规范 + 跨 adapter 行为对照表</li>
-<li>[ ] <strong>W6.11</strong> 文档站:<code>recipes/</code>(交易服务、定时任务、事件驱动、AI agent)</li>
-<li>[ ] <strong>W6.12</strong> 文档站:<code>migration/</code> 0.x → 1.0 迁移指南</li>
-<li>[ ] <strong>W6.13</strong> 文档站:API ref(mkdocstrings 自动生成 + 校验)</li>
-<li>[ ] <strong>W6.14</strong> <code>pytest-examples</code> 校验文档代码块可跑</li>
-<li>[ ] <strong>W6.15</strong> Sigstore 签名 + SBOM 流水线打通</li>
-<li>[ ] <strong>W6.16</strong> Release <code>0.4.0-rc.1</code> 到 TestPyPI</li>
-<li>[ ] <strong>W6.17</strong> 业务接入验证(见 spec § 9.4 选项 1 或 2)</li>
-<li>[ ] <strong>W6.18</strong> rc.1 暴露问题修复 → 发 <code>0.4.0</code> 正式版</li>
-<li>[ ] <strong>W6.19</strong> 设定 1.0.0 GA 准入清单(spec § 9.5)进度审查</li>
-<li>[ ] <strong>W6.20</strong> W6 验收:<code>0.4.0</code> 在 PyPI,文档站完整在 <code>hwhkit.louishwh.tech</code>,业务接入冒烟通过</li>
-</ul>
-<hr />
-<h2 id="_2">全局约束(每周都适用)<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li>每个 PR 必须 CI 全绿(lint + test + security + license)</li>
-<li>新代码覆盖率 ≥90%(diff-cover 强制)</li>
-<li><code>hwhkit.core</code> 模块覆盖率始终 ≥95%</li>
-<li>benchmark 回归 &gt;10% 自动 fail</li>
-<li>每个 P0/P1 integration 必须有 contract test + integration test + chaos test</li>
-<li>每个 breaking 变更必须配 codemod(在 <code>hwhkit.cli.commands.upgrade</code> 注册)</li>
-<li>Conventional Commits 规范,release-please 自动 bump</li>
-</ul>
-<hr />
-<h2 id="_3">不在计划内(不做)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<ul>
-<li>多语言 SDK 客户端</li>
-<li>服务网格 / API 网关</li>
-<li>GUI 管理面板</li>
-<li>P0 阶段实现 P2 integration 的具体逻辑</li>
-</ul>
-<hr />
-<p><em>完。每周完成时,在该周区块勾选完成项,并生成下一周的详细 plan。</em></p>
+<h1 id="redis">Redis<a class="headerlink" href="#redis" title="Permanent link">&para;</a></h1>
+<p><code>hwhkit.integrations.redis.RedisProvider</code> implements four contracts from a
+single redis.asyncio connection pool: <strong>Cache</strong>, <strong>KvStore</strong>,
+<strong>DistributedLock</strong>, and <strong>MessageBus</strong> (pub/sub mode).</p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hwhkit<span class="w"> </span>add<span class="w"> </span>redis
+</code></pre></div>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nv">HWHKIT_REDIS__URL</span><span class="o">=</span>redis://localhost:6379/0
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nv">HWHKIT_REDIS__MAX_CONNECTIONS</span><span class="o">=</span><span class="m">20</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nv">HWHKIT_REDIS__SOCKET_TIMEOUT</span><span class="o">=</span><span class="m">5</span>.0
+</code></pre></div>
+<p>For TLS, use <code>rediss://</code> scheme.</p>
+<h2 id="as-a-cache">As a Cache<a class="headerlink" href="#as-a-cache" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.core.contracts</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cache</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">cache</span><span class="p">:</span> <span class="n">Cache</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">Cache</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;session:abc&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">30</span><span class="p">))</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">data</span> <span class="o">=</span> <span class="k">await</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;session:abc&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>For typed values use <code>TypedCache</code>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.core.contracts.cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypedCache</span><span class="p">,</span> <span class="n">JsonCodec</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">users</span><span class="p">:</span> <span class="n">TypedCache</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="n">TypedCache</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">codec</span><span class="o">=</span><span class="n">JsonCodec</span><span class="p">())</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="k">await</span> <span class="n">users</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;u:1&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;alice&quot;</span><span class="p">})</span>
+</code></pre></div>
+<h2 id="as-a-distributedlock">As a DistributedLock<a class="headerlink" href="#as-a-distributedlock" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.core.contracts</span><span class="w"> </span><span class="kn">import</span> <span class="n">DistributedLock</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">lock</span><span class="p">:</span> <span class="n">DistributedLock</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">DistributedLock</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">token</span> <span class="o">=</span> <span class="k">await</span> <span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="s2">&quot;process-batch&quot;</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">if</span> <span class="n">token</span><span class="p">:</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="o">...</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">finally</span><span class="p">:</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="k">await</span> <span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</code></pre></div>
+<p>Implementation uses Redis <code>SET NX EX</code> + Lua-scripted compare-and-delete on
+release — only the holder can unlock (the wrong-token-release test is in
+the contract suite).</p>
+<h2 id="as-a-messagebus-pubsub">As a MessageBus (pub/sub)<a class="headerlink" href="#as-a-messagebus-pubsub" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.core.contracts</span><span class="w"> </span><span class="kn">import</span> <span class="n">MessageBus</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">bus</span><span class="p">:</span> <span class="n">MessageBus</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="n">MessageBus</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">subject</span><span class="p">,</span> <span class="n">msg</span><span class="o">.</span><span class="n">payload</span><span class="p">)</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">sub</span> <span class="o">=</span> <span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;trades.executed&quot;</span><span class="p">,</span> <span class="n">on_event</span><span class="p">)</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="k">await</span> <span class="n">bus</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;trades.executed&quot;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;{&quot;id&quot;:1}&#39;</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Pub/Sub vs JetStream</p>
+<p>Redis pub/sub is <strong>fire-and-forget</strong>: subscribers offline at publish
+time miss the message. For durable + at-least-once semantics, use
+<a href="../nats/">NATS</a> instead — <code>NatsProvider</code> also implements <code>MessageBus</code>.</p>
+</div>
+<h2 id="direct-client-access">Direct client access<a class="headerlink" href="#direct-client-access" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">hwhkit.integrations.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisProvider</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">r</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get_typed</span><span class="p">(</span><span class="n">RedisProvider</span><span class="p">)</span><span class="o">.</span><span class="n">client</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># r is the underlying redis.asyncio.Redis instance — use for Lua scripts,</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Redis Streams, geo commands, etc.</span>
+</code></pre></div>
+<h2 id="testing">Testing<a class="headerlink" href="#testing" title="Permanent link">&para;</a></h2>
+<p><code>FakeCache</code> / <code>FakeDistributedLock</code> / <code>FakeMessageBus</code> for unit tests;
+real Redis container via testcontainers for integration tests.</p>
 
 
 
@@ -1604,10 +1600,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.tracking", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.tracking", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>
