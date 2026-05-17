@@ -565,7 +565,7 @@
 <li>[x] <strong>W2: Web + Observability + Config</strong> — bootstrap 全打通 + 空 integration 服务可启动</li>
 <li>[x] <strong>W3: Postgres + Redis</strong> — 两个 P0 integration 完整测试金字塔</li>
 <li>[x] <strong>W4: Scheduler + NATS</strong> — 全 P0 完成</li>
-<li>[ ] <strong>W5: CLI + Testing + P1 (LLM/Auth/Notifier)</strong> — <code>hwhkit init</code> 一键可用</li>
+<li>[x] <strong>W5: CLI + Testing + P1 (LLM/Auth/Notifier)</strong> — <code>hwhkit init</code> 一键可用</li>
 <li>[ ] <strong>W6: P2 占位 + 文档 + Release rc.1 + 业务验证</strong> — 0.4.0 正式发布</li>
 </ul>
 <hr />
@@ -671,39 +671,39 @@
 <p><strong>目标</strong>: <code>hwhkit init</code> 一键创建可跑项目;<code>hwhkit add</code> 增量加 integration;<code>hwhkit.testing</code> 业务方可用;LLM/Auth/Notifier 完整。</p>
 <p>待 W4 完成时生成详细 plan。<strong>预计任务</strong>:</p>
 <ul>
-<li>[ ] <strong>W5.1</strong> <code>hwhkit.cli.commands.init</code> + 项目模板 jinja2</li>
-<li>[ ] <strong>W5.2</strong> <code>hwhkit.cli.commands.add</code> 框架 + libcst CST 编辑工具</li>
-<li>[ ] <strong>W5.3</strong> add postgres 模块(模板 + codemod)</li>
-<li>[ ] <strong>W5.4</strong> add redis 模块</li>
-<li>[ ] <strong>W5.5</strong> add nats 模块</li>
-<li>[ ] <strong>W5.6</strong> add scheduler 模块</li>
-<li>[ ] <strong>W5.7</strong> add llm 模块</li>
-<li>[ ] <strong>W5.8</strong> add auth 模块</li>
-<li>[ ] <strong>W5.9</strong> add otel 模块</li>
-<li>[ ] <strong>W5.10</strong> add admin 模块</li>
-<li>[ ] <strong>W5.11</strong> <code>hwhkit.cli.commands.doctor</code></li>
-<li>[ ] <strong>W5.12</strong> <code>hwhkit.cli.commands.upgrade</code> + codemod 基础设施</li>
-<li>[ ] <strong>W5.13</strong> <code>hwhkit.cli.commands.new_integration</code></li>
-<li>[ ] <strong>W5.14</strong> <code>hwhkit.cli.commands.gen migration</code>(alembic wrapper)</li>
-<li>[ ] <strong>W5.15</strong> <code>hwhkit.cli.commands.list</code> + <code>version</code></li>
-<li>[ ] <strong>W5.16</strong> <code>hwhkit.llm.provider.LlmProvider</code>(litellm,实现 <code>LlmClient</code> + <code>EmbeddingClient</code>)</li>
-<li>[ ] <strong>W5.17</strong> <code>hwhkit.testing.fakes.*</code> 全部 contract 的 fake 完整</li>
-<li>[ ] <strong>W5.18</strong> <code>hwhkit.utils.notification.feishu</code> 实现 <code>Notifier</code> contract</li>
-<li>[ ] <strong>W5.19</strong> CLI 测试(<code>tests/integration/test_cli_init.py</code>, <code>test_cli_add.py</code>)</li>
-<li>[ ] <strong>W5.20</strong> W5 验收:<code>hwhkit init demo-service &amp;&amp; cd demo-service &amp;&amp; hwhkit add postgres redis nats scheduler &amp;&amp; make test</code> 一气呵成</li>
+<li>[x] <strong>W5.1</strong> <code>hwhkit.cli.commands.init</code> + 项目模板 jinja2</li>
+<li>[x] <strong>W5.2</strong> <code>hwhkit.cli.commands.add</code> 框架 + libcst CST 编辑工具</li>
+<li>[x] <strong>W5.3</strong> add postgres 模块(模板 + codemod)</li>
+<li>[x] <strong>W5.4</strong> add redis 模块</li>
+<li>[x] <strong>W5.5</strong> add nats 模块</li>
+<li>[x] <strong>W5.6</strong> add scheduler 模块</li>
+<li>[x] <strong>W5.7</strong> add llm 模块</li>
+<li>[x] <strong>W5.8</strong> add auth 模块</li>
+<li>[x] <strong>W5.9</strong> add otel 模块</li>
+<li>[x] <strong>W5.10</strong> add admin 模块</li>
+<li>[x] <strong>W5.11</strong> <code>hwhkit.cli.commands.doctor</code></li>
+<li>[x] <strong>W5.12</strong> <code>hwhkit.cli.commands.upgrade</code> + codemod 基础设施</li>
+<li>[x] <strong>W5.13</strong> <code>hwhkit.cli.commands.new_integration</code></li>
+<li>[x] <strong>W5.14</strong> <code>hwhkit.cli.commands.gen migration</code>(alembic wrapper)</li>
+<li>[x] <strong>W5.15</strong> <code>hwhkit.cli.commands.list</code> + <code>version</code></li>
+<li>[x] <strong>W5.16</strong> <code>hwhkit.llm.provider.LlmProvider</code>(litellm,实现 <code>LlmClient</code> + <code>EmbeddingClient</code>)</li>
+<li>[x] <strong>W5.17</strong> <code>hwhkit.testing.fakes.*</code> 全部 contract 的 fake 完整</li>
+<li>[x] <strong>W5.18</strong> <code>hwhkit.utils.notification.feishu</code> 实现 <code>Notifier</code> contract</li>
+<li>[x] <strong>W5.19</strong> CLI 测试(<code>tests/integration/test_cli_init.py</code>, <code>test_cli_add.py</code>)</li>
+<li>[x] <strong>W5.20</strong> W5 验收:<code>hwhkit init demo-service &amp;&amp; cd demo-service &amp;&amp; hwhkit add postgres redis nats scheduler &amp;&amp; make test</code> 一气呵成</li>
 </ul>
 <hr />
 <h2 id="w6-p2-release">W6: P2 占位 + 文档 + Release + 业务验证<a class="headerlink" href="#w6-p2-release" title="Permanent link">&para;</a></h2>
 <p><strong>目标</strong>: 0.4.0 正式发布。</p>
 <p>待 W5 完成时生成详细 plan。<strong>预计任务</strong>:</p>
 <ul>
-<li>[ ] <strong>W6.1</strong> <code>hwhkit.integrations.mysql/</code> 占位 provider 接口</li>
-<li>[ ] <strong>W6.2</strong> <code>hwhkit.integrations.qdrant/</code> 占位</li>
-<li>[ ] <strong>W6.3</strong> <code>hwhkit.integrations.mongodb/</code> 占位</li>
-<li>[ ] <strong>W6.4</strong> <code>hwhkit.integrations.neo4j/</code> 占位</li>
-<li>[ ] <strong>W6.5</strong> <code>hwhkit.integrations.s3/</code> 占位</li>
-<li>[ ] <strong>W6.6</strong> <code>hwhkit.integrations.oss/</code> 占位</li>
-<li>[ ] <strong>W6.7</strong> <code>hwhkit.core.contracts.{vector_store, object_store, graph_db, document_db}</code> 接口定义</li>
+<li>[x] <strong>W6.1</strong> <code>hwhkit.integrations.mysql/</code> 占位 provider 接口</li>
+<li>[x] <strong>W6.2</strong> <code>hwhkit.integrations.qdrant/</code> 占位</li>
+<li>[x] <strong>W6.3</strong> <code>hwhkit.integrations.mongodb/</code> 占位</li>
+<li>[x] <strong>W6.4</strong> <code>hwhkit.integrations.neo4j/</code> 占位</li>
+<li>[x] <strong>W6.5</strong> <code>hwhkit.integrations.s3/</code> 占位</li>
+<li>[x] <strong>W6.6</strong> <code>hwhkit.integrations.oss/</code> 占位</li>
+<li>[x] <strong>W6.7</strong> <code>hwhkit.core.contracts.{vector_store, object_store, graph_db, document_db}</code> 接口定义</li>
 <li>[ ] <strong>W6.8</strong> 完整文档站内容:<code>concepts/</code> 完整</li>
 <li>[ ] <strong>W6.9</strong> 文档站:<code>integrations/</code> 每个 integration 一篇</li>
 <li>[ ] <strong>W6.10</strong> 文档站:<code>contracts/</code> 每个 contract 规范 + 跨 adapter 行为对照表</li>
