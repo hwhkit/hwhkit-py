@@ -165,6 +165,7 @@ ignore = [
 # Adapter modules mix runtime pydantic with annotation-only typing imports;
 # ASYNC109 (timeout param) intentional for MessageBus.request() contract method.
 "hwhkit/integrations/**" = ["TC002", "TC003", "ASYNC109"]
+"hwhkit/scheduler/**" = ["TC002", "TC003", "ASYNC109"]
 
 [tool.ruff.format]
 quote-style = "double"
@@ -239,6 +240,7 @@ fail_under = 0
 
 [dependency-groups]
 dev = [
+    "aiosqlite>=0.22.1",
     "pyyaml>=6.0.3",
     "types-pyyaml>=6.0.12.20260510",
 ]

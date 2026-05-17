@@ -47,7 +47,11 @@ repos:
           - pytest-asyncio
           - sqlalchemy[asyncio]
           - asyncpg
+          - aiosqlite
           - redis
+          - apscheduler
+          - nats-py
+          - alembic
         args: [--strict]
         files: ^hwhkit/
 

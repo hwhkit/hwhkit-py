@@ -7,6 +7,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (W3 — Postgres + Redis P0 Integrations)
+- `hwhkit.integrations.postgres.PostgresProvider` (SQLAlchemy 2.0 async +
+  asyncpg) implementing `RelationalDb` contract; `get_session()` Depends helper.
+- `hwhkit.integrations.postgres.migrations` — alembic helpers (async-engine
+  wired `run_migrations_online`, `run_migrations_offline`, env.py template).
+- `hwhkit.integrations.redis.RedisProvider` (redis.asyncio) implementing
+  Cache + KvStore + DistributedLock + MessageBus contracts. Lua SAFE_RELEASE/
+  SAFE_EXTEND atomics for token-checked locks.
+- `hwhkit.web.middleware.AuthMiddleware` — JWT Bearer auth with path-based
+  exclusion (deferred from W2.11).
+- `hwhkit.testing.fakes.FakeRelationalDb` (sqlite-memory) +
+  `hwhkit.testing.contract_tests.relational_db.RelationalDbContractTests`.
+- testcontainers fixtures (Postgres 16-alpine, Redis 7-alpine).
+- 22 Redis + 4 Postgres integration tests; both providers pass relevant
+  contract conformance suites.
+
+### Added (W4 — Scheduler + NATS P0 Completion)
+- `hwhkit.scheduler.SchedulerProvider` (APScheduler async) implementing
+  `Scheduler` contract; optional distributed-lock wrap so multi-instance
+  scheduler doesn't double-fire.
+- `hwhkit.scheduler.@scheduled_task` decorator + `register_scheduled_tasks()`
+  bootstrap hook.
+- `hwhkit.integrations.nats.NatsProvider` (nats-py) implementing `MessageBus`
+  with JetStream support (durable + at-least-once); falls back to core NATS
+  pub/sub for ephemeral subscribers; request/reply via NATS core.
+- `hwhkit.testing.fakes.FakeScheduler` for unit tests of scheduled-job logic.
+- 252 unit tests + 29 integration tests pass. mypy strict + ruff clean.
+
+### Deferred from W3/W4
+- Benchmarks for Postgres / Redis / Scheduler / NATS (W3.8, W3.16, W4.4
+  bench, W4.10 bench).
+- Chaos tests via toxiproxy (W3.9, W4.4 chaos, W4.10 chaos).
+  Both buckets land in W6 release-readiness phase.
+
 ### Added (W2 — Bootstrap + Web + Observability + Config + Utils)
 - `hwhkit.config.*` — pydantic-settings based layered config (env > yaml > .env > defaults)
   with `Settings` base, `AppConfig` / `WebConfig` / `ObservabilityConfig` schemas.

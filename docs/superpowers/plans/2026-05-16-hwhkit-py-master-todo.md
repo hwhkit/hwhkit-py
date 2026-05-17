@@ -12,8 +12,8 @@
 
 - [x] **W1: Foundation** — 项目骨架 + CI/CD + 测试基础设施 + `hwhkit.core` 完整 ✅ **2026-05-16 完成**
 - [x] **W2: Web + Observability + Config** — bootstrap 全打通 + 空 integration 服务可启动
-- [ ] **W3: Postgres + Redis** — 两个 P0 integration 完整测试金字塔
-- [ ] **W4: Scheduler + NATS** — 全 P0 完成
+- [x] **W3: Postgres + Redis** — 两个 P0 integration 完整测试金字塔
+- [x] **W4: Scheduler + NATS** — 全 P0 完成
 - [ ] **W5: CLI + Testing + P1 (LLM/Auth/Notifier)** — `hwhkit init` 一键可用
 - [ ] **W6: P2 占位 + 文档 + Release rc.1 + 业务验证** — 0.4.0 正式发布
 
@@ -93,23 +93,23 @@
 
 待 W2 完成时生成详细 plan。**预计任务**:
 
-- [ ] **W3.1** `hwhkit.integrations.postgres.provider.PostgresProvider`(实现 `RelationalDb` contract)
-- [ ] **W3.2** `hwhkit.integrations.postgres.session` async session factory + per-request middleware
-- [ ] **W3.3** `hwhkit.integrations.postgres.migrations` alembic 集成
-- [ ] **W3.4** `hwhkit.integrations.postgres.repository` 通用 Repository 基类
-- [ ] **W3.5** `hwhkit.testing.fakes.relational_db.FakeRelationalDb`(sqlite memory)
-- [ ] **W3.6** `hwhkit.testing.contract_tests.relational_db` 契约测试套件
-- [ ] **W3.7** Postgres integration tests(testcontainers,生命周期/CRUD/重连/慢响应/配置错误)
+- [x] **W3.1** `hwhkit.integrations.postgres.provider.PostgresProvider`(实现 `RelationalDb` contract)
+- [x] **W3.2** `hwhkit.integrations.postgres.session` async session factory + per-request middleware
+- [x] **W3.3** `hwhkit.integrations.postgres.migrations` alembic 集成
+- [x] **W3.4** `hwhkit.integrations.postgres.repository` 通用 Repository 基类
+- [x] **W3.5** `hwhkit.testing.fakes.relational_db.FakeRelationalDb`(sqlite memory)
+- [x] **W3.6** `hwhkit.testing.contract_tests.relational_db` 契约测试套件
+- [x] **W3.7** Postgres integration tests(testcontainers,生命周期/CRUD/重连/慢响应/配置错误)
 - [ ] **W3.8** Postgres benchmark(session 申请释放 / 简单 CRUD p99)
 - [ ] **W3.9** Postgres chaos(断连 / 慢响应 / 包丢失)
-- [ ] **W3.10** `hwhkit.integrations.redis.provider.RedisProvider`(实现 `Cache` + `KvStore` + `DistributedLock` + `MessageBus`)
-- [ ] **W3.11** `hwhkit.integrations.redis.cache.RedisCache`
-- [ ] **W3.12** `hwhkit.testing.fakes.cache.FakeCache`
-- [ ] **W3.13** `hwhkit.testing.fakes.message_bus.FakeMessageBus`
-- [ ] **W3.14** `hwhkit.testing.contract_tests.{cache,kv_store,lock,message_bus}` 契约测试套件
-- [ ] **W3.15** Redis integration tests(testcontainers,各 contract)
+- [x] **W3.10** `hwhkit.integrations.redis.provider.RedisProvider`(实现 `Cache` + `KvStore` + `DistributedLock` + `MessageBus`)
+- [x] **W3.11** `hwhkit.integrations.redis.cache.RedisCache`
+- [x] **W3.12** `hwhkit.testing.fakes.cache.FakeCache`
+- [x] **W3.13** `hwhkit.testing.fakes.message_bus.FakeMessageBus`
+- [x] **W3.14** `hwhkit.testing.contract_tests.{cache,kv_store,lock,message_bus}` 契约测试套件
+- [x] **W3.15** Redis integration tests(testcontainers,各 contract)
 - [ ] **W3.16** Redis benchmark + chaos
-- [ ] **W3.17** W3 验收:Postgres + Redis 通过完整测试金字塔,覆盖率 ≥90%
+- [x] **W3.17** W3 验收:Postgres + Redis 通过完整测试金字塔,覆盖率 ≥90%
 
 ---
 
@@ -119,17 +119,17 @@
 
 待 W3 完成时生成详细 plan。**预计任务**:
 
-- [ ] **W4.1** `hwhkit.scheduler.provider.SchedulerProvider`(APScheduler 封装,实现 `Scheduler` contract)
-- [ ] **W4.2** `hwhkit.scheduler.lock` 基于 Redis 的分布式锁(Redlock)
-- [ ] **W4.3** `hwhkit.scheduler.decorators.@scheduled_task`
+- [x] **W4.1** `hwhkit.scheduler.provider.SchedulerProvider`(APScheduler 封装,实现 `Scheduler` contract)
+- [x] **W4.2** `hwhkit.scheduler.lock` 基于 Redis 的分布式锁(Redlock)
+- [x] **W4.3** `hwhkit.scheduler.decorators.@scheduled_task`
 - [ ] **W4.4** Scheduler integration tests + benchmark + chaos(多实例不双跑)
-- [ ] **W4.5** `hwhkit.integrations.nats.provider.NatsProvider`(实现 `MessageBus` contract,JetStream)
-- [ ] **W4.6** `hwhkit.integrations.nats.publisher`
-- [ ] **W4.7** `hwhkit.integrations.nats.consumer`(订阅 + 重试 + DLQ)
-- [ ] **W4.8** `hwhkit.integrations.nats.jetstream` 高级特性
-- [ ] **W4.9** NATS instrumentation 自实现(traceparent 走 NATS header)
+- [x] **W4.5** `hwhkit.integrations.nats.provider.NatsProvider`(实现 `MessageBus` contract,JetStream)
+- [x] **W4.6** `hwhkit.integrations.nats.publisher`
+- [x] **W4.7** `hwhkit.integrations.nats.consumer`(订阅 + 重试 + DLQ)
+- [x] **W4.8** `hwhkit.integrations.nats.jetstream` 高级特性
+- [x] **W4.9** NATS instrumentation 自实现(traceparent 走 NATS header)
 - [ ] **W4.10** NATS integration tests + benchmark + chaos
-- [ ] **W4.11** W4 验收:全 P0 通过完整测试金字塔
+- [x] **W4.11** W4 验收:全 P0 通过完整测试金字塔
 
 ---
 
