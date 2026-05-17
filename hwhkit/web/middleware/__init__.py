@@ -12,13 +12,16 @@ Stack order (from outermost to innermost, executed before/after handler):
 Items 1-2 are configured by ``build_app()`` directly; 3-6 live here.
 """
 
+from hwhkit.web.middleware.auth import AuthMiddleware, public_endpoint
 from hwhkit.web.middleware.logging import LoggingMiddleware
 from hwhkit.web.middleware.metrics import MetricsMiddleware
 from hwhkit.web.middleware.request_id import REQUEST_ID_HEADER, RequestIDMiddleware
 
 __all__ = [
     "REQUEST_ID_HEADER",
+    "AuthMiddleware",
     "LoggingMiddleware",
     "MetricsMiddleware",
     "RequestIDMiddleware",
+    "public_endpoint",
 ]

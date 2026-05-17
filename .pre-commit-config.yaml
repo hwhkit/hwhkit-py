@@ -45,6 +45,9 @@ repos:
           - opentelemetry-instrumentation-httpx
           - pytest
           - pytest-asyncio
+          - sqlalchemy[asyncio]
+          - asyncpg
+          - redis
         args: [--strict]
         files: ^hwhkit/
 

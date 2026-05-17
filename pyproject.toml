@@ -162,6 +162,9 @@ ignore = [
 "hwhkit/core/contracts/**" = ["TC003", "ASYNC109"]
 # Same rationale for the in-memory fakes and contract test suites.
 "hwhkit/testing/**" = ["TC003", "S106", "ASYNC109"]
+# Adapter modules mix runtime pydantic with annotation-only typing imports;
+# ASYNC109 (timeout param) intentional for MessageBus.request() contract method.
+"hwhkit/integrations/**" = ["TC002", "TC003", "ASYNC109"]
 
 [tool.ruff.format]
 quote-style = "double"
