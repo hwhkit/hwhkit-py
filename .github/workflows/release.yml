@@ -1,0 +1,113 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  id-token: write
+  contents: write
+  attestations: write
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  build:
+    name: Build sdist + wheel
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - id: version
+        run: echo "value=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+      - run: uv build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  sbom:
+    name: Generate SBOM (CycloneDX)
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v4
+      - run: uv sync --extra security
+      - run: uv run cyclonedx-py environment --output-format json --output-file sbom.cdx.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cdx.json
+
+  publish-testpypi:
+    name: Publish to TestPyPI
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: contains(needs.build.outputs.version, 'rc') || contains(needs.build.outputs.version, 'alpha') || contains(needs.build.outputs.version, 'beta')
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/hwhkit
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+
+  publish-pypi:
+    name: Publish to PyPI
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: ${{ !contains(needs.build.outputs.version, 'rc') && !contains(needs.build.outputs.version, 'alpha') && !contains(needs.build.outputs.version, 'beta') }}
+    environment:
+      name: pypi
+      url: https://pypi.org/p/hwhkit
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  sign:
+    name: Sign artifacts (sigstore)
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: sigstore/gh-action-sigstore-python@v3.0.0
+        with:
+          inputs: ./dist/*.tar.gz ./dist/*.whl
+
+  github-release:
+    name: Create GitHub Release
+    needs: [build, sbom, sign]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: actions/download-artifact@v4
+        with:
+          name: sbom
+          path: .
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(needs.build.outputs.version, 'rc') || contains(needs.build.outputs.version, 'alpha') || contains(needs.build.outputs.version, 'beta') }}
+          files: |
+            dist/*
+            sbom.cdx.json

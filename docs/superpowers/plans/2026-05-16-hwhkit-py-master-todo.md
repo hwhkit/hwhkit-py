@@ -14,7 +14,7 @@
 - [x] **W2: Web + Observability + Config** — bootstrap 全打通 + 空 integration 服务可启动
 - [x] **W3: Postgres + Redis** — 两个 P0 integration 完整测试金字塔
 - [x] **W4: Scheduler + NATS** — 全 P0 完成
-- [ ] **W5: CLI + Testing + P1 (LLM/Auth/Notifier)** — `hwhkit init` 一键可用
+- [x] **W5: CLI + Testing + P1 (LLM/Auth/Notifier)** — `hwhkit init` 一键可用
 - [ ] **W6: P2 占位 + 文档 + Release rc.1 + 业务验证** — 0.4.0 正式发布
 
 ---
@@ -139,26 +139,26 @@
 
 待 W4 完成时生成详细 plan。**预计任务**:
 
-- [ ] **W5.1** `hwhkit.cli.commands.init` + 项目模板 jinja2
-- [ ] **W5.2** `hwhkit.cli.commands.add` 框架 + libcst CST 编辑工具
-- [ ] **W5.3** add postgres 模块(模板 + codemod)
-- [ ] **W5.4** add redis 模块
-- [ ] **W5.5** add nats 模块
-- [ ] **W5.6** add scheduler 模块
-- [ ] **W5.7** add llm 模块
-- [ ] **W5.8** add auth 模块
-- [ ] **W5.9** add otel 模块
-- [ ] **W5.10** add admin 模块
-- [ ] **W5.11** `hwhkit.cli.commands.doctor`
-- [ ] **W5.12** `hwhkit.cli.commands.upgrade` + codemod 基础设施
-- [ ] **W5.13** `hwhkit.cli.commands.new_integration`
-- [ ] **W5.14** `hwhkit.cli.commands.gen migration`(alembic wrapper)
-- [ ] **W5.15** `hwhkit.cli.commands.list` + `version`
-- [ ] **W5.16** `hwhkit.llm.provider.LlmProvider`(litellm,实现 `LlmClient` + `EmbeddingClient`)
-- [ ] **W5.17** `hwhkit.testing.fakes.*` 全部 contract 的 fake 完整
-- [ ] **W5.18** `hwhkit.utils.notification.feishu` 实现 `Notifier` contract
-- [ ] **W5.19** CLI 测试(`tests/integration/test_cli_init.py`, `test_cli_add.py`)
-- [ ] **W5.20** W5 验收:`hwhkit init demo-service && cd demo-service && hwhkit add postgres redis nats scheduler && make test` 一气呵成
+- [x] **W5.1** `hwhkit.cli.commands.init` + 项目模板 jinja2
+- [x] **W5.2** `hwhkit.cli.commands.add` 框架 + libcst CST 编辑工具
+- [x] **W5.3** add postgres 模块(模板 + codemod)
+- [x] **W5.4** add redis 模块
+- [x] **W5.5** add nats 模块
+- [x] **W5.6** add scheduler 模块
+- [x] **W5.7** add llm 模块
+- [x] **W5.8** add auth 模块
+- [x] **W5.9** add otel 模块
+- [x] **W5.10** add admin 模块
+- [x] **W5.11** `hwhkit.cli.commands.doctor`
+- [x] **W5.12** `hwhkit.cli.commands.upgrade` + codemod 基础设施
+- [x] **W5.13** `hwhkit.cli.commands.new_integration`
+- [x] **W5.14** `hwhkit.cli.commands.gen migration`(alembic wrapper)
+- [x] **W5.15** `hwhkit.cli.commands.list` + `version`
+- [x] **W5.16** `hwhkit.llm.provider.LlmProvider`(litellm,实现 `LlmClient` + `EmbeddingClient`)
+- [x] **W5.17** `hwhkit.testing.fakes.*` 全部 contract 的 fake 完整
+- [x] **W5.18** `hwhkit.utils.notification.feishu` 实现 `Notifier` contract
+- [x] **W5.19** CLI 测试(`tests/integration/test_cli_init.py`, `test_cli_add.py`)
+- [x] **W5.20** W5 验收:`hwhkit init demo-service && cd demo-service && hwhkit add postgres redis nats scheduler && make test` 一气呵成
 
 ---
 
@@ -168,13 +168,13 @@
 
 待 W5 完成时生成详细 plan。**预计任务**:
 
-- [ ] **W6.1** `hwhkit.integrations.mysql/` 占位 provider 接口
-- [ ] **W6.2** `hwhkit.integrations.qdrant/` 占位
-- [ ] **W6.3** `hwhkit.integrations.mongodb/` 占位
-- [ ] **W6.4** `hwhkit.integrations.neo4j/` 占位
-- [ ] **W6.5** `hwhkit.integrations.s3/` 占位
-- [ ] **W6.6** `hwhkit.integrations.oss/` 占位
-- [ ] **W6.7** `hwhkit.core.contracts.{vector_store, object_store, graph_db, document_db}` 接口定义
+- [x] **W6.1** `hwhkit.integrations.mysql/` 占位 provider 接口
+- [x] **W6.2** `hwhkit.integrations.qdrant/` 占位
+- [x] **W6.3** `hwhkit.integrations.mongodb/` 占位
+- [x] **W6.4** `hwhkit.integrations.neo4j/` 占位
+- [x] **W6.5** `hwhkit.integrations.s3/` 占位
+- [x] **W6.6** `hwhkit.integrations.oss/` 占位
+- [x] **W6.7** `hwhkit.core.contracts.{vector_store, object_store, graph_db, document_db}` 接口定义
 - [ ] **W6.8** 完整文档站内容:`concepts/` 完整
 - [ ] **W6.9** 文档站:`integrations/` 每个 integration 一篇
 - [ ] **W6.10** 文档站:`contracts/` 每个 contract 规范 + 跨 adapter 行为对照表

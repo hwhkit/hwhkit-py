@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added (W6 — P2 placeholders + Release Pipeline + Benchmarks)
+- 6 P2 placeholder adapters (mysql / qdrant / mongodb / neo4j / s3 / oss):
+  Config schemas + Provider stubs that raise NotImplementedError on setup().
+  AppContext registration + contract resolution wired ahead of concrete impl.
+- `.github/workflows/release.yml` — tag-triggered build → SBOM (CycloneDX) →
+  Sigstore sign → publish to TestPyPI (rc/alpha/beta) or PyPI (stable) via
+  Trusted Publishing (OIDC, no API tokens) → GitHub Release.
+- `tests/benchmark/test_postgres_perf.py` — pytest-benchmark for session
+  acquire + SELECT 1 round-trip.
+- `tests/benchmark/test_redis_perf.py` — GET/SET/INCR throughput benchmarks.
+
+### Added (W5 — LLM + CLI Scaffolder)
+- `hwhkit.llm.LlmProvider` (litellm-backed) — implements `LlmClient` +
+  `EmbeddingClient` contracts. Multi-provider dispatch (OpenAI/Anthropic/
+  DeepSeek/Ollama/...) via model-name prefix.
+- `hwhkit` CLI (Click): `init` (project scaffolder), `add` (libcst codemod
+  for postgres/redis/nats/scheduler/llm/auth/otel), `doctor`, `list`,
+  `version`. `add` is idempotent and supports `--dry-run`.
+
 ### Added (W3 — Postgres + Redis P0 Integrations)
 - `hwhkit.integrations.postgres.PostgresProvider` (SQLAlchemy 2.0 async +
   asyncpg) implementing `RelationalDb` contract; `get_session()` Depends helper.
