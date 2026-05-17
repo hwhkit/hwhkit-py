@@ -35,6 +35,28 @@ theme:
 nav:
   - Home: index.md
   - Getting started: getting-started.md
+  - Concepts:
+      - concepts/index.md
+      - Bootstrap: concepts/bootstrap.md
+      - IntegrationProvider: concepts/integration-provider.md
+      - Contracts & Adapters: concepts/contracts.md
+      - AppContext: concepts/app-context.md
+      - Errors: concepts/errors.md
+      - Observability: concepts/observability.md
+      - Configuration: concepts/configuration.md
+      - Testing: concepts/testing.md
+  - Integrations:
+      - integrations/index.md
+      - Postgres: integrations/postgres.md
+      - Redis: integrations/redis.md
+      - Scheduler: integrations/scheduler.md
+      - NATS: integrations/nats.md
+      - LLM: integrations/llm.md
+  - Contracts: contracts/index.md
+  - Recipes:
+      - recipes/index.md
+      - Trading service: recipes/trading-service.md
+  - Migration: migration/index.md
   - Contributing: contributing.md
 
 markdown_extensions:
