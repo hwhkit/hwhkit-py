@@ -7,7 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added (W6 — P2 placeholders + Release Pipeline + Benchmarks)
+(empty — everything below moved into 0.4.0-alpha.1)
+
+## [0.4.0-alpha.1] — 2026-05-17
+
+First alpha of the greenfield rewrite. Foundation, web layer, observability,
+P0 + P1 integrations (Postgres / Redis / Scheduler / NATS / LLM), CLI
+scaffolder, and full docs site. P2 adapters (mysql / qdrant / mongodb /
+neo4j / s3 / oss) ship as placeholders.
+
+**Testing**: 299 unit + 29 integration (testcontainers) + 8 e2e = 336 tests
+total. mypy `--strict` clean. ruff clean. Coverage 75% (target 85% — gap
+will close in 0.4.0-beta.1; main holes are CLI scaffold templates and the
+granian launcher which require process-level e2e).
+
+**Known limitations**:
+- Benchmark baselines and chaos tests (toxiproxy) deferred to 0.4.0-beta.1.
+- `hwhkit add` libcst codemod tested against the scaffolder-generated
+  main.py; hand-written main.py with unusual structures may fall back to
+  manual instructions.
+- LLM cost-tracking helper documented but not wired into a meter by default.
+
+### Added (W6 — P2 placeholders + Release Pipeline + Benchmarks + Docs)
+- Full mkdocs documentation site (16 pages: Concepts × 9, Integrations × 6,
+  Contracts reference, Recipes, Migration policy) — `mkdocs build --strict` passes.
 - 6 P2 placeholder adapters (mysql / qdrant / mongodb / neo4j / s3 / oss):
   Config schemas + Provider stubs that raise NotImplementedError on setup().
   AppContext registration + contract resolution wired ahead of concrete impl.
