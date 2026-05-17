@@ -160,6 +160,8 @@ ignore = [
 # semantics) need runtime presence. ASYNC109 (timeout param) is intentional
 # for the MessageBus.request() contract.
 "hwhkit/core/contracts/**" = ["TC003", "ASYNC109"]
+# Same rationale for the in-memory fakes and contract test suites.
+"hwhkit/testing/**" = ["TC003", "S106", "ASYNC109"]
 
 [tool.ruff.format]
 quote-style = "double"
