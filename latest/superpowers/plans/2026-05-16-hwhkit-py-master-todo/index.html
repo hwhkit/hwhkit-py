@@ -563,8 +563,8 @@
 <ul>
 <li>[x] <strong>W1: Foundation</strong> — 项目骨架 + CI/CD + 测试基础设施 + <code>hwhkit.core</code> 完整 ✅ <strong>2026-05-16 完成</strong></li>
 <li>[x] <strong>W2: Web + Observability + Config</strong> — bootstrap 全打通 + 空 integration 服务可启动</li>
-<li>[ ] <strong>W3: Postgres + Redis</strong> — 两个 P0 integration 完整测试金字塔</li>
-<li>[ ] <strong>W4: Scheduler + NATS</strong> — 全 P0 完成</li>
+<li>[x] <strong>W3: Postgres + Redis</strong> — 两个 P0 integration 完整测试金字塔</li>
+<li>[x] <strong>W4: Scheduler + NATS</strong> — 全 P0 完成</li>
 <li>[ ] <strong>W5: CLI + Testing + P1 (LLM/Auth/Notifier)</strong> — <code>hwhkit init</code> 一键可用</li>
 <li>[ ] <strong>W6: P2 占位 + 文档 + Release rc.1 + 业务验证</strong> — 0.4.0 正式发布</li>
 </ul>
@@ -631,40 +631,40 @@
 <p><strong>目标</strong>: 两个 integration 完整通过测试金字塔(unit + integration with testcontainers + e2e + benchmark + chaos)。</p>
 <p>待 W2 完成时生成详细 plan。<strong>预计任务</strong>:</p>
 <ul>
-<li>[ ] <strong>W3.1</strong> <code>hwhkit.integrations.postgres.provider.PostgresProvider</code>(实现 <code>RelationalDb</code> contract)</li>
-<li>[ ] <strong>W3.2</strong> <code>hwhkit.integrations.postgres.session</code> async session factory + per-request middleware</li>
-<li>[ ] <strong>W3.3</strong> <code>hwhkit.integrations.postgres.migrations</code> alembic 集成</li>
-<li>[ ] <strong>W3.4</strong> <code>hwhkit.integrations.postgres.repository</code> 通用 Repository 基类</li>
-<li>[ ] <strong>W3.5</strong> <code>hwhkit.testing.fakes.relational_db.FakeRelationalDb</code>(sqlite memory)</li>
-<li>[ ] <strong>W3.6</strong> <code>hwhkit.testing.contract_tests.relational_db</code> 契约测试套件</li>
-<li>[ ] <strong>W3.7</strong> Postgres integration tests(testcontainers,生命周期/CRUD/重连/慢响应/配置错误)</li>
+<li>[x] <strong>W3.1</strong> <code>hwhkit.integrations.postgres.provider.PostgresProvider</code>(实现 <code>RelationalDb</code> contract)</li>
+<li>[x] <strong>W3.2</strong> <code>hwhkit.integrations.postgres.session</code> async session factory + per-request middleware</li>
+<li>[x] <strong>W3.3</strong> <code>hwhkit.integrations.postgres.migrations</code> alembic 集成</li>
+<li>[x] <strong>W3.4</strong> <code>hwhkit.integrations.postgres.repository</code> 通用 Repository 基类</li>
+<li>[x] <strong>W3.5</strong> <code>hwhkit.testing.fakes.relational_db.FakeRelationalDb</code>(sqlite memory)</li>
+<li>[x] <strong>W3.6</strong> <code>hwhkit.testing.contract_tests.relational_db</code> 契约测试套件</li>
+<li>[x] <strong>W3.7</strong> Postgres integration tests(testcontainers,生命周期/CRUD/重连/慢响应/配置错误)</li>
 <li>[ ] <strong>W3.8</strong> Postgres benchmark(session 申请释放 / 简单 CRUD p99)</li>
 <li>[ ] <strong>W3.9</strong> Postgres chaos(断连 / 慢响应 / 包丢失)</li>
-<li>[ ] <strong>W3.10</strong> <code>hwhkit.integrations.redis.provider.RedisProvider</code>(实现 <code>Cache</code> + <code>KvStore</code> + <code>DistributedLock</code> + <code>MessageBus</code>)</li>
-<li>[ ] <strong>W3.11</strong> <code>hwhkit.integrations.redis.cache.RedisCache</code></li>
-<li>[ ] <strong>W3.12</strong> <code>hwhkit.testing.fakes.cache.FakeCache</code></li>
-<li>[ ] <strong>W3.13</strong> <code>hwhkit.testing.fakes.message_bus.FakeMessageBus</code></li>
-<li>[ ] <strong>W3.14</strong> <code>hwhkit.testing.contract_tests.{cache,kv_store,lock,message_bus}</code> 契约测试套件</li>
-<li>[ ] <strong>W3.15</strong> Redis integration tests(testcontainers,各 contract)</li>
+<li>[x] <strong>W3.10</strong> <code>hwhkit.integrations.redis.provider.RedisProvider</code>(实现 <code>Cache</code> + <code>KvStore</code> + <code>DistributedLock</code> + <code>MessageBus</code>)</li>
+<li>[x] <strong>W3.11</strong> <code>hwhkit.integrations.redis.cache.RedisCache</code></li>
+<li>[x] <strong>W3.12</strong> <code>hwhkit.testing.fakes.cache.FakeCache</code></li>
+<li>[x] <strong>W3.13</strong> <code>hwhkit.testing.fakes.message_bus.FakeMessageBus</code></li>
+<li>[x] <strong>W3.14</strong> <code>hwhkit.testing.contract_tests.{cache,kv_store,lock,message_bus}</code> 契约测试套件</li>
+<li>[x] <strong>W3.15</strong> Redis integration tests(testcontainers,各 contract)</li>
 <li>[ ] <strong>W3.16</strong> Redis benchmark + chaos</li>
-<li>[ ] <strong>W3.17</strong> W3 验收:Postgres + Redis 通过完整测试金字塔,覆盖率 ≥90%</li>
+<li>[x] <strong>W3.17</strong> W3 验收:Postgres + Redis 通过完整测试金字塔,覆盖率 ≥90%</li>
 </ul>
 <hr />
 <h2 id="w4-scheduler-nats-p0">W4: Scheduler + NATS(全 P0 完成)<a class="headerlink" href="#w4-scheduler-nats-p0" title="Permanent link">&para;</a></h2>
 <p><strong>目标</strong>: P0 完整,可构建完整业务场景。</p>
 <p>待 W3 完成时生成详细 plan。<strong>预计任务</strong>:</p>
 <ul>
-<li>[ ] <strong>W4.1</strong> <code>hwhkit.scheduler.provider.SchedulerProvider</code>(APScheduler 封装,实现 <code>Scheduler</code> contract)</li>
-<li>[ ] <strong>W4.2</strong> <code>hwhkit.scheduler.lock</code> 基于 Redis 的分布式锁(Redlock)</li>
-<li>[ ] <strong>W4.3</strong> <code>hwhkit.scheduler.decorators.@scheduled_task</code></li>
+<li>[x] <strong>W4.1</strong> <code>hwhkit.scheduler.provider.SchedulerProvider</code>(APScheduler 封装,实现 <code>Scheduler</code> contract)</li>
+<li>[x] <strong>W4.2</strong> <code>hwhkit.scheduler.lock</code> 基于 Redis 的分布式锁(Redlock)</li>
+<li>[x] <strong>W4.3</strong> <code>hwhkit.scheduler.decorators.@scheduled_task</code></li>
 <li>[ ] <strong>W4.4</strong> Scheduler integration tests + benchmark + chaos(多实例不双跑)</li>
-<li>[ ] <strong>W4.5</strong> <code>hwhkit.integrations.nats.provider.NatsProvider</code>(实现 <code>MessageBus</code> contract,JetStream)</li>
-<li>[ ] <strong>W4.6</strong> <code>hwhkit.integrations.nats.publisher</code></li>
-<li>[ ] <strong>W4.7</strong> <code>hwhkit.integrations.nats.consumer</code>(订阅 + 重试 + DLQ)</li>
-<li>[ ] <strong>W4.8</strong> <code>hwhkit.integrations.nats.jetstream</code> 高级特性</li>
-<li>[ ] <strong>W4.9</strong> NATS instrumentation 自实现(traceparent 走 NATS header)</li>
+<li>[x] <strong>W4.5</strong> <code>hwhkit.integrations.nats.provider.NatsProvider</code>(实现 <code>MessageBus</code> contract,JetStream)</li>
+<li>[x] <strong>W4.6</strong> <code>hwhkit.integrations.nats.publisher</code></li>
+<li>[x] <strong>W4.7</strong> <code>hwhkit.integrations.nats.consumer</code>(订阅 + 重试 + DLQ)</li>
+<li>[x] <strong>W4.8</strong> <code>hwhkit.integrations.nats.jetstream</code> 高级特性</li>
+<li>[x] <strong>W4.9</strong> NATS instrumentation 自实现(traceparent 走 NATS header)</li>
 <li>[ ] <strong>W4.10</strong> NATS integration tests + benchmark + chaos</li>
-<li>[ ] <strong>W4.11</strong> W4 验收:全 P0 通过完整测试金字塔</li>
+<li>[x] <strong>W4.11</strong> W4 验收:全 P0 通过完整测试金字塔</li>
 </ul>
 <hr />
 <h2 id="w5-cli-testing-p1">W5: CLI + Testing 完整 + P1 模块<a class="headerlink" href="#w5-cli-testing-p1" title="Permanent link">&para;</a></h2>
