@@ -211,6 +211,12 @@ filterwarnings = [
     # plugin then warns about during teardown. The actual program logic ran
     # cleanly; this is purely a test-harness GC race.
     "ignore::pytest.PytestUnraisableExceptionWarning",
+    # testcontainers uses a deprecated decorator pattern internally; not
+    # something we can fix from our side.
+    "ignore::DeprecationWarning:testcontainers.*",
+    # Resource warnings from unclosed sockets in testcontainers; cleanup
+    # happens at session-fixture teardown which is outside the test.
+    "ignore::ResourceWarning",
 ]
 
 # ============ coverage ============
