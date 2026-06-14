@@ -1,5 +1,6 @@
 """hwhkit core — bootstrap pipeline, AppContext, IntegrationProvider, errors, contracts."""
 
+from hwhkit.core.breaker import CircuitBreaker
 from hwhkit.core.context import AppContext
 from hwhkit.core.errors import (
     ApiError,
@@ -22,6 +23,7 @@ from hwhkit.core.shutdown import GracefulShutdown, ShutdownTimeout
 __all__ = [
     "ApiError",
     "AppContext",
+    "CircuitBreaker",
     "ConflictError",
     "DbConnectionError",
     "ForbiddenError",
