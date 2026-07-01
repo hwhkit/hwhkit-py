@@ -10,4 +10,4 @@ def test_truth() -> None:
 def test_can_import_hwhkit() -> None:
     import hwhkit
 
-    assert hwhkit.__version__ == "0.4.0a1"
+    assert hwhkit.__version__ == "2.0.0a1"
