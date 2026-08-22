@@ -72,21 +72,21 @@ def test_add_unknown_module_returns_skip() -> None:
 
 
 def test_add_extra_to_pyproject_existing_brackets() -> None:
-    content = '"hwhkit[web,otel]==0.4.0a1"'
+    content = '"hwhkit[web,otel]==2.0.0a1"'
     new = _add_extra_to_pyproject(content, "postgres")
     assert new is not None
     assert "[otel,postgres,web]" in new
 
 
 def test_add_extra_to_pyproject_no_brackets() -> None:
-    content = '"hwhkit==0.4.0a1"'
+    content = '"hwhkit==2.0.0a1"'
     new = _add_extra_to_pyproject(content, "postgres")
     assert new is not None
     assert '"hwhkit[postgres]==' in new
 
 
 def test_add_extra_idempotent_in_pyproject() -> None:
-    content = '"hwhkit[postgres,web]==0.4.0a1"'
+    content = '"hwhkit[postgres,web]==2.0.0a1"'
     new = _add_extra_to_pyproject(content, "postgres")
     assert new is None  # already present → no change
 

@@ -1,6 +1,6 @@
 [project]
 name = "hwhkit"
-version = "0.4.0a1"
+version = "2.0.0a1"
 description = "Production-ready Python framework for trading services and microservices, mirroring hwhkit-rs"
 readme = "README.md"
 license = "MIT OR Apache-2.0"

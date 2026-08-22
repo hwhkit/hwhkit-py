@@ -7,9 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-(empty — everything below moved into 0.4.0-alpha.1)
+(empty — everything below moved into 2.0.0-alpha.1)
 
-## [0.4.0-alpha.1] — 2026-05-17
+## [2.0.0-alpha.1] — 2026-06-21
+
+**Major version jump explanation.** Versions 1.0.0–1.0.21 of `hwhkit`
+on PyPI (uploaded 2025-03) are an unrelated personal packaging tool
+by the same author. They share only the name. To prevent
+`pip install hwhkit` silently resolving to those legacy releases,
+this framework — internally tracked as the "0.4.0" milestone during
+development — ships its first public release as **2.0.0-alpha.1**.
+
+There is no upgrade path from 1.x — the API is entirely new. Users
+still on the legacy 1.0.x tool should pin `hwhkit<2.0` to keep it.
+
+The technical content of this alpha is identical to what the
+project tracked internally as `0.4.0-alpha.1`:
 
 First alpha of the greenfield rewrite. Foundation, web layer, observability,
 P0 + P1 integrations (Postgres / Redis / Scheduler / NATS / LLM), CLI
@@ -131,6 +144,3 @@ granian launcher which require process-level e2e).
 
 ### Removed
 - Legacy `infoman` code (see commit history).
-
-## [0.4.0-alpha.1] - TBD
-- Alpha 1 of the rewrite. Foundation only — integrations land in W3+.

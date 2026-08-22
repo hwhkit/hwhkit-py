@@ -7,7 +7,7 @@ from hwhkit.core import contracts
 
 
 def test_top_level_facade() -> None:
-    assert hwhkit.__version__ == "0.4.0a1"
+    assert hwhkit.__version__ == "2.0.0a1"
     # The four "you should know about these" exports
     assert hwhkit.ApiError is not None
     assert hwhkit.AppContext is not None

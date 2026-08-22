@@ -1,4 +1,4 @@
-# Release checklist — 0.4.0-alpha.1 (and beyond)
+# Release checklist — 2.0.0-alpha.1 (and beyond)
 
 This is the operational guide for cutting a release. Code-side everything
 is in place; the actions below are **manual / external** — they touch
@@ -72,8 +72,8 @@ environment gates give you a manual approve step before each publish.
 ### 2. Tag & push
 
 ```bash
-git tag v0.4.0a1 -m "0.4.0-alpha.1"
-git push origin v0.4.0a1
+git tag v2.0.0a1 -m "2.0.0-alpha.1"
+git push origin v2.0.0a1
 ```
 
 The `release.yml` workflow fires automatically:
@@ -94,7 +94,7 @@ The `release.yml` workflow fires automatically:
 - [ ] Sample install in a clean venv:
       ```bash
       uv pip install --index-url https://test.pypi.org/simple/ \
-        --extra-index-url https://pypi.org/simple/ hwhkit==0.4.0a1
+        --extra-index-url https://pypi.org/simple/ hwhkit==2.0.0a1
       python -c "import hwhkit; print(hwhkit.__version__)"
       ```
 
@@ -104,7 +104,7 @@ The `docs.yml` workflow auto-publishes to GitHub Pages on every push to
 `main` via `mike`. To version the docs explicitly for a release:
 
 ```bash
-uv run mike deploy 0.4 latest --push
+uv run mike deploy 2.0 latest --push
 ```
 
 (After 1.0 we'll have `mike` deploy a `stable` alias too.)
@@ -120,21 +120,21 @@ If a release goes wrong:
 2. **GitHub Release** — delete from the Releases UI; delete the tag locally
    and force-delete remotely:
    ```bash
-   git tag -d v0.4.0a1
-   git push origin :v0.4.0a1
+   git tag -d v2.0.0a1
+   git push origin :v2.0.0a1
    ```
-3. Fix the bug, bump to the next pre-release (e.g. `v0.4.0a2`), re-cut.
+3. Fix the bug, bump to the next pre-release (e.g. `v2.0.0a2`), re-cut.
 
 ---
 
-## 0.4.0a1 → 1.0.0 path
+## 2.0.0a1 → 1.0.0 path
 
 | Version | What lands | Approx ETA |
 |---|---|---|
-| 0.4.0-alpha.1 | This release (foundation + P0/P1 integrations + CLI + docs) | Today |
-| 0.4.0-beta.1 | Coverage to 85%+ ; benchmark baselines wired into CI ; chaos tests | +2 weeks |
-| 0.4.0-rc.1 | API frozen; only bug fixes from here ; live on TestPyPI for soak | +3 weeks |
-| 0.4.0 | First stable; PyPI publish | +4 weeks |
+| 2.0.0-alpha.1 | This release (foundation + P0/P1 integrations + CLI + docs) | Today |
+| 2.0.0-beta.1 | Coverage to 85%+ ; benchmark baselines wired into CI ; chaos tests | +2 weeks |
+| 2.0.0-rc.1 | API frozen; only bug fixes from here ; live on TestPyPI for soak | +3 weeks |
+| 2.0.0 | First stable; PyPI publish | +4 weeks |
 | 0.5.0–0.9.x | P2 adapter implementations (mysql / qdrant / mongodb / neo4j / s3 / oss) and lessons from production use; minor versions may carry breaking changes per the 0.x SemVer-relaxation note in docs/migration | +2-6 months |
 | 1.0.0 | First strict-SemVer stable | when ready |
 
@@ -147,4 +147,4 @@ If a release goes wrong:
 - All quality gates green locally; CI status on `main` TBD until first push
   triggers it
 - Wheel + sdist build cleanly via `uv build`
-- Ready to tag `v0.4.0a1` once you've completed the one-time setup above
+- Ready to tag `v2.0.0a1` once you've completed the one-time setup above

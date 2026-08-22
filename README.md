@@ -6,10 +6,15 @@
 [hwhkit-rs](https://github.com/louishwh/hwhkit-rs) — same architectural
 philosophy, idiomatic for each language.
 
-**Status**: 🟡 **0.4.0-alpha.1** — first alpha of the greenfield rewrite.
+**Status**: 🟡 **2.0.0-alpha.1** — first alpha of the greenfield rewrite.
 Foundation + P0/P1 integrations + CLI + docs are complete. See the
 [design doc](docs/superpowers/specs/2026-05-16-hwhkit-py-production-readiness-design.md)
 and the [release checklist](docs/superpowers/RELEASE-CHECKLIST.md).
+
+> **Note on the version jump (1.x → 2.0):** versions 1.0.0–1.0.21 on
+> PyPI were an unrelated personal packaging tool by the same author.
+> `2.0.0-alpha.1` is the first release of *this* framework on that
+> namespace. There is no upgrade path from 1.x; the API is entirely new.
 
 ## What you get
 
