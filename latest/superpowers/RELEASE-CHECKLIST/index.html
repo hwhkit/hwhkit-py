@@ -25,7 +25,7 @@
     
     
       
-        <title>Release checklist — 0.4.0-alpha.1 (and beyond) - hwhkit</title>
+        <title>Release checklist — 2.0.0-alpha.1 (and beyond) - hwhkit</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#release-checklist-040-alpha1-and-beyond" class="md-skip">
+        <a href="#release-checklist-200-alpha1-and-beyond" class="md-skip">
           跳转至
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Release checklist — 0.4.0-alpha.1 (and beyond)
+              Release checklist — 2.0.0-alpha.1 (and beyond)
             
           </span>
         </div>
@@ -1377,10 +1377,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#040a1-100-path" class="md-nav__link">
+  <a href="#200a1-100-path" class="md-nav__link">
     <span class="md-ellipsis">
       
-        0.4.0a1 → 1.0.0 path
+        2.0.0a1 → 1.0.0 path
       
     </span>
   </a>
@@ -1418,7 +1418,7 @@
   
 
 
-<h1 id="release-checklist-040-alpha1-and-beyond">Release checklist — 0.4.0-alpha.1 (and beyond)<a class="headerlink" href="#release-checklist-040-alpha1-and-beyond" title="Permanent link">&para;</a></h1>
+<h1 id="release-checklist-200-alpha1-and-beyond">Release checklist — 2.0.0-alpha.1 (and beyond)<a class="headerlink" href="#release-checklist-200-alpha1-and-beyond" title="Permanent link">&para;</a></h1>
 <p>This is the operational guide for cutting a release. Code-side everything
 is in place; the actions below are <strong>manual / external</strong> — they touch
 accounts, DNS, and GitHub settings.</p>
@@ -1481,8 +1481,8 @@ environment gates give you a manual approve step before each publish.</p>
 </code></pre></div></li>
 </ul>
 <h3 id="2-tag-push">2. Tag &amp; push<a class="headerlink" href="#2-tag-push" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>tag<span class="w"> </span>v0.4.0a1<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;0.4.0-alpha.1&quot;</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.4.0a1
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>tag<span class="w"> </span>v2.0.0a1<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;2.0.0-alpha.1&quot;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v2.0.0a1
 </code></pre></div>
 <p>The <code>release.yml</code> workflow fires automatically:</p>
 <ol>
@@ -1501,14 +1501,14 @@ environment gates give you a manual approve step before each publish.</p>
 <li>[ ] GitHub Release page has all artifacts + Sigstore bundle.</li>
 <li>[ ] Sample install in a clean venv:
       <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--index-url<span class="w"> </span>https://test.pypi.org/simple/<span class="w"> </span><span class="se">\</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--extra-index-url<span class="w"> </span>https://pypi.org/simple/<span class="w"> </span><span class="nv">hwhkit</span><span class="o">==</span><span class="m">0</span>.4.0a1
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span>--extra-index-url<span class="w"> </span>https://pypi.org/simple/<span class="w"> </span><span class="nv">hwhkit</span><span class="o">==</span><span class="m">2</span>.0.0a1
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import hwhkit; print(hwhkit.__version__)&quot;</span>
 </code></pre></div></li>
 </ul>
 <h3 id="4-docs-deploy">4. Docs deploy<a class="headerlink" href="#4-docs-deploy" title="Permanent link">&para;</a></h3>
 <p>The <code>docs.yml</code> workflow auto-publishes to GitHub Pages on every push to
 <code>main</code> via <code>mike</code>. To version the docs explicitly for a release:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mike<span class="w"> </span>deploy<span class="w"> </span><span class="m">0</span>.4<span class="w"> </span>latest<span class="w"> </span>--push
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>mike<span class="w"> </span>deploy<span class="w"> </span><span class="m">2</span>.0<span class="w"> </span>latest<span class="w"> </span>--push
 </code></pre></div>
 <p>(After 1.0 we'll have <code>mike</code> deploy a <code>stable</code> alias too.)</p>
 <hr />
@@ -1519,13 +1519,13 @@ environment gates give you a manual approve step before each publish.</p>
    <a href="https://pypi.org/project/hwhkit/">https://pypi.org/project/hwhkit/</a> → version → Yank.</li>
 <li><strong>GitHub Release</strong> — delete from the Releases UI; delete the tag locally
    and force-delete remotely:
-   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v0.4.0a1
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>:v0.4.0a1
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>tag<span class="w"> </span>-d<span class="w"> </span>v2.0.0a1
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>:v2.0.0a1
 </code></pre></div></li>
-<li>Fix the bug, bump to the next pre-release (e.g. <code>v0.4.0a2</code>), re-cut.</li>
+<li>Fix the bug, bump to the next pre-release (e.g. <code>v2.0.0a2</code>), re-cut.</li>
 </ol>
 <hr />
-<h2 id="040a1-100-path">0.4.0a1 → 1.0.0 path<a class="headerlink" href="#040a1-100-path" title="Permanent link">&para;</a></h2>
+<h2 id="200a1-100-path">2.0.0a1 → 1.0.0 path<a class="headerlink" href="#200a1-100-path" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -1536,22 +1536,22 @@ environment gates give you a manual approve step before each publish.</p>
 </thead>
 <tbody>
 <tr>
-<td>0.4.0-alpha.1</td>
+<td>2.0.0-alpha.1</td>
 <td>This release (foundation + P0/P1 integrations + CLI + docs)</td>
 <td>Today</td>
 </tr>
 <tr>
-<td>0.4.0-beta.1</td>
+<td>2.0.0-beta.1</td>
 <td>Coverage to 85%+ ; benchmark baselines wired into CI ; chaos tests</td>
 <td>+2 weeks</td>
 </tr>
 <tr>
-<td>0.4.0-rc.1</td>
+<td>2.0.0-rc.1</td>
 <td>API frozen; only bug fixes from here ; live on TestPyPI for soak</td>
 <td>+3 weeks</td>
 </tr>
 <tr>
-<td>0.4.0</td>
+<td>2.0.0</td>
 <td>First stable; PyPI publish</td>
 <td>+4 weeks</td>
 </tr>
@@ -1575,7 +1575,7 @@ environment gates give you a manual approve step before each publish.</p>
 <li>All quality gates green locally; CI status on <code>main</code> TBD until first push
   triggers it</li>
 <li>Wheel + sdist build cleanly via <code>uv build</code></li>
-<li>Ready to tag <code>v0.4.0a1</code> once you've completed the one-time setup above</li>
+<li>Ready to tag <code>v2.0.0a1</code> once you've completed the one-time setup above</li>
 </ul>
 
 
